@@ -1,4 +1,4 @@
-# Where Vigil stores state
+# Where NeuroShield AI stores state
 
 This project grew with state scattered across several locations. This
 doc is the canonical map: where each kind of thing lives, which store
@@ -6,17 +6,17 @@ is authoritative, and what's deprecated.
 
 ## Secrets
 
-**Authoritative store: `~/.vigil/secrets.enc`** (Fernet-encrypted JSON,
-chmod 600). The symmetric key lives at `~/.vigil/master.key` (chmod 600,
+**Authoritative store: `~/.neuroshield/secrets.enc`** (Fernet-encrypted JSON,
+chmod 600). The symmetric key lives at `~/.neuroshield/master.key` (chmod 600,
 auto-generated on first write). Both files sit outside the repo, so
 `.env` rewrites, `setup_dev.sh`, resetting the project dir, or git
 checkouts don't nuke stored credentials.
 
 **Backend priority** (read order in `SecretsManager.read_backends`):
 
-1. `EncryptedFileBackend` — `~/.vigil/secrets.enc` (preferred)
+1. `EncryptedFileBackend` — `~/.neuroshield/secrets.enc` (preferred)
 2. `EnvironmentBackend` — `os.environ`
-3. `DotEnvBackend` — `~/.deeptempo/.env` (**legacy, prefer migrate**)
+3. `DotEnvBackend` — `~/.neuroshield/.env` (**legacy, prefer migrate**)
 4. `KeyringBackend` — OS keychain, only when `ENABLE_KEYRING=true`
 
 **Default write backend:** `encrypted` (override with
@@ -30,9 +30,9 @@ bootstrap flags only (see below).
 **Migrating legacy secrets.** Run once:
 
     python scripts/migrate_secrets.py          # copy → encrypted store
-    python scripts/migrate_secrets.py --purge  # also strip from ~/.deeptempo/.env
+    python scripts/migrate_secrets.py --purge  # also strip from ~/.neuroshield/.env
 
-**Backup.** Back up `~/.vigil/` as a unit — both files are needed.
+**Backup.** Back up `~/.neuroshield/` as a unit — both files are needed.
 Losing `master.key` means losing every secret in `secrets.enc`; there
 is no recovery.
 
@@ -58,20 +58,20 @@ Safe to put in `.env`:
 - `LOG_LEVEL`, polling intervals, etc.
 
 **Do not put in `.env`:** API keys, tokens, passwords. Store via the UI
-or `set_secret()`; they land in `~/.vigil/secrets.enc`.
+or `set_secret()`; they land in `~/.neuroshield/secrets.enc`.
 
 Historical `ANTHROPIC_API_KEY` placeholder lines in `.env` are ignored
 when the encrypted store has a value.
 
-## `~/.deeptempo/.env` (deprecated)
+## `~/.neuroshield/.env` (deprecated)
 
 This was the old default write target of `DotEnvBackend`. It still
 *reads* for backward compatibility (position 3 in the backend chain)
 but nothing should write here anymore. `scripts/migrate_secrets.py`
-moves values from here into `~/.vigil/secrets.enc`; run with `--purge`
+moves values from here into `~/.neuroshield/secrets.enc`; run with `--purge`
 to clear it.
 
-## `~/.deeptempo/general_config.json`
+## `~/.neuroshield/general_config.json`
 
 Kept for one thing only: the `enable_keyring` flag. You can also set
 this via the `ENABLE_KEYRING` env var in `.env`. This file is benign
@@ -90,7 +90,7 @@ and secrets stay in the encrypted store at rest.
 ## Bifrost
 
 Bifrost is a sidecar container that fronts all LLM traffic. It has its
-own internal state for provider config and cache. Vigil does **not**
+own internal state for provider config and cache. NeuroShield AI does **not**
 rely on Bifrost reading `env.ANTHROPIC_API_KEY` from its docker env
 anymore — that was the old flow and caused the "key lost on restart"
 problem. Instead:
@@ -119,13 +119,13 @@ overwritten at runtime.
 
 ## MemPalace (persistent agent memory)
 
-MemPalace is Vigil's cross-session memory layer — agents write IOCs,
+MemPalace is NeuroShield AI's cross-session memory layer — agents write IOCs,
 investigation summaries, and knowledge-graph edges here so future
 sessions can reuse the work. It's shipped as a git submodule at
 `./mempalace` (see `.gitmodules`) and installed editable via
 `requirements.txt` (`-e ./mempalace`).
 
-**Palace location: `~/.vigil/mempalace/palace`.** Override with
+**Palace location: `~/.neuroshield/mempalace/palace`.** Override with
 `MEMPALACE_PALACE_PATH` in `.env` if you need to relocate (shared NAS,
 different user, etc.). All three consumers — the MCP server
 (`mcp-config.json`), the daemon (`daemon/orchestrator.py`), and the
@@ -136,7 +136,7 @@ drift again.
 **Structure:**
 
 ```
-~/.vigil/mempalace/palace/
+~/.neuroshield/mempalace/palace/
 ├── chroma/                               # ChromaDB collection (vector search)
 ├── investigations/closed-cases/*.json    # daemon-written investigation snapshots
 └── sessions/*.json                       # ClaudeService session transcripts
@@ -144,17 +144,17 @@ drift again.
 
 **Persistence guarantee.** Survives `docker compose down`,
 `./start.sh` restarts, `venv` rebuilds, and `git submodule update`.
-Does *not* survive `rm -rf ~/.vigil/`.
+Does *not* survive `rm -rf ~/.neuroshield/`.
 
 **Backup.** Tar the directory as a unit:
 
-    tar -czf mempalace-backup-$(date +%Y%m%d).tar.gz ~/.vigil/mempalace/
+    tar -czf mempalace-backup-$(date +%Y%m%d).tar.gz ~/.neuroshield/mempalace/
 
 **Migrating from legacy `~/.mempalace/`.** Earlier builds of the daemon
 defaulted to `~/.mempalace/palace`. If that directory exists, move it
 once:
 
-    mv ~/.mempalace ~/.vigil/mempalace
+    mv ~/.mempalace ~/.neuroshield/mempalace
 
 **Emergency disable.** `MEMPALACE_DAEMON_ENABLED=false` in `.env`
 skips the daemon's palace integration (investigation snapshots won't
@@ -163,20 +163,20 @@ be written). The MCP server side is controlled via
 
 ## Docker volumes
 
-- `deeptempo-postgres` — Postgres data.
-- `deeptempo-redis` — Redis (ARQ queue + rate limiting).
-- `deeptempo-bifrost` — Bifrost's internal state (if any persistent).
+- `neuroshield-postgres` — Postgres data.
+- `neuroshield-redis` — Redis (ARQ queue + rate limiting).
+- `neuroshield-bifrost` — Bifrost's internal state (if any persistent).
 
 ## Quick reference
 
 | Thing | Where |
 |---|---|
-| API keys, tokens | `~/.vigil/secrets.enc` |
+| API keys, tokens | `~/.neuroshield/secrets.enc` |
 | Runtime settings (UI-editable) | Postgres `system_config` |
 | Bootstrap flags (DB URL, ports, DEV_MODE) | repo `.env` |
 | Ephemeral runtime | Redis, Postgres |
 | Investigation files | `data/investigations/` |
 | Logs, PIDs | `logs/` |
-| MemPalace palace (agent memory) | `~/.vigil/mempalace/palace/` |
-| Legacy secrets (migrate from) | `~/.deeptempo/.env` |
+| MemPalace palace (agent memory) | `~/.neuroshield/mempalace/palace/` |
+| Legacy secrets (migrate from) | `~/.neuroshield/.env` |
 | Legacy mempalace path (migrate from) | `~/.mempalace/` |

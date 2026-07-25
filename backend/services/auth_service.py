@@ -505,7 +505,7 @@ class AuthService:
 
             decrypted_secret = AuthService._decrypt_mfa_secret(user.mfa_secret)
             totp = pyotp.TOTP(decrypted_secret)
-            uri = totp.provisioning_uri(name=user.email, issuer_name="Vigil SOC")
+            uri = totp.provisioning_uri(name=user.email, issuer_name="NeuroShield AI SOC")
             return uri
 
         finally:

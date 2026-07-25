@@ -32,7 +32,7 @@ DEFAULT_TTL_SECONDS = 86_400  # 24h
 class RedisDedupSet:
     """Durable finding-ID dedup set, per-namespace.
 
-    Backed by a Redis sorted set keyed ``vigil:dedup:{namespace}`` where
+    Backed by a Redis sorted set keyed ``neuroshield:dedup:{namespace}`` where
     the score is the insertion unix timestamp. On each ``mark_processed``
     call, entries older than ``ttl_seconds`` are evicted and the set is
     trimmed to ``max_size`` (oldest-first) to bound memory.
@@ -47,7 +47,7 @@ class RedisDedupSet:
         ttl_seconds: int = DEFAULT_TTL_SECONDS,
     ):
         self.namespace = namespace
-        self.key = f"vigil:dedup:{namespace}"
+        self.key = f"neuroshield:dedup:{namespace}"
         self.redis_url = redis_url or os.getenv("REDIS_URL", DEFAULT_REDIS_URL)
         self.max_size = max_size
         self.ttl_seconds = ttl_seconds

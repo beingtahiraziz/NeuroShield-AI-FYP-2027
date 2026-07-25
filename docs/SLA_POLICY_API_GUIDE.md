@@ -2,7 +2,7 @@
 
 ## Overview
 
-The SLA Policy Management API provides comprehensive CRUD operations for managing Service Level Agreement policies in Vigil.
+The SLA Policy Management API provides comprehensive CRUD operations for managing Service Level Agreement policies in NeuroShield AI.
 
 **Base URL**: `/api/sla-policies`
 

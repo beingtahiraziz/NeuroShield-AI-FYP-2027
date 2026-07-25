@@ -95,7 +95,7 @@ function SortHeader(
   )
 }
 
-/** build the "Investigate with Vigil" auto-message for a finding */
+/** build the "Investigate with NeuroShield AI" auto-message for a finding */
 function findingPrompt(f: Finding): string {
   const parts = [`${f.sev} severity`, `MITRE ${f.tech}${f.tactic !== NDASH ? ` (${f.tactic})` : ''}`, `source ${f.src}`]
   if (f.host !== NDASH) parts.push(`host ${f.host}`)
@@ -273,7 +273,7 @@ function FindingsTab({ openChat, goSettings }: Pick<ScreenProps, 'openChat' | 'g
                 <td>
                   <span className="row-act">
                     <button title="View" onClick={(e) => { e.stopPropagation(); setDetailId(f.id) }}><Icon name="eye" /></button>
-                    <button title="Investigate with Vigil" onClick={(e) => { e.stopPropagation(); openChat(findingPrompt(f)) }}><Icon name="brain" /></button>
+                    <button title="Investigate with NeuroShield AI" onClick={(e) => { e.stopPropagation(); openChat(findingPrompt(f)) }}><Icon name="brain" /></button>
                   </span>
                 </td>
               </tr>

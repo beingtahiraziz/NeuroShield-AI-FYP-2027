@@ -1,8 +1,8 @@
-# Vigil
+# NeuroShield AI
 
-Vigil is the open-source AI SOC where your playbooks are plain-text files, your agent logic is readable Python, and your integrations use an open standard ([MCP](https://modelcontextprotocol.io/)). Every proprietary AI SOC on the market is a black box you rent. Vigil is a capability you own.
+NeuroShield AI is the open-source AI SOC where your playbooks are plain-text files, your agent logic is readable Python, and your integrations use an open standard ([MCP](https://modelcontextprotocol.io/)). Every proprietary AI SOC on the market is a black box you rent. NeuroShield AI is a capability you own.
 
-The inspiration for the project is in part StackStorm and the experience of some of the founders of this project had in building the Linux Foundation project [StackStorm](https://github.com/StackStorm/st2) and in supporting Netflix and others who used StackStorm to achieve, carefully, very high levels of automation.  You'll sometimes hear us talking about the journey towards full autonomy and lessons learned.  One lesson - the system can only demote itself and only humans can promote additional autonomy.  You'll find this playing out on the way Vigil is designed; for example Vigil will check thresholds for projected costs and confidence levels in completion before executing an automation.  If it looks dodgy or two expensive, it'll double check with the humans before moving ahead.  
+The inspiration for the project is in part StackStorm and the experience of some of the founders of this project had in building the Linux Foundation project [StackStorm](https://github.com/StackStorm/st2) and in supporting Netflix and others who used StackStorm to achieve, carefully, very high levels of automation.  You'll sometimes hear us talking about the journey towards full autonomy and lessons learned.  One lesson - the system can only demote itself and only humans can promote additional autonomy.  You'll find this playing out on the way NeuroShield AI is designed; for example NeuroShield AI will check thresholds for projected costs and confidence levels in completion before executing an automation.  If it looks dodgy or two expensive, it'll double check with the humans before moving ahead.
 
 The project is built on three pillars: **Agents** — 13 specialized AI agents you can read, fork, and rewire; **Workflows** — multi-agent playbooks defined as Markdown files you edit directly; and **Integrations** — 30+ tool connections via MCP that you configure, not a vendor. The most important pillar is **YOU** — this is your project. Contribute via feedback, code, a repo star, memes on Discord, or otherwise.
 
@@ -29,7 +29,7 @@ Every agent has access to 19 backend tools via Agent SDK and 100+ additional too
 
 ## Workflows — One-Click Multi-Agent Workflows
 
-Workflows are the operational core of Vigil. Each worfklow chains multiple specialized AI agents into an end-to-end playbook that executes with a single command. No manual hand-offs, no copy-pasting between tools — the agents coordinate automatically.  
+Workflows are the operational core of NeuroShield AI. Each worfklow chains multiple specialized AI agents into an end-to-end playbook that executes with a single command. No manual hand-offs, no copy-pasting between tools — the agents coordinate automatically.
 
 | Workflow | Agents | What It Does |
 |----------|--------|-------------|
@@ -98,7 +98,7 @@ python scripts/create_workflow.py phishing-triage
 
 ## Integrations - 
 
-Vigil uses the [Model Context Protocol](https://modelcontextprotocol.io/) to connect agents to your existing tools. These MCP servers give every agent real-time access to your SIEM, EDR, threat intel, sandbox, ticketing, and communication platforms — all through a unified interface.
+NeuroShield AI uses the [Model Context Protocol](https://modelcontextprotocol.io/) to connect agents to your existing tools. These MCP servers give every agent real-time access to your SIEM, EDR, threat intel, sandbox, ticketing, and communication platforms — all through a unified interface.
 
 | Category | Integrations | Tools |
 |----------|-------------|-------|
@@ -111,7 +111,7 @@ Vigil uses the [Model Context Protocol](https://modelcontextprotocol.io/) to con
 | **Ticketing** | Jira | Issue creation, updates, search |
 | **Communication** | Slack | Alerts, channel creation, file uploads |
 | **Data Pipeline** | Cribl Stream | Log normalization, noise filtering, multi-destination routing |
-| **Core** | DeepTempo Findings, Approval, ATT&CK Layer, Tempo Flow | Built-in SOC operations |
+| **Core** | NeuroShield Findings, Approval, ATT&CK Layer, Tempo Flow | Built-in SOC operations |
 
 **Coming soon:** AWS Security Hub, Azure Sentinel, GCP Security, Okta, Microsoft Defender, SentinelOne, Carbon Black, PagerDuty.
 
@@ -122,8 +122,8 @@ MCP servers live in `mcp-servers/` and are configured via the Settings UI or `mc
 ## Quick Start
 
 ```bash
-git clone --recurse-submodules https://github.com/Vigil-SOC/vigil.git
-cd vigil
+git clone --recurse-submodules https://github.com/NeuroShield-AI/neuroshield.git
+cd neuroshield
 ./start.sh
 ```
 
@@ -134,9 +134,9 @@ Auth bypass is enabled by default (`DEV_MODE=true`) for quick development. Full 
 > **Stable build vs. development build:** The Quick Start above clones `main` —
 > the active development branch (latest, *unreleased* code). For a stable,
 > tested build, use a released version instead: pull a published image
-> (`docker pull ghcr.io/vigil-soc/vigil-backend:<version>`) or check out a
+> (`docker pull ghcr.io/neuroshield-soc/neuroshield-backend:<version>`) or check out a
 > release tag before running (`git checkout v<version>`). Find the newest
-> version on the [releases page](https://github.com/Vigil-SOC/vigil/releases/latest).
+> version on the [releases page](https://github.com/NeuroShield-AI/neuroshield/releases/latest).
 
 ### Prerequisites
 
@@ -144,7 +144,7 @@ Auth bypass is enabled by default (`DEV_MODE=true`) for quick development. Full 
 - **Node.js 18+** (for frontend)
 - **Docker Desktop** (must be running — used for PostgreSQL)
 - **Git** (with submodule support)
-- An LLM provider key. Vigil supports Anthropic Claude (default), OpenAI, and Ollama (local) — configure providers in Settings → AI Config. See [`docker/bifrost/README.md`](docker/bifrost/README.md) for the multi-provider gateway. *(optional for initial testing)*
+- An LLM provider key. NeuroShield AI supports Anthropic Claude (default), OpenAI, and Ollama (local) — configure providers in Settings → AI Config. See [`docker/bifrost/README.md`](docker/bifrost/README.md) for the multi-provider gateway. *(optional for initial testing)*
 
 ### Default Login Credentials
 
@@ -162,8 +162,8 @@ Auth bypass is enabled by default (`DEV_MODE=true`) for quick development. Full 
 
 ```bash
 # Clone with submodules
-git clone --recurse-submodules https://github.com/Vigil-SOC/vigil.git
-cd vigil
+git clone --recurse-submodules https://github.com/NeuroShield-AI/neuroshield.git
+cd neuroshield
 
 # If you already cloned without --recurse-submodules:
 git submodule update --init --recursive
@@ -188,11 +188,11 @@ cd ..
 
 ### Install on Kubernetes
 
-A production-style Helm chart lives at [`helm/vigil/`](helm/vigil/):
+A production-style Helm chart lives at [`helm/neuroshield/`](helm/neuroshield/):
 
 ```bash
-helm install vigil ./helm/vigil \
-  --namespace vigil --create-namespace \
+helm install neuroshield ./helm/neuroshield \
+  --namespace neuroshield --create-namespace \
   --set secrets.anthropicApiKey="$ANTHROPIC_API_KEY" \
   --set secrets.postgresPassword="$(openssl rand -hex 24)" \
   --set secrets.jwtSecretKey="$(python -c 'import secrets; print(secrets.token_urlsafe(64))')"
@@ -303,7 +303,7 @@ python daemon/main.py
 
 ## Additional Features 
 
-- **Auto-Contributor** — Automated competitive research against proprietary AI security platforms. Analyzes a vendor's capabilities, maps gaps versus Vigil and the open-source ecosystem, and generates ready-to-file GitHub issues with acceptance criteria. The goal: make Vigil a superset of every proprietary AI SOC, one contribution at a time. See [`contrib/auto-contributor/`](contrib/README.md)
+- **Auto-Contributor** — Automated competitive research against proprietary AI security platforms. Analyzes a vendor's capabilities, maps gaps versus NeuroShield AI and the open-source ecosystem, and generates ready-to-file GitHub issues with acceptance criteria. The goal: make NeuroShield AI a superset of every proprietary AI SOC, one contribution at a time. See [`contrib/auto-contributor/`](contrib/README.md)
 - **Chat-Driven Case Management** — Build cases through natural language. Say "add this to case XYZ" and the system handles findings, activities, timelines, and MITRE tagging. [Learn more](docs/CHAT_CASE_MANAGEMENT.md)
 - **Detection Engineering** — 7,200+ detection rules (Sigma, Splunk, Elastic, KQL) with coverage analysis, gap identification, and AI-assisted template generation. [Learn more](docs/DETECTION_ENGINEERING.md)
 - **Case Management** — Full lifecycle tracking with PDF reports
@@ -314,7 +314,7 @@ python daemon/main.py
 ## Project Structure
 
 ```
-vigil/
+neuroshield/
 ├── workflows/         # WORKFLOW.md definitions (4 built-in)
 ├── contrib/           # Community tools: auto-contributor, benchmarking
 ├── mcp-servers/       # MCP server implementations (30+)
@@ -419,7 +419,7 @@ See the [Splunk Testing Guide](docs/SPLUNK_TESTING_GUIDE.md) for complete instru
 python scripts/export_postgres_to_splunk.py \
     --hec-url https://your-splunk:8088/services/collector \
     --hec-token your-hec-token \
-    --index deeptempo \
+    --index neuroshield \
     --no-verify-ssl
 
 # Save to file for review first
@@ -436,9 +436,9 @@ python scripts/export_postgres_to_splunk.py \
 
 Contributions are welcome! Whether you're fixing bugs, adding new MCP integrations, improving agent prompts, or building new workflows or agents — we'd love your help and leadership.
 
-**Find meaningful work automatically:** Vigil includes an [auto-contributor](contrib/README.md) tool that researches proprietary AI security platforms, identifies capability gaps, and generates ready-to-file GitHub issues. Pick a vendor, run the tool, and you'll have a scoped contribution spec in minutes.
+**Find meaningful work automatically:** NeuroShield AI includes an [auto-contributor](contrib/README.md) tool that researches proprietary AI security platforms, identifies capability gaps, and generates ready-to-file GitHub issues. Pick a vendor, run the tool, and you'll have a scoped contribution spec in minutes.
 
-**Join the community:** Connect with the Vigil community on [Discord](https://discord.gg/Kw68sPJU) to discuss ideas, get help, and collaborate with other contributors.
+**Join the community:** Connect with the NeuroShield AI community on [Discord](https://discord.gg/Kw68sPJU) to discuss ideas, get help, and collaborate with other contributors.
 
 To contribute:
 1. Fork the repo and create a feature branch
@@ -455,7 +455,7 @@ Apache 2.0 — See [LICENSE](LICENSE)
 
 ## References
 
-- [Vigil](https://vigilsoc.org/) — Project homepage
-- [DeepTempo](https://deeptempo.ai) — Vigil sponsor; LogLM connects via MCP as an AI-native detection layer
+- [NeuroShield AI](https://neuroshield.ai/) — Project homepage
+- [NeuroShield](https://neuroshield.ai) — NeuroShield AI sponsor; LogLM connects via MCP as an AI-native detection layer
 - [Model Context Protocol](https://modelcontextprotocol.io/) — MCP specification
 - [ATT&CK Navigator](https://mitre-attack.github.io/attack-navigator/) — MITRE visualization

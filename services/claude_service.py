@@ -71,8 +71,8 @@ try:
     from core.telemetry import get_tracer, get_meter, create_genai_metrics
     from opentelemetry.trace import SpanKind, StatusCode as _SpanStatusCode
 
-    _cs_tracer = get_tracer("vigil.services.claude")
-    _cs_meter = get_meter("vigil.services.claude")
+    _cs_tracer = get_tracer("neuroshield.services.claude")
+    _cs_meter = get_meter("neuroshield.services.claude")
     _cs_genai_metrics = create_genai_metrics(_cs_meter)
     _OTEL_CS_AVAILABLE = True
 except Exception:
@@ -97,7 +97,7 @@ from services.chat.tool_executor import ToolExecutor  # noqa: E402
 class ClaudeService:
     """Service for interacting with Claude API with Agent SDK support."""
 
-    SERVICE_NAME = "deeptempo-ai-soc"
+    SERVICE_NAME = "neuroshield-ai-soc"
     API_KEY_NAME = "claude_api_key"
 
     def __init__(
@@ -163,7 +163,7 @@ class ClaudeService:
 
     def _get_default_system_prompt(self) -> str:
         """Get default system prompt with Claude 4.5 best practices."""
-        return """You are Claude, an AI assistant for security operations and analysis in the Vigil SOC platform.
+        return """You are Claude, an AI assistant for security operations and analysis in the NeuroShield AI SOC platform.
 
 <default_to_action>
 By default, implement changes rather than only suggesting them. If the user's intent is unclear, infer the most useful likely action and proceed, using tools to discover any missing details instead of guessing. Try to infer the user's intent about whether a tool call (e.g., file edit or read) is intended or not, and act accordingly.
@@ -178,12 +178,12 @@ Never speculate about data you have not retrieved. If the user references a spec
 </investigate_before_answering>
 
 <available_mcp_tools>
-You have access to MCP (Model Context Protocol) tools that connect to various security platforms and data sources. The tools are prefixed with the server name (e.g., "deeptempo-findings_get_finding"). Use these tools to:
+You have access to MCP (Model Context Protocol) tools that connect to various security platforms and data sources. The tools are prefixed with the server name (e.g., "neuroshield-findings_get_finding"). Use these tools to:
 
-1. **Findings & Cases**: Retrieve and analyze security findings and cases from DeepTempo
+1. **Findings & Cases**: Retrieve and analyze security findings and cases from NeuroShield
    - Finding IDs start with "f-" (e.g., "f-20260109-40d9379b")
    - Case IDs start with "case-" (e.g., "case-20260114-a1b2c3d4")
-   - Use deeptempo-findings server tools: list_findings, get_finding, list_cases, get_case, create_case, update_case
+   - Use neuroshield-findings server tools: list_findings, get_finding, list_cases, get_case, create_case, update_case
 
 2. **Security Integrations**: Query data from various security platforms
    - The available integrations are dynamically loaded based on what's configured
@@ -208,8 +208,8 @@ When a user mentions an ID or entity (finding, case, IP, hash, domain), ALWAYS u
 <recognizing_security_entities>
 Common patterns you should recognize and how to handle them:
 
-- Finding IDs: "f-YYYYMMDD-XXXXXXXX" → Use deeptempo-findings_get_finding tool
-- Case IDs: "case-YYYYMMDD-XXXXXXXX" → Use deeptempo-findings_get_case tool  
+- Finding IDs: "f-YYYYMMDD-XXXXXXXX" → Use neuroshield-findings_get_finding tool
+- Case IDs: "case-YYYYMMDD-XXXXXXXX" → Use neuroshield-findings_get_case tool
 - IP addresses: X.X.X.X → Consider using IP geolocation or threat intel tools
 - Domain names: example.com → Consider using URL analysis or threat intel tools
 - File hashes: MD5/SHA1/SHA256 → Consider using malware analysis tools
@@ -635,7 +635,7 @@ Your goal is to help SOC analysts work more efficiently by leveraging all availa
                 return {
                     "success": True,
                     "layer": {
-                        "name": "DeepTempo Findings",
+                        "name": "NeuroShield Findings",
                         "version": "4.5",
                         "domain": "enterprise-attack",
                         "description": "ATT&CK techniques from findings",
@@ -1521,7 +1521,7 @@ Your goal is to help SOC analysts work more efficiently by leveraging all availa
                                 **arguments
                             )
 
-                    # DeepTempo findings tools
+                    # NeuroShield findings tools
                     elif tool_name in [
                         "list_findings",
                         "get_finding",
@@ -1726,7 +1726,7 @@ Your goal is to help SOC analysts work more efficiently by leveraging all availa
                         if tool_name == "get_attack_layer":
                             # Generate ATT&CK Navigator layer
                             layer = {
-                                "name": "DeepTempo Findings",
+                                "name": "NeuroShield Findings",
                                 "version": "4.5",
                                 "domain": "enterprise-attack",
                                 "description": "ATT&CK techniques from findings",
@@ -1940,7 +1940,7 @@ Your goal is to help SOC analysts work more efficiently by leveraging all availa
                             else:
                                 content = [{"type": "text", "text": str(result)}]
                             # Issue #87: truncate first, then wrap each text
-                            # block in <vigil:tool_result> so attacker payloads
+                            # block in <neuroshield:tool_result> so attacker payloads
                             # in MCP responses are clearly framed as data.
                             from services.prompt_security import wrap_tool_result
 
@@ -2187,7 +2187,7 @@ Your goal is to help SOC analysts work more efficiently by leveraging all availa
             # GH #84 PR-C: tag system prompt + last tool block for prompt caching.
             self._apply_prompt_cache_controls(api_kwargs)
 
-            # #185: tag the upstream Bifrost call with a Vigil interaction
+            # #185: tag the upstream Bifrost call with a NeuroShield AI interaction
             # UUID so the LogEntry on Bifrost's side can be correlated with
             # the local LLMInteractionLog row this method writes below.
             # Bifrost captures any `x-bf-lh-*` header into LogEntry.metadata.
@@ -2195,7 +2195,7 @@ Your goal is to help SOC analysts work more efficiently by leveraging all availa
             _existing_extra = api_kwargs.get("extra_headers") or {}
             api_kwargs["extra_headers"] = {
                 **_existing_extra,
-                "x-bf-lh-vigil-interaction-id": _interaction_id,
+                "x-bf-lh-neuroshield-interaction-id": _interaction_id,
             }
 
             logger.debug(f"🚀 Making API call with {len(messages)} messages")
@@ -2434,7 +2434,7 @@ Your goal is to help SOC analysts work more efficiently by leveraging all availa
                         _round_interaction_id = str(uuid.uuid4())
                         api_kwargs["extra_headers"] = {
                             **(api_kwargs.get("extra_headers") or {}),
-                            "x-bf-lh-vigil-interaction-id": _round_interaction_id,
+                            "x-bf-lh-neuroshield-interaction-id": _round_interaction_id,
                         }
                         _fr_started = _time.monotonic()
                         final_response = self.client.messages.create(**api_kwargs)
@@ -2870,7 +2870,7 @@ Your goal is to help SOC analysts work more efficiently by leveraging all availa
                 _stream_interaction_id = str(uuid.uuid4())
                 api_kwargs["extra_headers"] = {
                     **(api_kwargs.get("extra_headers") or {}),
-                    "x-bf-lh-vigil-interaction-id": _stream_interaction_id,
+                    "x-bf-lh-neuroshield-interaction-id": _stream_interaction_id,
                 }
 
                 # Use streaming API to avoid timeout issues with tool use

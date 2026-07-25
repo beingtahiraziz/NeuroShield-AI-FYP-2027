@@ -14,7 +14,7 @@ initial detonation) must already live in an upstream system; the current
 pipeline operates on hashes observed in events. The submit step therefore
 tells the sandbox "detonate this hash" only when the sandbox's own cache has
 already seen the binary. This is a conservative default — safer than
-exfiltrating arbitrary binaries from the Vigil process.
+exfiltrating arbitrary binaries from the NeuroShield AI process.
 """
 
 from __future__ import annotations

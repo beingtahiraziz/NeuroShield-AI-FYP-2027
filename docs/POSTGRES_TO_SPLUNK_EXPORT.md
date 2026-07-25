@@ -28,9 +28,9 @@ First, you need to enable HEC in Splunk:
 
 3. **Create a New HEC Token**
    - Click **New Token**
-   - Give it a name (e.g., "DeepTempo Export")
-   - Select source type: `json` or create custom source types like `deeptempo:finding` and `deeptempo:case`
-   - Select the target index (e.g., `main` or create a dedicated index like `deeptempo`)
+   - Give it a name (e.g., "NeuroShield Export")
+   - Select source type: `json` or create custom source types like `neuroshield:finding` and `neuroshield:case`
+   - Select the target index (e.g., `main` or create a dedicated index like `neuroshield`)
    - Click **Review** → **Submit**
    - **Copy the token value** - you'll need this!
 
@@ -42,7 +42,7 @@ You can add these to your `.env` file for convenience:
 # Splunk HEC Configuration
 SPLUNK_HEC_URL=https://your-splunk:8088/services/collector
 SPLUNK_HEC_TOKEN=your-hec-token-here
-SPLUNK_HEC_INDEX=deeptempo
+SPLUNK_HEC_INDEX=neuroshield
 ```
 
 ### 3. Ensure Database is Running
@@ -63,7 +63,7 @@ Export half of all findings and cases to Splunk:
 python scripts/export_postgres_to_splunk.py \
     --hec-url https://your-splunk:8088/services/collector \
     --hec-token your-hec-token-here \
-    --index deeptempo \
+    --index neuroshield \
     --no-verify-ssl
 ```
 
@@ -73,7 +73,7 @@ python scripts/export_postgres_to_splunk.py \
 python scripts/export_postgres_to_splunk.py \
     --hec-url https://your-splunk:8088/services/collector \
     --hec-token your-hec-token-here \
-    --index deeptempo \
+    --index neuroshield \
     --findings-only \
     --no-verify-ssl
 ```
@@ -84,7 +84,7 @@ python scripts/export_postgres_to_splunk.py \
 python scripts/export_postgres_to_splunk.py \
     --hec-url https://your-splunk:8088/services/collector \
     --hec-token your-hec-token-here \
-    --index deeptempo \
+    --index neuroshield \
     --cases-only \
     --no-verify-ssl
 ```
@@ -159,32 +159,32 @@ Once data is exported, you can search it in Splunk:
 ### View All Exported Data
 
 ```spl
-index=deeptempo source="postgresql_export"
+index=neuroshield source="postgresql_export"
 ```
 
 ### View Only Findings
 
 ```spl
-index=deeptempo sourcetype="deeptempo:finding"
+index=neuroshield sourcetype="neuroshield:finding"
 ```
 
 ### View Only Cases
 
 ```spl
-index=deeptempo sourcetype="deeptempo:case"
+index=neuroshield sourcetype="neuroshield:case"
 ```
 
 ### High Severity Findings
 
 ```spl
-index=deeptempo sourcetype="deeptempo:finding" severity="high" OR severity="critical"
+index=neuroshield sourcetype="neuroshield:finding" severity="high" OR severity="critical"
 | table _time, finding_id, severity, data_source, anomaly_score
 ```
 
 ### Cases by Status
 
 ```spl
-index=deeptempo sourcetype="deeptempo:case"
+index=neuroshield sourcetype="neuroshield:case"
 | stats count by status
 | sort -count
 ```
@@ -192,24 +192,24 @@ index=deeptempo sourcetype="deeptempo:case"
 ### Findings with High Anomaly Score
 
 ```spl
-index=deeptempo sourcetype="deeptempo:finding" anomaly_score>0.8
+index=neuroshield sourcetype="neuroshield:finding" anomaly_score>0.8
 | table _time, finding_id, severity, anomaly_score, mitre_predictions
 ```
 
 ### Timeline of Case Activity
 
 ```spl
-index=deeptempo sourcetype="deeptempo:case"
+index=neuroshield sourcetype="neuroshield:case"
 | timechart count by priority
 ```
 
 ### Join Cases with Findings
 
 ```spl
-index=deeptempo sourcetype="deeptempo:case"
+index=neuroshield sourcetype="neuroshield:case"
 | eval finding_id=mvindex(finding_ids, 0)
 | join finding_id [
-    search index=deeptempo sourcetype="deeptempo:finding"
+    search index=neuroshield sourcetype="neuroshield:finding"
     | fields finding_id, severity, anomaly_score
 ]
 | table case_id, title, priority, finding_id, severity, anomaly_score
@@ -228,26 +228,26 @@ index=deeptempo sourcetype="deeptempo:case"
 
 - **Findings by Severity** (Pie Chart)
   ```spl
-  index=deeptempo sourcetype="deeptempo:finding"
+  index=neuroshield sourcetype="neuroshield:finding"
   | stats count by severity
   ```
 
 - **Cases by Status** (Bar Chart)
   ```spl
-  index=deeptempo sourcetype="deeptempo:case"
+  index=neuroshield sourcetype="neuroshield:case"
   | stats count by status
   ```
 
 - **Anomaly Score Distribution** (Histogram)
   ```spl
-  index=deeptempo sourcetype="deeptempo:finding"
+  index=neuroshield sourcetype="neuroshield:finding"
   | bin anomaly_score span=0.1
   | stats count by anomaly_score
   ```
 
 - **Top MITRE Techniques** (Table)
   ```spl
-  index=deeptempo sourcetype="deeptempo:finding"
+  index=neuroshield sourcetype="neuroshield:finding"
   | mvexpand mitre_predictions
   | stats count by mitre_predictions
   | sort -count
@@ -277,7 +277,7 @@ index=deeptempo sourcetype="deeptempo:case"
 ### Error: "No findings to export"
 
 - Ensure you have data in PostgreSQL
-- Run: `psql -d deeptempo_soc -c "SELECT COUNT(*) FROM findings;"`
+- Run: `psql -d neuroshield_soc -c "SELECT COUNT(*) FROM findings;"`
 
 ### Large Export Taking Too Long
 
@@ -293,7 +293,7 @@ index=deeptempo sourcetype="deeptempo:case"
 
 2. **Network**: Ensure good network connectivity between your system and Splunk
 
-3. **Index**: Create a dedicated index for DeepTempo data to improve search performance
+3. **Index**: Create a dedicated index for NeuroShield data to improve search performance
 
 4. **Retention**: Configure index retention policies based on your needs
 
@@ -329,12 +329,12 @@ python scripts/export_postgres_to_splunk.py --save-to-file review_export.json
 python scripts/export_postgres_to_splunk.py \
     --hec-url https://splunk.example.com:8088/services/collector \
     --hec-token 12345678-1234-1234-1234-123456789012 \
-    --index deeptempo \
+    --index neuroshield \
     --no-verify-ssl
 
 # 4. Verify in Splunk
 # Open Splunk Web and run:
-# index=deeptempo | stats count by sourcetype
+# index=neuroshield | stats count by sourcetype
 
 # 5. Create visualizations
 # Use the SPL queries provided above

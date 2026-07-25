@@ -425,7 +425,7 @@ class TestClaudeServicePrompts:
         service = ClaudeService()
         prompt = service._get_default_system_prompt()
         
-        assert "Vigil SOC" in prompt
+        assert "NeuroShield AI SOC" in prompt
         assert "default_to_action" in prompt
         assert "use_parallel_tool_calls" in prompt
         assert "investigate_before_answering" in prompt
@@ -440,7 +440,7 @@ class TestClaudeServicePrompts:
         prompt = service._get_default_system_prompt()
         
         assert "available_mcp_tools" in prompt
-        assert "deeptempo-findings" in prompt
+        assert "neuroshield-findings" in prompt
 
 
 class TestClaudeServiceSessionManagement:
@@ -549,7 +549,7 @@ class TestClaudeServiceAPIInteraction:
         mock_tool_use = Mock()
         mock_tool_use.type = "tool_use"
         mock_tool_use.id = "toolu_123"
-        mock_tool_use.name = "deeptempo-findings_get_finding"
+        mock_tool_use.name = "neuroshield-findings_get_finding"
         mock_tool_use.input = {"finding_id": "f-12345"}
         
         mock_text = Mock()
@@ -568,7 +568,7 @@ class TestClaudeServiceAPIInteraction:
         # Verify response structure
         assert len(mock_response.content) == 2
         assert mock_response.content[1].type == "tool_use"
-        assert mock_response.content[1].name == "deeptempo-findings_get_finding"
+        assert mock_response.content[1].name == "neuroshield-findings_get_finding"
 
 
 class TestClaudeServiceErrorHandling:

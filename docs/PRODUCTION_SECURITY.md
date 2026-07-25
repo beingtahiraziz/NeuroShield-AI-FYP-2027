@@ -12,13 +12,13 @@ or file location so it can be audited mechanically.
 |--------|-------------|-------------|------------------|-------|
 | Dev Mode | `DEV_MODE` | `true` | `false` | Bypasses ALL authentication. Never enable in prod. |
 | JWT Secret | `JWT_SECRET_KEY` | (generated dev key) | 64+ char random string | `python -c "import secrets; print(secrets.token_urlsafe(64))"` |
-| CSRF Enforcement | `VIGIL_CSRF_REPORT_ONLY` | `false` | `false` | Must be `false` to reject forged requests. |
+| CSRF Enforcement | `NEUROSHIELD_CSRF_REPORT_ONLY` | `false` | `false` | Must be `false` to reject forged requests. |
 | Token Revocation | `REVOCATION_FAIL_OPEN` | `false` | `false` | Reject tokens when Redis is down rather than allowing through. |
 | Access Token TTL | `JWT_ACCESS_EXPIRATION_MINUTES` | `30` | `15`–`30` | Shorter = less window after compromise. |
 | Refresh Token TTL | `JWT_REFRESH_EXPIRATION_DAYS` | `7` | `7` | Max session length before forced re-login. |
-| Cookie Secure Flag | `VIGIL_COOKIE_SECURE` | `false` | `true` | Cookies only sent over HTTPS. |
-| Cookie SameSite | `VIGIL_COOKIE_SAMESITE` | `lax` | `strict` | Prevents cross-origin cookie send. |
-| PostgreSQL Password | `docker-compose.yml` | `vigil` | Strong random | Change default docker-compose password. |
+| Cookie Secure Flag | `NEUROSHIELD_COOKIE_SECURE` | `false` | `true` | Cookies only sent over HTTPS. |
+| Cookie SameSite | `NEUROSHIELD_COOKIE_SAMESITE` | `lax` | `strict` | Prevents cross-origin cookie send. |
+| PostgreSQL Password | `docker-compose.yml` | `neuroshield` | Strong random | Change default docker-compose password. |
 | LLM Budget Unlimited | `LLM_BUDGET_UNLIMITED` | `false` | `false` | Keep cost guardrails active. |
 
 ---
@@ -75,12 +75,12 @@ or file location so it can be audited mechanically.
 
 ## CSRF Protection
 
-- Enabled via `VIGIL_CSRF_ENABLED=true` (default).
+- Enabled via `NEUROSHIELD_CSRF_ENABLED=true` (default).
 - Double-submit cookie pattern: frontend reads `csrf_token` cookie and echoes
   it as `X-CSRF-Token` header on state-changing requests.
-- **Enforcement**: `VIGIL_CSRF_REPORT_ONLY=false` rejects violations. Set to
+- **Enforcement**: `NEUROSHIELD_CSRF_REPORT_ONLY=false` rejects violations. Set to
   `true` only during initial deployment monitoring.
-- Exempt paths (webhooks, ingest): `VIGIL_CSRF_EXEMPT_PATHS=/api/webhooks/,/api/ingest/`
+- Exempt paths (webhooks, ingest): `NEUROSHIELD_CSRF_EXEMPT_PATHS=/api/webhooks/,/api/ingest/`
 
 ---
 
@@ -88,10 +88,10 @@ or file location so it can be audited mechanically.
 
 | Variable | Default | Production |
 |----------|---------|------------|
-| `VIGIL_COOKIE_SECURE` | `false` | `true` (HTTPS only) |
-| `VIGIL_COOKIE_SAMESITE` | `lax` | `strict` |
-| `VIGIL_COOKIE_DOMAIN` | (none) | Your domain |
-| `VIGIL_COOKIE_PATH` | `/` | `/` |
+| `NEUROSHIELD_COOKIE_SECURE` | `false` | `true` (HTTPS only) |
+| `NEUROSHIELD_COOKIE_SAMESITE` | `lax` | `strict` |
+| `NEUROSHIELD_COOKIE_DOMAIN` | (none) | Your domain |
+| `NEUROSHIELD_COOKIE_PATH` | `/` | `/` |
 
 Tokens are stored in **HttpOnly** cookies (not accessible to JavaScript).
 `Secure=true` requires HTTPS — the browser will not send the cookie over
@@ -104,7 +104,7 @@ plain HTTP.
 Set via the security headers middleware. Defaults are conservative:
 
 - `Strict-Transport-Security: max-age=31536000; includeSubDomains` (HSTS)
-- `Content-Security-Policy`: configurable via `VIGIL_CSP_POLICY`
+- `Content-Security-Policy`: configurable via `NEUROSHIELD_CSP_POLICY`
 - `X-Content-Type-Options: nosniff`
 - `X-Frame-Options: DENY`
 - `Referrer-Policy: strict-origin-when-cross-origin`
@@ -129,11 +129,11 @@ export JWT_SECRET_KEY=$(python -c "import secrets; print(secrets.token_urlsafe(6
 export DEV_MODE=false
 
 # 3. Enforce CSRF
-export VIGIL_CSRF_REPORT_ONLY=false
+export NEUROSHIELD_CSRF_REPORT_ONLY=false
 
 # 4. Secure cookies (requires HTTPS)
-export VIGIL_COOKIE_SECURE=true
-export VIGIL_COOKIE_SAMESITE=strict
+export NEUROSHIELD_COOKIE_SECURE=true
+export NEUROSHIELD_COOKIE_SAMESITE=strict
 
 # 5. Fail-closed revocation
 export REVOCATION_FAIL_OPEN=false

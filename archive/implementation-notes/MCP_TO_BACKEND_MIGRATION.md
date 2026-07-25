@@ -41,13 +41,13 @@ The web UI automatically uses backend tool integration. All detection engineerin
 
 | Function | MCP Tool Name | Backend Tool Name | Status |
 |----------|--------------|------------------|--------|
-| List findings | `deeptempo-findings_list_findings` | `list_findings` | ✅ Migrated |
-| Get finding | `deeptempo-findings_get_finding` | `get_finding` | ✅ Migrated |
-| Similar findings | `deeptempo-findings_nearest_neighbors` | `nearest_neighbors` | ✅ Migrated |
-| List cases | `deeptempo-findings_list_cases` | `list_cases` | ✅ Migrated |
-| Get case | `deeptempo-findings_get_case` | `get_case` | ✅ Migrated |
-| Create case | `deeptempo-findings_create_case` | `create_case` | ✅ Migrated |
-| Add to case | `deeptempo-findings_add_finding_to_case` | `add_finding_to_case` | ✅ Migrated |
+| List findings | `neuroshield-findings_list_findings` | `list_findings` | ✅ Migrated |
+| Get finding | `neuroshield-findings_get_finding` | `get_finding` | ✅ Migrated |
+| Similar findings | `neuroshield-findings_nearest_neighbors` | `nearest_neighbors` | ✅ Migrated |
+| List cases | `neuroshield-findings_list_cases` | `list_cases` | ✅ Migrated |
+| Get case | `neuroshield-findings_get_case` | `get_case` | ✅ Migrated |
+| Create case | `neuroshield-findings_create_case` | `create_case` | ✅ Migrated |
+| Add to case | `neuroshield-findings_add_finding_to_case` | `add_finding_to_case` | ✅ Migrated |
 
 ### MITRE ATT&CK Tools
 

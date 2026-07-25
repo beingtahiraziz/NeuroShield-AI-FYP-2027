@@ -1,9 +1,9 @@
 #!/bin/bash
-# Fresh development environment setup for Vigil SOC
+# Fresh development environment setup for NeuroShield AI SOC
 # Usage: ./setup_dev.sh
 source "$(dirname "$0")/scripts/lib.sh"
 
-echo "Vigil SOC - Development Setup"
+echo "NeuroShield AI SOC - Development Setup"
 echo ""
 
 # Prerequisites
@@ -39,9 +39,9 @@ fi
 
 # Database
 if command -v docker &>/dev/null; then
-    ensure_container deeptempo-postgres postgres
+    ensure_container neuroshield-postgres postgres
     wait_for_postgres || true
-    ensure_container deeptempo-redis redis
+    ensure_container neuroshield-redis redis
     echo "Database and Redis running."
 fi
 

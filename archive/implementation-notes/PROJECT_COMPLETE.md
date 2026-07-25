@@ -208,7 +208,7 @@ ai-opensoc/
 
 ```bash
 # Database
-DATABASE_URL=postgresql://user:pass@host:5432/deeptempo
+DATABASE_URL=postgresql://user:pass@host:5432/neuroshield
 
 # Authentication
 JWT_SECRET_KEY=your-secret-key-min-32-characters

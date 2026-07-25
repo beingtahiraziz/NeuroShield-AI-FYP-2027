@@ -1,6 +1,6 @@
 """Single source of truth for Anthropic SDK client construction.
 
-Per GH #84 PR-B, all LLM traffic in Vigil routes through the Bifrost
+Per GH #84 PR-B, all LLM traffic in NeuroShield AI routes through the Bifrost
 gateway — including Anthropic traffic that used to bypass it. The SDK
 client is pointed at Bifrost's Anthropic-compatible passthrough so
 extended thinking, native prompt caching, and tool-use round-trip

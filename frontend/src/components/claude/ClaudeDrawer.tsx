@@ -881,7 +881,7 @@ export default function ClaudeDrawer({ open, onClose, initialMessages, initialAg
       <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
         <Box sx={{ p: 2, borderBottom: 1, borderColor: 'divider', display: 'flex', justifyContent: 'space-between', alignItems: 'center', bgcolor: 'background.paper' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>Vigil</Typography>
+            <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>NeuroShield AI</Typography>
             {sessionSummary && sessionSummary.total_interactions > 0 && (
               <Tooltip title={`${sessionSummary.total_interactions} LLM calls · in ${sessionSummary.total_input_tokens.toLocaleString()} tok · out ${sessionSummary.total_output_tokens.toLocaleString()} tok`}>
                 <Chip
@@ -1171,7 +1171,7 @@ export default function ClaudeDrawer({ open, onClose, initialMessages, initialAg
                 border: 1, borderColor: msg.role === 'user' ? alpha(theme.palette.primary.main, 0.2) : 'divider',
               }}>
                 <Typography variant="caption" sx={{ fontWeight: 600, color: msg.role === 'user' ? 'primary.main' : 'text.secondary', mb: 0.5, display: 'block' }}>
-                  {msg.role === 'user' ? 'You' : 'Vigil'}
+                  {msg.role === 'user' ? 'You' : 'NeuroShield AI'}
                 </Typography>
                 {renderContent(msg.content, i)}
               </Box>
@@ -1186,7 +1186,7 @@ export default function ClaudeDrawer({ open, onClose, initialMessages, initialAg
               border: 1, borderColor: 'divider',
             }}>
               <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary', mb: 0.5, display: 'block' }}>
-                Vigil
+                NeuroShield AI
               </Typography>
               <Box sx={{
                 p: 1.5,
@@ -1228,7 +1228,7 @@ export default function ClaudeDrawer({ open, onClose, initialMessages, initialAg
               border: 1, borderColor: 'divider',
             }}>
               <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary', mb: 0.5, display: 'block' }}>
-                Vigil
+                NeuroShield AI
               </Typography>
               <MarkdownMessage>{streamingText}</MarkdownMessage>
             </Box>

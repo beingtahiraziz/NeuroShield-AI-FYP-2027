@@ -7,7 +7,7 @@ Endpoints:
 
 Inbound push is authenticated with a Bearer API key stored via the secrets
 manager under `VSTRIKE_INBOUND_API_KEY`. When `DEV_MODE=true` the auth check
-is bypassed (matches the rest of the Vigil codebase).
+is bypassed (matches the rest of the NeuroShield AI codebase).
 """
 
 from __future__ import annotations
@@ -135,7 +135,7 @@ async def ingest_findings(
     """Receive a batch of VStrike-enriched findings.
 
     For each finding:
-      - If it exists in Vigil, merge VStrike enrichment into
+      - If it exists in NeuroShield AI, merge VStrike enrichment into
         `entity_context["vstrike"]` (read-modify-write to avoid clobbering
         other keys) and update MITRE fields if supplied.
       - Otherwise, create it with `data_source="vstrike"` if enough fields

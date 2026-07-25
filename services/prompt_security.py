@@ -1,4 +1,4 @@
-"""Prompt-injection defenses for the Vigil LLM call path (issue #87).
+"""Prompt-injection defenses for the NeuroShield AI LLM call path (issue #87).
 
 Three responsibilities, all small:
 
@@ -149,8 +149,8 @@ def has_disallowed_control_chars(text: str) -> bool:
 # Tool-result wrapping
 # ---------------------------------------------------------------------------
 
-_TOOL_RESULT_OPEN = '<vigil:tool_result source="{source}" tool="{tool}">'
-_TOOL_RESULT_CLOSE = "</vigil:tool_result>"
+_TOOL_RESULT_OPEN = '<neuroshield:tool_result source="{source}" tool="{tool}">'
+_TOOL_RESULT_CLOSE = "</neuroshield:tool_result>"
 
 
 def _escape_for_wrapper(text: str) -> str:
@@ -173,7 +173,7 @@ def _slug(value: Optional[str], fallback: str) -> str:
 def wrap_tool_result(
     content: str, *, source: Optional[str], tool: Optional[str]
 ) -> str:
-    """Wrap *content* in a `<vigil:tool_result>` block.
+    """Wrap *content* in a `<neuroshield:tool_result>` block.
 
     Already-wrapped content is returned unchanged so wrapping is idempotent
     (the router applies it defensively to historical messages, and the
@@ -188,7 +188,7 @@ def wrap_tool_result(
 
     if not isinstance(content, str):
         content = str(content)
-    if content.startswith("<vigil:tool_result"):
+    if content.startswith("<neuroshield:tool_result"):
         return content
 
     result = scan_for_injection(content)

@@ -1,15 +1,15 @@
 """
-core/telemetry.py — OpenTelemetry bootstrap for Vigil SOC.
+core/telemetry.py — OpenTelemetry bootstrap for NeuroShield AI SOC.
 
-When VIGIL_OTEL_ENABLED is falsy OR the SDK cannot be imported, every
+When NEUROSHIELD_OTEL_ENABLED is falsy OR the SDK cannot be imported, every
 public function returns a no-op object. Telemetry failures never crash
 the application.
 
 Environment variables:
-    VIGIL_OTEL_ENABLED              Master switch ("true"/"1"/"yes" to enable)
+    NEUROSHIELD_OTEL_ENABLED              Master switch ("true"/"1"/"yes" to enable)
     OTEL_EXPORTER_OTLP_ENDPOINT     Collector address (default http://localhost:4317)
-    VIGIL_OTEL_RECORD_LLM_CONTENT   Opt-in to recording LLM prompts/responses (default off)
-    VIGIL_OTEL_RECORD_IOC_VALUES    Opt-in to recording raw finding/IOC content (default off)
+    NEUROSHIELD_OTEL_RECORD_LLM_CONTENT   Opt-in to recording LLM prompts/responses (default off)
+    NEUROSHIELD_OTEL_RECORD_IOC_VALUES    Opt-in to recording raw finding/IOC content (default off)
     ENVIRONMENT                     Deployment environment label (default "development")
     RELEASE_VERSION                 Service version label (default "unknown")
 """
@@ -56,7 +56,7 @@ def get_investigation_id() -> Optional[str]:
 # ---------------------------------------------------------------------------
 
 def _is_otel_enabled() -> bool:
-    val = os.environ.get("VIGIL_OTEL_ENABLED", "").lower()
+    val = os.environ.get("NEUROSHIELD_OTEL_ENABLED", "").lower()
     return val in ("true", "1", "yes")
 
 
@@ -180,7 +180,7 @@ def _do_init(service_name: str) -> None:
             "service.name": service_name,
             "service.version": version,
             "deployment.environment": environment,
-            "vigil.component": service_name,
+            "neuroshield.component": service_name,
         }
     )
 
@@ -266,7 +266,7 @@ def init_telemetry(service_name: str) -> bool:
     global _initialized
 
     if not _is_otel_enabled():
-        logger.debug("VIGIL_OTEL_ENABLED is not set — telemetry disabled")
+        logger.debug("NEUROSHIELD_OTEL_ENABLED is not set — telemetry disabled")
         return False
 
     if _initialized:
@@ -348,19 +348,19 @@ def create_genai_metrics(meter: Any) -> dict:
     """
     return {
         "llm_calls": meter.create_counter(
-            "vigil.llm.calls.total",
+            "neuroshield.llm.calls.total",
             description="Total LLM API calls",
         ),
         "llm_duration": meter.create_histogram(
-            "vigil.llm.duration.seconds",
+            "neuroshield.llm.duration.seconds",
             description="LLM call duration in seconds",
         ),
         "llm_tokens": meter.create_counter(
-            "vigil.llm.tokens.total",
+            "neuroshield.llm.tokens.total",
             description="Total LLM tokens consumed",
         ),
         "llm_cost_usd": meter.create_counter(
-            "vigil.llm.cost.usd.total",
+            "neuroshield.llm.cost.usd.total",
             description="Cumulative LLM cost in USD",
         ),
     }
@@ -437,13 +437,13 @@ def _install_json_logging() -> None:
 
             inv_id = get_investigation_id()
             if inv_id:
-                entry["vigil.investigation.id"] = inv_id
+                entry["neuroshield.investigation.id"] = inv_id
 
             if record.exc_info:
                 entry["exception"] = self.formatException(record.exc_info)
 
             for key, val in record.__dict__.items():
-                if key.startswith("vigil."):
+                if key.startswith("neuroshield."):
                     entry[key] = val
 
             return json.dumps(entry, default=str)
@@ -459,9 +459,9 @@ def _install_json_logging() -> None:
     root.addHandler(console)
 
     try:
-        log_dir = Path.home() / ".deeptempo"
+        log_dir = Path.home() / ".neuroshield"
         log_dir.mkdir(parents=True, exist_ok=True)
-        file_handler = logging.FileHandler(log_dir / "vigil.log")
+        file_handler = logging.FileHandler(log_dir / "neuroshield.log")
         file_handler.setFormatter(formatter)
         root.addHandler(file_handler)
     except Exception as exc:

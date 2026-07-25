@@ -1,6 +1,6 @@
 {
-  "title": "Vigil SOC — Investigation Lifecycle",
-  "uid": "vigil-investigation-lifecycle",
+  "title": "NeuroShield AI SOC — Investigation Lifecycle",
+  "uid": "neuroshield-investigation-lifecycle",
   "schemaVersion": 38,
   "version": 1,
   "refresh": "30s",

@@ -18,7 +18,7 @@ use-case: "Proactive threat hunting -- start with a hypothesis or IOC and system
 trigger-examples:
   - "Hunt for C2 beaconing activity across all network findings"
   - "Proactive hunt: look for lateral movement via RDP"
-  - "Validate whether this DeepTempo C2 alert is real by checking all available threat intel for the public IP"
+  - "Validate whether this NeuroShield C2 alert is real by checking all available threat intel for the public IP"
   - "Hunt for APT28 credential harvesting techniques"
   - "Search for signs of data exfiltration in the last 24 hours"
 ---
@@ -30,7 +30,7 @@ Proactive, hypothesis-driven threat hunting workflow. Sequences five specialized
 ## When to Use
 
 - Proactive hunting for threats that haven't triggered alerts
-- Validating a flagged alert (e.g., DeepTempo C2 detection) against all available sources
+- Validating a flagged alert (e.g., NeuroShield C2 detection) against all available sources
 - Hypothesis-driven hunting based on specific TTPs or threat actors
 - Searching for indicators of compromise across the environment
 - Periodic threat hunting exercises
@@ -135,7 +135,7 @@ Proactive, hypothesis-driven threat hunting workflow. Sequences five specialized
 ## Example Invocation
 
 ```
-User: "Validate whether this DeepTempo C2 alert is real by checking all threat intel for IP 185.220.101.1"
+User: "Validate whether this NeuroShield C2 alert is real by checking all threat intel for IP 185.220.101.1"
 ```
 
 ## Expected Output

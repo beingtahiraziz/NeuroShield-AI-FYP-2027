@@ -293,7 +293,7 @@ export default function Timesketch() {
                 <li><Typography variant="body2" color="text.secondary">Collaborative timeline analysis</Typography></li>
                 <li><Typography variant="body2" color="text.secondary">Advanced search and filtering</Typography></li>
                 <li><Typography variant="body2" color="text.secondary">Event tagging and commenting</Typography></li>
-                <li><Typography variant="body2" color="text.secondary">DeepTempo integration</Typography></li>
+                <li><Typography variant="body2" color="text.secondary">NeuroShield integration</Typography></li>
               </Box>
             </TabPanel>
           </Box>

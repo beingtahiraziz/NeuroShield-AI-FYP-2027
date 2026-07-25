@@ -316,7 +316,7 @@ class MCPClient:
     def _missing_credentials_for(self, server) -> List[str]:
         """Return the subset of a server's required_env_vars that resolve empty.
 
-        Checks both ``os.environ`` and the Vigil secrets manager, so a
+        Checks both ``os.environ`` and the NeuroShield AI secrets manager, so a
         user who saved a credential via the integration wizard (which
         writes to the encrypted store, not the process env) isn't told
         the server is still dormant.
@@ -473,15 +473,15 @@ class MCPClient:
         try:
             from core.telemetry import get_tracer
             from opentelemetry.trace import SpanKind, StatusCode as _SC
-            _mcp_tracer = get_tracer("vigil.services.mcp_client")
+            _mcp_tracer = get_tracer("neuroshield.services.mcp_client")
             _mcp_span = _mcp_tracer.start_span(
                 "mcp.call_tool",
                 kind=SpanKind.CLIENT,
                 attributes={
                     "mcp.server.name": server_name,
                     "mcp.transport": "stdio",
-                    "vigil.tool.name": tool_name,
-                    "vigil.tool.input_size": len(_json.dumps(arguments, default=str)),
+                    "neuroshield.tool.name": tool_name,
+                    "neuroshield.tool.input_size": len(_json.dumps(arguments, default=str)),
                 },
             )
         except Exception:
@@ -497,7 +497,7 @@ class MCPClient:
                 }
                 try:
                     if _mcp_span is not None:
-                        _mcp_span.set_attribute("vigil.tool.success", False)
+                        _mcp_span.set_attribute("neuroshield.tool.success", False)
                         _mcp_span.end()
                 except Exception:
                     pass
@@ -518,9 +518,9 @@ class MCPClient:
             try:
                 if _mcp_span is not None:
                     is_err = result.get("error", False) if isinstance(result, dict) else False
-                    _mcp_span.set_attribute("vigil.tool.success", not is_err)
-                    _mcp_span.set_attribute("vigil.tool.output_size", len(_json.dumps(result, default=str)))
-                    _mcp_span.set_attribute("vigil.tool.duration_ms", round((_time.monotonic() - _mcp_t0) * 1000, 1))
+                    _mcp_span.set_attribute("neuroshield.tool.success", not is_err)
+                    _mcp_span.set_attribute("neuroshield.tool.output_size", len(_json.dumps(result, default=str)))
+                    _mcp_span.set_attribute("neuroshield.tool.duration_ms", round((_time.monotonic() - _mcp_t0) * 1000, 1))
                     _mcp_span.end()
             except Exception:
                 pass
@@ -529,7 +529,7 @@ class MCPClient:
             logger.error(f"Tool call {tool_name} on {server_name} timed out after {timeout}s")
             try:
                 if _mcp_span is not None and _SC is not None:
-                    _mcp_span.set_attribute("vigil.tool.success", False)
+                    _mcp_span.set_attribute("neuroshield.tool.success", False)
                     _mcp_span.set_status(_SC.ERROR, f"Timeout after {timeout}s")
                     _mcp_span.end()
             except Exception:
@@ -542,7 +542,7 @@ class MCPClient:
             logger.error(f"Error calling tool {tool_name} on {server_name}: {e}")
             try:
                 if _mcp_span is not None:
-                    _mcp_span.set_attribute("vigil.tool.success", False)
+                    _mcp_span.set_attribute("neuroshield.tool.success", False)
                     _mcp_span.end()
             except Exception:
                 pass

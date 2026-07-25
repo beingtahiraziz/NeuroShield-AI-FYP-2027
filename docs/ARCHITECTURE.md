@@ -2,7 +2,7 @@
 
 ## Overview
 
-Vigil uses **backend tool integration via Claude Agent SDK**. No desktop application or separate MCP servers required for core functionality.
+NeuroShield AI uses **backend tool integration via Claude Agent SDK**. No desktop application or separate MCP servers required for core functionality.
 
 ## Architecture Diagram
 
@@ -140,7 +140,7 @@ Autonomous response workflow:
 
 LLM provider credentials (Anthropic / OpenAI / Ollama) are configured in
 the web UI under **Settings → AI / LLM Providers** and stored in the
-encrypted secret store at `~/.vigil/secrets.enc`. The backend pushes them
+encrypted secret store at `~/.neuroshield/secrets.enc`. The backend pushes them
 to Bifrost over its admin API in the same request. See
 [CONFIGURATION.md](CONFIGURATION.md) and [STATE.md](STATE.md) for the
 full split between bootstrap config and secrets.
@@ -157,7 +157,7 @@ ELASTIC_PATHS="${HOME}/security-detections/detection-rules/rules"
 KQL_PATHS="${HOME}/security-detections/Hunting-Queries-Detection-Rules"
 
 # Database
-DATABASE_URL="postgresql://deeptempo:deeptempo_secure_password_change_me@localhost:5432/deeptempo_soc"
+DATABASE_URL="postgresql://neuroshield:deeptempo_secure_password_change_me@localhost:5432/neuroshield_soc"
 
 # LLM gateway (Bifrost) — provider keys are NOT set here
 BIFROST_URL="http://bifrost:8080"
@@ -249,7 +249,7 @@ curl http://localhost:6987/api/storage/status
 
 ```bash
 # Backend logs (stdout when running uvicorn directly, or Docker logs)
-docker logs deeptempo-postgres  # PostgreSQL logs
+docker logs neuroshield-postgres  # PostgreSQL logs
 docker logs -f <backend-container>  # Backend API logs
 
 # Tool execution (debug) — enable via LOG_LEVEL=DEBUG in .env
@@ -383,7 +383,7 @@ pytest tests/unit/
 ## Support
 
 For issues or questions:
-- GitHub Issues: https://github.com/Vigil-SOC/vigil/issues
+- GitHub Issues: https://github.com/NeuroShield-AI/neuroshield/issues
 - Label: `backend-tools`
 - Include: Backend logs, tool name, error message
 

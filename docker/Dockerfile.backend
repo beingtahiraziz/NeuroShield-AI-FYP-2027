@@ -39,24 +39,24 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # from the copied source, so the runtime stage needs only /usr/local and no
 # editable source tree (an `-e` install writes a .pth pointing at the build
 # path, which won't exist in the runtime stage). Keep this COPY list in sync
-# with the `-e ./` lines in requirements.txt: deeptempo-core, mcp-servers,
+# with the `-e ./` lines in requirements.txt: neuroshield-core, mcp-servers,
 # mempalace.
 COPY requirements.txt .
-COPY deeptempo-core/ ./deeptempo-core/
+COPY neuroshield-core/ ./neuroshield-core/
 COPY mcp-servers/    ./mcp-servers/
 COPY mempalace/      ./mempalace/
 RUN grep -vE '^[[:space:]]*-e[[:space:]]+\./' requirements.txt > requirements.runtime.txt \
     && pip install --no-cache-dir --prefix=/install/deps \
          -r requirements.runtime.txt \
-         ./deeptempo-core ./mcp-servers ./mempalace
+         ./neuroshield-core ./mcp-servers ./mempalace
 
 # ---------------------------------------------------------------------------
 # Stage 3: runtime image
 # ---------------------------------------------------------------------------
 FROM python:3.11-slim AS runtime
 
-ARG VIGIL_VERSION=dev
-LABEL org.opencontainers.image.version="${VIGIL_VERSION}"
+ARG NEUROSHIELD_VERSION=dev
+LABEL org.opencontainers.image.version="${NEUROSHIELD_VERSION}"
 
 # Runtime system deps only
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -65,7 +65,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Non-root user
-RUN groupadd -r vigil && useradd -r -g vigil -d /app -s /sbin/nologin vigil
+RUN groupadd -r neuroshield && useradd -r -g neuroshield -d /app -s /sbin/nologin neuroshield
 
 WORKDIR /app
 
@@ -74,31 +74,31 @@ COPY --from=python-deps /install/deps /usr/local
 
 # Application source — copy each top-level package separately so
 # modifying one doesn't bust the cache for all the others.
-COPY --chown=vigil:vigil backend/     ./backend/
-COPY --chown=vigil:vigil core/        ./core/
-COPY --chown=vigil:vigil services/    ./services/
-COPY --chown=vigil:vigil tools/       ./tools/
-COPY --chown=vigil:vigil database/    ./database/
-COPY --chown=vigil:vigil data/        ./data/
-COPY --chown=vigil:vigil workflows/   ./workflows/
-COPY --chown=vigil:vigil daemon/      ./daemon/
-COPY --chown=vigil:vigil mcp-servers/ ./mcp-servers/
-COPY --chown=vigil:vigil mempalace/   ./mempalace/
-COPY --chown=vigil:vigil VERSION      ./VERSION
-COPY --chown=vigil:vigil setup.cfg    ./setup.cfg
+COPY --chown=neuroshield:neuroshield backend/     ./backend/
+COPY --chown=neuroshield:neuroshield core/        ./core/
+COPY --chown=neuroshield:neuroshield services/    ./services/
+COPY --chown=neuroshield:neuroshield tools/       ./tools/
+COPY --chown=neuroshield:neuroshield database/    ./database/
+COPY --chown=neuroshield:neuroshield data/        ./data/
+COPY --chown=neuroshield:neuroshield workflows/   ./workflows/
+COPY --chown=neuroshield:neuroshield daemon/      ./daemon/
+COPY --chown=neuroshield:neuroshield mcp-servers/ ./mcp-servers/
+COPY --chown=neuroshield:neuroshield mempalace/   ./mempalace/
+COPY --chown=neuroshield:neuroshield VERSION      ./VERSION
+COPY --chown=neuroshield:neuroshield setup.cfg    ./setup.cfg
 
 # Built SPA — served by FastAPI StaticFiles (or nginx sidecar)
-COPY --from=frontend-builder --chown=vigil:vigil /build/frontend/build ./frontend/build/
+COPY --from=frontend-builder --chown=neuroshield:neuroshield /build/frontend/build ./frontend/build/
 
 # Writable dirs the app needs at runtime
 RUN mkdir -p /app/data/investigations /app/data/mempalace \
-    && chown -R vigil:vigil /app/data
+    && chown -R neuroshield:neuroshield /app/data
 
 # Bake version into the image so `backend.__version__` resolves at import time
 # (backend/__init__.py reads VERSION from disk)
-RUN echo "${VIGIL_VERSION}" > /app/VERSION
+RUN echo "${NEUROSHIELD_VERSION}" > /app/VERSION
 
-USER vigil
+USER neuroshield
 
 ENV PYTHONPATH=/app \
     PYTHONUNBUFFERED=1 \

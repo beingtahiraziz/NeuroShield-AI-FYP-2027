@@ -919,7 +919,7 @@ def test_list_networks_parses_sse_with_structured_content():
                 "networks": [
                     {"label": "Test", "networkId": "69e5332fd395368a5f18f3f1"},
                     {
-                        "label": "DeepTempo AI SoC Demo",
+                        "label": "NeuroShield AI SoC Demo",
                         "networkId": "69e3e13ab79027157149e32d",
                     },
                 ],
@@ -937,7 +937,7 @@ def test_list_networks_parses_sse_with_structured_content():
         networks = svc.list_networks()
     assert len(networks) == 2
     assert networks[0]["networkId"] == "69e5332fd395368a5f18f3f1"
-    assert networks[1]["label"] == "DeepTempo AI SoC Demo"
+    assert networks[1]["label"] == "NeuroShield AI SoC Demo"
 
 
 def test_call_mcp_tool_raises_on_tool_is_error():

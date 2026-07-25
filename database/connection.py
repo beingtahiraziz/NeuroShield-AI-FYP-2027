@@ -1,5 +1,5 @@
 """
-Database connection management for Vigil SOC.
+Database connection management for NeuroShield AI SOC.
 
 Handles database connections, session management, and connection pooling.
 """
@@ -121,8 +121,8 @@ class DatabaseConfig:
         """Initialize database configuration from environment variables."""
         self.host = os.getenv("POSTGRES_HOST", "localhost")
         self.port = int(os.getenv("POSTGRES_PORT", "5432"))
-        self.database = os.getenv("POSTGRES_DB", "deeptempo_soc")
-        self.user = os.getenv("POSTGRES_USER", "deeptempo")
+        self.database = os.getenv("POSTGRES_DB", "neuroshield_soc")
+        self.user = os.getenv("POSTGRES_USER", "neuroshield")
         self.password = os.getenv(
             "POSTGRES_PASSWORD", "deeptempo_secure_password_change_me"
         )

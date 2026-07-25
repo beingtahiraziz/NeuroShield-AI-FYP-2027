@@ -1,4 +1,4 @@
-"""Operational utilities for Vigil's backend.
+"""Operational utilities for NeuroShield AI's backend.
 
 Modules in this package are meant to be invoked as ``python -m
 backend.tools.<name>`` for one-shot operator tasks (migrations,

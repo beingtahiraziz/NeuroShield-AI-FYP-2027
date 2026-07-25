@@ -1,6 +1,6 @@
-# OpenTelemetry Collector configuration for Vigil SOC
+# OpenTelemetry Collector configuration for NeuroShield AI SOC
 #
-# Receives OTLP spans and metrics from all Vigil processes,
+# Receives OTLP spans and metrics from all NeuroShield AI processes,
 # then fans out to Jaeger (traces) and Prometheus (metrics).
 # No external exporters — all data stays within the SOC network.
 
@@ -35,7 +35,7 @@ exporters:
   # Prometheus pulls metrics from the collector's built-in exporter endpoint
   prometheus:
     endpoint: 0.0.0.0:8889
-    namespace: vigil
+    namespace: neuroshield
     const_labels:
       environment: docker
 

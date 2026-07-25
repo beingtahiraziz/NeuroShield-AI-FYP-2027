@@ -1,6 +1,6 @@
 """Bifrost capability probe — merge blocker for GH #84 PR-B.
 
-Vigil now routes *all* LLM traffic through Bifrost, including Anthropic
+NeuroShield AI now routes *all* LLM traffic through Bifrost, including Anthropic
 traffic that used to bypass it for extended thinking + native prompt
 caching. This script verifies that Bifrost's Anthropic-compatible
 passthrough endpoint preserves the Anthropic-native features we depend on
@@ -196,21 +196,21 @@ async def probe_logging_metadata() -> bool:
     """Probe 4 — Bifrost's logging plugin must persist requests and capture
     arbitrary ``x-bf-lh-*`` headers as log metadata (#185).
 
-    Vigil tags every Anthropic call with ``x-bf-lh-vigil-interaction-id`` so
-    the dashboard can correlate Bifrost log rows back to a specific Vigil
+    NeuroShield AI tags every Anthropic call with ``x-bf-lh-neuroshield-interaction-id`` so
+    the dashboard can correlate Bifrost log rows back to a specific NeuroShield AI
     interaction. If the logging plugin is off, or the persistence backend
     isn't writing, the dashboard's Bifrost-sourced time series silently goes
     dark and we fall back to local cost math without anyone noticing.
     Catching this regression here is cheaper than catching it in prod.
 
     Strategy:
-      1. Send a minimal Anthropic call carrying ``x-bf-lh-vigil-probe-id``
+      1. Send a minimal Anthropic call carrying ``x-bf-lh-neuroshield-probe-id``
          set to a fresh UUID (cache-busting, attribution-bearing).
       2. Wait briefly for the log row to flush.
       3. Hit Bifrost's admin ``GET /api/logs`` endpoint and scan the
          ``metadata`` field of recent rows for the probe id.
 
-    Pass = the row exists AND ``vigil-probe-id`` round-tripped intact.
+    Pass = the row exists AND ``neuroshield-probe-id`` round-tripped intact.
     """
     import httpx
 
@@ -229,7 +229,7 @@ async def probe_logging_metadata() -> bool:
                     "content": f"Reply with the word: {probe_marker}",
                 }
             ],
-            extra_headers={"x-bf-lh-vigil-probe-id": probe_id},
+            extra_headers={"x-bf-lh-neuroshield-probe-id": probe_id},
         )
     except Exception as exc:  # noqa: BLE001
         _fail(f"logging metadata: probe call raised: {exc}")
@@ -273,7 +273,7 @@ async def probe_logging_metadata() -> bool:
         meta = row.get("metadata") or {}
         # Bifrost strips the `x-bf-lh-` prefix when it stores the header,
         # leaving the suffix as the metadata key.
-        if meta.get("vigil-probe-id") == probe_id:
+        if meta.get("neuroshield-probe-id") == probe_id:
             _ok(f"logging metadata round-tripped (probe-id={probe_id[:8]}…)")
             return True
 

@@ -135,7 +135,7 @@ async def export_findings(output_format: str = "json"):
     from pathlib import Path
     from datetime import datetime
     
-    output_dir = Path.home() / ".deeptempo" / "exports"
+    output_dir = Path.home() / ".neuroshield" / "exports"
     output_dir.mkdir(parents=True, exist_ok=True)
     
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")

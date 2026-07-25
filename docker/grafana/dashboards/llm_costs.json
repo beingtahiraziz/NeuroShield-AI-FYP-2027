@@ -1,6 +1,6 @@
 {
-  "title": "Vigil SOC — LLM Costs",
-  "uid": "vigil-llm-costs",
+  "title": "NeuroShield AI SOC — LLM Costs",
+  "uid": "neuroshield-llm-costs",
   "schemaVersion": 38,
   "version": 1,
   "refresh": "1m",

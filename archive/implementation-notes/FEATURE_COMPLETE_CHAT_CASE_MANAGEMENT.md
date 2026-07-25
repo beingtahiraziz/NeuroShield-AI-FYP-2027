@@ -193,7 +193,7 @@ Claude (interprets intent)
          ↓
 MCP Tool Selection
          ↓
-deeptempo-findings Server
+neuroshield-findings Server
          ↓
 Database Operations
          ↓

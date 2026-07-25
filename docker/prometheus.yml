@@ -1,4 +1,4 @@
-# Prometheus scrape configuration for Vigil SOC
+# Prometheus scrape configuration for NeuroShield AI SOC
 # Scrapes Prometheus-format metrics from daemon and backend (via OTEL PrometheusMetricReader)
 # and from the OTEL Collector's built-in Prometheus exporter.
 
@@ -6,7 +6,7 @@ global:
   scrape_interval: 15s
   evaluation_interval: 15s
   external_labels:
-    cluster: vigil-local
+    cluster: neuroshield-local
 
 scrape_configs:
   # SOC Daemon — OTEL PrometheusMetricReader on port 9090

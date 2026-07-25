@@ -49,7 +49,7 @@ def _record_pricing_unknown(provider_type: str, model_id: str) -> None:
         if _pricing_unknown_counter is None:
             from core.telemetry import get_meter
 
-            meter = get_meter("vigil.cost")
+            meter = get_meter("neuroshield.cost")
             _pricing_unknown_counter = meter.create_counter(
                 name="vigil_llm_cost_pricing_unknown_total",
                 description=(

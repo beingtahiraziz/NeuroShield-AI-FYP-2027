@@ -166,7 +166,7 @@ async def handle_call_tool(name: str, arguments: dict | None):
                     api_token=api_token,
                     account_id=account_id,
                     ip=args.get("ip"),
-                    reason=args.get("reason", "Vigil SOC block"),
+                    reason=args.get("reason", "NeuroShield AI SOC block"),
                     mode=args.get("mode", "block"),
                 )
             )
@@ -186,7 +186,7 @@ async def handle_call_tool(name: str, arguments: dict | None):
                     api_token=api_token,
                     account_id=account_id,
                     domain=args.get("domain"),
-                    reason=args.get("reason", "Vigil SOC block"),
+                    reason=args.get("reason", "NeuroShield AI SOC block"),
                     rule_name=args.get("rule_name"),
                 )
             )
@@ -197,7 +197,7 @@ async def handle_call_tool(name: str, arguments: dict | None):
                     api_token=api_token,
                     account_id=account_id,
                     email=args.get("email"),
-                    reason=args.get("reason", "Vigil SOC revoke"),
+                    reason=args.get("reason", "NeuroShield AI SOC revoke"),
                 )
             )
         if name == "cf_lookup_ip_threat":
@@ -299,7 +299,7 @@ def _gateway_block_domain(
     if not account_id:
         return {"error": "account_id required for Zero Trust Gateway rules"}
     payload = {
-        "name": rule_name or f"vigil-block-{domain}",
+        "name": rule_name or f"neuroshield-block-{domain}",
         "description": reason[:512],
         "action": "block",
         "filters": ["dns", "http"],
@@ -404,7 +404,7 @@ def _lookup_domain_threat(
         "gateway_categories_available": len(data.get("result") or []),
         "note": (
             "Per-domain category lookup requires Cloudflare's category API; this tool "
-            "currently surfaces gateway categories metadata. Pair with Vigil's IP "
+            "currently surfaces gateway categories metadata. Pair with NeuroShield AI's IP "
             "geolocation and threat intel tools for full domain context."
         ),
     }

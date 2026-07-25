@@ -87,7 +87,7 @@ async def llm_call(
         from core.telemetry import extract_traceparent, get_tracer
 
         parent_ctx = extract_traceparent({"traceparent": traceparent})
-        _tracer = get_tracer("vigil.services.llm_worker")
+        _tracer = get_tracer("neuroshield.services.llm_worker")
         worker_span = _tracer.start_span(
             "llm_worker.execute",
             context=parent_ctx,
@@ -204,7 +204,7 @@ async def llm_call_raw(
         from core.telemetry import extract_traceparent, get_tracer
 
         parent_ctx = extract_traceparent({"traceparent": traceparent})
-        _tracer = get_tracer("vigil.services.llm_worker")
+        _tracer = get_tracer("neuroshield.services.llm_worker")
         worker_span = _tracer.start_span(
             "llm_worker.execute",
             context=parent_ctx,
@@ -495,7 +495,7 @@ def _sync_claude_raw(
             "budget_tokens": thinking_budget,
         }
 
-    # #185: tag the upstream Bifrost call with a Vigil interaction UUID
+    # #185: tag the upstream Bifrost call with a NeuroShield AI interaction UUID
     # so the LogEntry on Bifrost's side can be correlated with the local
     # LLMInteractionLog row this method writes below. Bifrost captures
     # any `x-bf-lh-*` header into LogEntry.metadata.
@@ -504,7 +504,7 @@ def _sync_claude_raw(
     _interaction_id = str(_uuid.uuid4())
     kwargs["extra_headers"] = {
         **(kwargs.get("extra_headers") or {}),
-        "x-bf-lh-vigil-interaction-id": _interaction_id,
+        "x-bf-lh-neuroshield-interaction-id": _interaction_id,
     }
 
     _raw_started = _time.monotonic()
@@ -622,7 +622,7 @@ async def on_startup(ctx: Dict[str, Any]):
     try:
         from core.telemetry import init_telemetry
 
-        init_telemetry("vigil-llm-worker")
+        init_telemetry("neuroshield-llm-worker")
     except Exception as _tel_err:
         logging.basicConfig(
             level=logging.INFO,

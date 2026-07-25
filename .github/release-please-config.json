@@ -8,7 +8,7 @@
   "prerelease": false,
   "packages": {
     ".": {
-      "package-name": "vigil",
+      "package-name": "neuroshield",
       "include-component-in-tag": false,
       "version-file": "VERSION",
       "changelog-path": "CHANGELOG.md",
@@ -30,12 +30,12 @@
         },
         {
           "type": "yaml",
-          "path": "helm/vigil/Chart.yaml",
+          "path": "helm/neuroshield/Chart.yaml",
           "jsonpath": "$.appVersion"
         },
         {
           "type": "yaml",
-          "path": "helm/vigil/Chart.yaml",
+          "path": "helm/neuroshield/Chart.yaml",
           "jsonpath": "$.version"
         }
       ]

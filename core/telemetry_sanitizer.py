@@ -1,5 +1,5 @@
 """
-core/telemetry_sanitizer.py — Blocklist-based span processor for Vigil SOC.
+core/telemetry_sanitizer.py — Blocklist-based span processor for NeuroShield AI SOC.
 
 Scrubs sensitive attributes from OTEL spans before they reach any exporter.
 Runs synchronously in on_end() so redacted data never leaves the process.
@@ -11,7 +11,7 @@ careful attribute naming conventions to prevent accidental leakage.
 
 Note: LLM content (prompts/responses) and raw finding/IOC values are always
 redacted unless the operator has explicitly opted in via environment variables
-VIGIL_OTEL_RECORD_LLM_CONTENT and VIGIL_OTEL_RECORD_IOC_VALUES respectively.
+NEUROSHIELD_OTEL_RECORD_LLM_CONTENT and NEUROSHIELD_OTEL_RECORD_IOC_VALUES respectively.
 """
 from __future__ import annotations
 
@@ -115,7 +115,7 @@ class SensitiveAttributeScrubber(SpanProcessor):  # type: ignore[misc]
         matched as a contiguous sub-sequence, so:
           - "my.api.key"   matches "api_key"  ✓
           - "x-api-key"    matches "api_key"  ✓
-          - "vigil.dsnark" does NOT match "dsn"  ✓  (false-positive prevention)
+          - "neuroshield.dsnark" does NOT match "dsn"  ✓  (false-positive prevention)
           - "redesign_count" does NOT match "dsn" ✓
         """
         key_segs = _KEY_SEP_RE.split(key_lower)

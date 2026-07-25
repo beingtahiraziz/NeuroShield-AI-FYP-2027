@@ -39,7 +39,7 @@ describe('DATA_SOURCE_SERVER_IDS', () => {
     ])
       expect(DATA_SOURCE_SERVER_IDS.has(id)).toBe(true)
     // enrichment / output / internal servers must not count as a data source
-    for (const id of ['virustotal', 'slack', 'jira', 'approval', 'deeptempo-findings'])
+    for (const id of ['virustotal', 'slack', 'jira', 'approval', 'neuroshield-findings'])
       expect(DATA_SOURCE_SERVER_IDS.has(id)).toBe(false)
   })
 })

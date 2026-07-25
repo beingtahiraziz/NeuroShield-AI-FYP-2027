@@ -159,13 +159,13 @@ async def get_splunk_status():
         Splunk container status and connection info
     """
     try:
-        status = get_container_status("deeptempo-splunk")
+        status = get_container_status("neuroshield-splunk")
         
         return {
             "installed": True,  # Docker compose file exists
             "running": status["running"],
             "status": status["status"],
-            "container_name": "deeptempo-splunk",
+            "container_name": "neuroshield-splunk",
             "web_url": "http://localhost:6990" if status["running"] else None,
             "hec_url": "http://localhost:8088" if status["running"] else None,
             "username": "admin",
@@ -186,7 +186,7 @@ async def start_splunk():
     """
     try:
         # Check if already running
-        status = get_container_status("deeptempo-splunk")
+        status = get_container_status("neuroshield-splunk")
         if status["running"]:
             return {
                 "success": True,
@@ -280,16 +280,16 @@ async def get_postgres_status():
         PostgreSQL container status and connection info
     """
     try:
-        status = get_container_status("deeptempo-postgres")
+        status = get_container_status("neuroshield-postgres")
         
         return {
             "installed": True,
             "running": status["running"],
             "status": status["status"],
-            "container_name": "deeptempo-postgres",
+            "container_name": "neuroshield-postgres",
             "host": "localhost",
             "port": 5432,
-            "database": "deeptempo_soc"
+            "database": "neuroshield_soc"
         }
     except Exception as e:
         logger.error(f"Error getting PostgreSQL status: {e}")

@@ -1,4 +1,4 @@
-# CLAUDE.md — Vigil SOC
+# CLAUDE.md — NeuroShield AI SOC
 
 This file provides guidance for AI assistants (Claude Code and similar tools) working in this repository.
 
@@ -6,7 +6,7 @@ This file provides guidance for AI assistants (Claude Code and similar tools) wo
 
 ## Project Overview
 
-**Vigil** is an open-source, AI-native Security Operations Center (SOC) platform. It orchestrates 13 specialized AI agents via Claude to perform triage, investigation, threat hunting, forensics, and automated response across 30+ security integrations.
+**NeuroShield AI** is an open-source, AI-native Security Operations Center (SOC) platform. It orchestrates 13 specialized AI agents via Claude to perform triage, investigation, threat hunting, forensics, and automated response across 30+ security integrations.
 
 **Core pillars:**
 - **Agents** — 13 specialized AI agents (Triage, Investigator, Threat Hunter, Correlator, Responder, Reporter, MITRE Analyst, Forensics, Threat Intel, Compliance, Malware Analyst, Network Analyst)
@@ -24,7 +24,7 @@ This file provides guidance for AI assistants (Claude Code and similar tools) wo
 ## Repository Structure
 
 ```
-vigil/
+neuroshield/
 ├── backend/              # FastAPI REST API
 │   ├── main.py           # App entry point, router registration
 │   ├── api/              # 38 route modules (findings, cases, claude, auth, etc.)
@@ -56,7 +56,7 @@ vigil/
 │   └── forensic-analysis/WORKFLOW.md
 ├── tools/                # MCP tool implementations (15+ integrations)
 ├── mcp-servers/          # Git submodule: MCP server implementations
-├── deeptempo-core/       # Git submodule: core AI/detection library
+├── neuroshield-core/       # Git submodule: core AI/detection library
 ├── database/
 │   └── init/             # PostgreSQL init SQL (docker-compose: lex order by filename; Helm: values.yaml dbInit.sqlFiles)
 ├── core/                 # Config, secrets management, rate limiting
@@ -76,8 +76,8 @@ vigil/
 ### Quick Start
 
 ```bash
-git clone --recurse-submodules https://github.com/Vigil-SOC/vigil.git
-cd vigil
+git clone --recurse-submodules https://github.com/NeuroShield-AI/neuroshield.git
+cd neuroshield
 ./start.sh           # Starts PostgreSQL (Docker), backend, and frontend
 ```
 
@@ -117,7 +117,7 @@ Copy `env.example` to `.env` and populate as needed. `.env` is for
 bootstrap-only settings (DB URL, ports, dev flags). LLM provider keys,
 integration credentials, and other secrets are configured in the web UI
 (Settings → AI / LLM Providers, Settings → Integrations) and stored
-encrypted at `~/.vigil/secrets.enc` — see [docs/STATE.md](docs/STATE.md).
+encrypted at `~/.neuroshield/secrets.enc` — see [docs/STATE.md](docs/STATE.md).
 
 | Variable | Purpose | Default |
 |----------|---------|---------|
@@ -210,15 +210,15 @@ Agents access external tools through the MCP protocol. Tool definitions live in 
   `/docker-entrypoint-initdb.d`, where Postgres runs files in
   **lexicographic filename order** (the `01_`/`04_`/…/`16_` prefixes
   are authoritative there). The Helm chart, by contrast, iterates
-  `helm/vigil/values.yaml`'s `dbInit.sqlFiles` list in the **order
+  `helm/neuroshield/values.yaml`'s `dbInit.sqlFiles` list in the **order
   written there** — prefixes are decorative for the chart path
 - pgvector extension for embeddings
 - Use `services/database_data_service.py` for data access — do not query the DB directly from API handlers
 
 **When adding or modifying an init SQL file under `database/init/`:** the
-chart bundles a *copy* under `helm/vigil/files/database-init/` (Helm can
+chart bundles a *copy* under `helm/neuroshield/files/database-init/` (Helm can
 only read files inside the chart directory). You must (1) copy the file
-into the chart bundle, (2) add it to `helm/vigil/values.yaml`
+into the chart bundle, (2) add it to `helm/neuroshield/values.yaml`
 `dbInit.sqlFiles` in the correct execution order, and (3) verify with
 `helm template ... | grep -E '^[[:space:]]*apply "NEWFILE\.sql"'` that
 the dbInit Job script applies it (a bare `grep NEWFILE.sql` false-matches
@@ -334,7 +334,7 @@ GitHub Actions workflows in `.github/workflows/`:
 |----------|---------|------|
 | `ci-cd.yml` | Push/PR to main, develop | Lint → Unit Tests → Integration Tests → Security Scan → Docker Build |
 | `release-please.yml` | Push to `main`, manual | Read Conventional Commits since last tag → open/update a release PR with bumped `VERSION` / `Chart.yaml` (`appVersion` + `version`, lockstep) / `frontend/package.json` / `frontend/package-lock.json` + `CHANGELOG.md`. On merge, push `vX.Y.Z` tag and create the GitHub Release. See `RELEASING.md`. |
-| `release.yml` | Version tags (`v*.*.*`) | Build & push `vigil-backend` + `vigil-daemon` images to GHCR → Trivy scan → smoke-test that they start → annotate the GitHub Release with image digests. **Publishes images only — it does not deploy.** Does **not** create the GitHub Release object either (release-please owns that). |
+| `release.yml` | Version tags (`v*.*.*`) | Build & push `neuroshield-backend` + `neuroshield-daemon` images to GHCR → Trivy scan → smoke-test that they start → annotate the GitHub Release with image digests. **Publishes images only — it does not deploy.** Does **not** create the GitHub Release object either (release-please owns that). |
 | `nightly.yml` | Daily 2 AM UTC | Comprehensive security & performance audits |
 
 CI runs:
@@ -381,10 +381,10 @@ git submodule update --remote
 
 | Submodule | Path | Purpose |
 |-----------|------|---------|
-| `deeptempo-core` | `./deeptempo-core` | Core AI and detection library |
+| `neuroshield-core` | `./neuroshield-core` | Core AI and detection library |
 | `mcp-servers` | `./mcp-servers` | MCP server implementations |
 
-Both are installed as editable packages (`-e ./deeptempo-core`, `-e ./mcp-servers`) in `requirements.txt`. If submodules aren't initialized, `start.sh` skips their installation gracefully.
+Both are installed as editable packages (`-e ./neuroshield-core`, `-e ./mcp-servers`) in `requirements.txt`. If submodules aren't initialized, `start.sh` skips their installation gracefully.
 
 ---
 

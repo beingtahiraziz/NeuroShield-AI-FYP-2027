@@ -30,7 +30,7 @@ def init_default_user():
     # Default admin credentials
     DEFAULT_USERNAME = "admin"
     DEFAULT_PASSWORD_HASH = "$2b$12$.5ZQKm.dZ5kYyf65VyvZc.CDKNyR5OXoXD7nIvCjbXWOemYIZ8/Xe"  # admin123
-    DEFAULT_EMAIL = "admin@deeptempo.ai"
+    DEFAULT_EMAIL = "admin@neuroshield.ai"
     DEFAULT_FULL_NAME = "System Administrator"
     DEFAULT_USER_ID = "user-admin-default"
     DEFAULT_ROLE_ID = "role-admin"
@@ -186,8 +186,8 @@ def init_default_user():
         logger.error(f"❌ Failed to initialize default user: {e}")
         logger.error("   This usually means PostgreSQL is not running or not accessible.")
         logger.error("   Make sure Docker is running and PostgreSQL container is healthy:")
-        logger.error("     docker ps | grep deeptempo-postgres")
-        logger.error("     docker exec deeptempo-postgres pg_isready -U deeptempo -d deeptempo_soc")
+        logger.error("     docker ps | grep neuroshield-postgres")
+        logger.error("     docker exec neuroshield-postgres pg_isready -U neuroshield -d neuroshield_soc")
         # Don't raise - this should be non-fatal to allow startup to continue
         logger.warning("Continuing startup despite user initialization error...")
 

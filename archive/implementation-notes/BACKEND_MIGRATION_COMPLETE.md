@@ -111,8 +111,8 @@ ELASTIC_PATHS="${HOME}/security-detections/detection-rules/rules"
 KQL_PATHS="${HOME}/security-detections/Hunting-Queries-Detection-Rules"
 
 # Database
-DATABASE_PATH="${PWD}/data/deeptempo.db"
-POSTGRESQL_CONNECTION_STRING=postgresql://user:pass@localhost:5432/deeptempo
+DATABASE_PATH="${PWD}/data/neuroshield.db"
+POSTGRESQL_CONNECTION_STRING=postgresql://user:pass@localhost:5432/neuroshield
 ```
 
 ### No External MCP Config Needed

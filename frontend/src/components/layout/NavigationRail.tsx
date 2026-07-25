@@ -127,7 +127,7 @@ export default function NavigationRail({ enabledIntegrations = [], orchestratorE
                 letterSpacing: '-0.02em',
               }}
             >
-              DeepTempo SOC
+              NeuroShield SOC
             </Typography>
           )}
         </Box>

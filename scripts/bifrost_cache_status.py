@@ -12,7 +12,7 @@ reports:
   - whether the ``semantic_cache`` plugin is registered and enabled
   - hint text for enabling it via the UI
 
-Vigil's primary cost-reduction layer is Anthropic native prompt caching
+NeuroShield AI's primary cost-reduction layer is Anthropic native prompt caching
 (GH #84 PR-C). Bifrost's semantic cache is optional gravy on top — use
 this script to check whether it's live after manual UI setup.
 """

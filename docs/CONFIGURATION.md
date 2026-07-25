@@ -2,14 +2,14 @@
 
 ## Where do secrets live?
 
-Vigil splits configuration into two stores:
+NeuroShield AI splits configuration into two stores:
 
 1. **`.env`** — bootstrap-only settings the backend needs before the DB is
    reachable (URLs, ports, dev flags). Nothing sensitive belongs here.
-2. **The encrypted secret store** at `~/.vigil/secrets.enc` — every API key,
+2. **The encrypted secret store** at `~/.neuroshield/secrets.enc` — every API key,
    token, and password. Written by the web UI (Settings → AI / LLM Providers
    and Settings → Integrations) or by `set_secret()` programmatically. The
-   master key sits next to it at `~/.vigil/master.key`.
+   master key sits next to it at `~/.neuroshield/master.key`.
 
 LLM provider keys (Anthropic, OpenAI, Ollama) are managed entirely through
 the UI — they land in the encrypted store and are pushed to Bifrost via its
@@ -50,7 +50,7 @@ has a value, and a stale placeholder can mask the real key.
 ## Secrets read priority
 
 When reading, backends are checked in order:
-1. Encrypted file (`~/.vigil/secrets.enc`)
+1. Encrypted file (`~/.neuroshield/secrets.enc`)
 2. Process environment variables
 3. `.env` file (legacy / interoperability)
 4. OS keyring (only if `ENABLE_KEYRING=true`)
@@ -66,15 +66,15 @@ When reading, backends are checked in order:
 ### Docker
 
 ```bash
-docker run --env-file .env vigil
+docker run --env-file .env neuroshield
 ```
 
 ### Docker Compose
 
 ```yaml
 services:
-  vigil:
-    image: vigil
+  neuroshield:
+    image: neuroshield
     ports:
       - "6987:6987"
     env_file:
@@ -85,8 +85,8 @@ services:
 
 ```ini
 [Service]
-EnvironmentFile=/opt/vigil/.env
-ExecStart=/opt/vigil/venv/bin/uvicorn backend.main:app --host 0.0.0.0 --port 6987
+EnvironmentFile=/opt/neuroshield/.env
+ExecStart=/opt/neuroshield/venv/bin/uvicorn backend.main:app --host 0.0.0.0 --port 6987
 ```
 
 ### Kubernetes
@@ -97,14 +97,14 @@ the local-dev UI path). See [HELM.md](HELM.md) for the recommended
 Helm chart values, including `secrets.anthropicApiKey`.
 
 ```bash
-kubectl create secret generic vigil-secrets \
+kubectl create secret generic neuroshield-secrets \
   --from-literal=DATABASE_URL="postgresql://..."
 ```
 
 ```yaml
 envFrom:
   - secretRef:
-      name: vigil-secrets
+      name: neuroshield-secrets
 ```
 
 ## UI Configuration
@@ -120,7 +120,7 @@ Most integrations are configured via **Settings > Integrations** in the web UI:
 Default connection (matches `docker-compose.yml`):
 
 ```
-postgresql://deeptempo:deeptempo_secure_password_change_me@localhost:5432/deeptempo_soc
+postgresql://neuroshield:deeptempo_secure_password_change_me@localhost:5432/neuroshield_soc
 ```
 
 Start database:

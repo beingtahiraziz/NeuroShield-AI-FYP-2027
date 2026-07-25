@@ -23,7 +23,7 @@ def test_vstrike_secret_fields_registered():
 
     JWT-only auth: only username + password are user-supplied secrets. The
     legacy api_key / inbound_api_key entries were retired in favor of
-    Vigil minting/refreshing the token internally."""
+    NeuroShield AI minting/refreshing the token internally."""
     fields = secret_fields_for("vstrike")
     assert fields == {
         "username": "VSTRIKE_USERNAME",

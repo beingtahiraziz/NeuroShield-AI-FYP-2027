@@ -22,7 +22,7 @@ os.environ.setdefault(
 )
 # Keep CSRF out of the way for these contract checks; CSRF is exercised
 # by frontend Playwright / manual validation.
-os.environ.setdefault("VIGIL_CSRF_ENABLED", "false")
+os.environ.setdefault("NEUROSHIELD_CSRF_ENABLED", "false")
 
 import pytest
 from fastapi.testclient import TestClient

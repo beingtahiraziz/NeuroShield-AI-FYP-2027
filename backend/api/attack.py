@@ -70,7 +70,7 @@ async def get_attack_layer():
         ]
 
         layer = {
-            "name": "DeepTempo Findings",
+            "name": "NeuroShield Findings",
             "version": "4.5",
             "domain": "enterprise-attack",
             "description": "ATT&CK techniques detected in findings",
@@ -81,7 +81,7 @@ async def get_attack_layer():
     except Exception as e:
         logger.error(f"Error building ATT&CK layer: {e}")
         return {
-            "name": "DeepTempo Findings",
+            "name": "NeuroShield Findings",
             "version": "4.5",
             "domain": "enterprise-attack",
             "description": "ATT&CK techniques detected in findings",

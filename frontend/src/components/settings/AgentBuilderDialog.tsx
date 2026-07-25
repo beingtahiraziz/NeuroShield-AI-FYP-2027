@@ -439,7 +439,7 @@ export default function AgentBuilderDialog({ open, agentId, onClose, onMessage }
             <Typography variant="subtitle2" sx={{ mt: 1 }}>
               Prompt fragments
               <Typography variant="caption" component="span" color="text.secondary" sx={{ ml: 1 }}>
-                Rendered into the Vigil base prompt (preserves mempalace + entity-recognition directives)
+                Rendered into the NeuroShield AI base prompt (preserves mempalace + entity-recognition directives)
               </Typography>
             </Typography>
             <TextField
@@ -449,7 +449,7 @@ export default function AgentBuilderDialog({ open, agentId, onClose, onMessage }
               value={form.role}
               onChange={(e) => handleChange('role', e.target.value)}
               placeholder="e.g. phishing specialist"
-              helperText='Renders as: "You are a SOC {role} in the Vigil SOC platform."'
+              helperText='Renders as: "You are a SOC {role} in the NeuroShield AI SOC platform."'
               disabled={useOverride}
             />
             <TextField

@@ -684,14 +684,14 @@ async def password_reset_request(
     user = session.query(User).filter(User.email == body.email).first()
     if user and user.is_active:
         token = generate_reset_token(user.user_id)
-        frontend_base = os.getenv("VIGIL_FRONTEND_URL", "").rstrip("/")
+        frontend_base = os.getenv("NEUROSHIELD_FRONTEND_URL", "").rstrip("/")
         if frontend_base:
             reset_link = f"{frontend_base}/reset-password?token={token}"
         else:
             # Fall back to a raw token so the dev backend still shows
-            # something actionable when VIGIL_FRONTEND_URL isn't set.
+            # something actionable when NEUROSHIELD_FRONTEND_URL isn't set.
             reset_link = f"(token) {token}"
-        subject = "Vigil SOC — password reset"
+        subject = "NeuroShield AI SOC — password reset"
         body_text = (
             f"Hello {user.full_name or user.username},\n\n"
             "A password reset was requested for this account. Use the link "

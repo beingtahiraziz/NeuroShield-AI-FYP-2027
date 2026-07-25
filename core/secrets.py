@@ -1,5 +1,5 @@
 """
-Secrets Manager for Vigil SOC
+Secrets Manager for NeuroShield AI SOC
 
 Provides pluggable secrets storage backends with priority fallback:
 1. Environment variables (best for server deployments)
@@ -25,7 +25,7 @@ from abc import ABC, abstractmethod
 logger = logging.getLogger(__name__)
 
 # Service name for keyring storage
-SERVICE_NAME = "deeptempo-ai-soc"
+SERVICE_NAME = "neuroshield-ai-soc"
 
 
 class SecretsBackend(ABC):
@@ -93,7 +93,7 @@ class DotEnvBackend(SecretsBackend):
     
     def __init__(self, env_file: Optional[Path] = None):
         """Initialize with path to .env file."""
-        self.env_file = env_file or Path.home() / ".deeptempo" / ".env"
+        self.env_file = env_file or Path.home() / ".neuroshield" / ".env"
         self._cache: Dict[str, str] = {}
         self._load_env_file()
     
@@ -131,7 +131,7 @@ class DotEnvBackend(SecretsBackend):
             
             # Write all secrets to file
             with open(self.env_file, 'w') as f:
-                f.write("# Vigil SOC Secrets\n")
+                f.write("# NeuroShield AI SOC Secrets\n")
                 f.write("# This file contains sensitive credentials - keep it secure!\n\n")
                 for k, v in self._cache.items():
                     # Escape quotes in value
@@ -155,7 +155,7 @@ class DotEnvBackend(SecretsBackend):
                 
                 # Rewrite file without this secret
                 with open(self.env_file, 'w') as f:
-                    f.write("# Vigil SOC Secrets\n\n")
+                    f.write("# NeuroShield AI SOC Secrets\n\n")
                     for k, v in self._cache.items():
                         escaped_value = v.replace('"', '\\"')
                         f.write(f'{k}="{escaped_value}"\n')
@@ -445,7 +445,7 @@ def get_secrets_manager(write_backend: Optional[str] = None, enable_keyring: Opt
                 try:
                     from pathlib import Path
                     import json
-                    config_file = Path.home() / '.deeptempo' / 'general_config.json'
+                    config_file = Path.home() / '.neuroshield' / 'general_config.json'
                     if config_file.exists():
                         with open(config_file, 'r') as f:
                             config = json.load(f)

@@ -3,7 +3,7 @@
 Before this module, three places picked a default for the palace path
 and two of them disagreed:
 
-  mcp-config.json             → ~/.vigil/mempalace/palace
+  mcp-config.json             → ~/.neuroshield/mempalace/palace
   daemon/orchestrator.py      → ~/.mempalace/palace         (diverged)
   services/claude_service.py  → ad-hoc detection
 
@@ -30,14 +30,14 @@ logger = logging.getLogger(__name__)
 # sync with that file — both point at the same directory so the MCP
 # server, daemon, and ClaudeService-side integration all see the same
 # palace without any env var set.
-_DEFAULT_PALACE = Path.home() / ".vigil" / "mempalace" / "palace"
+_DEFAULT_PALACE = Path.home() / ".neuroshield" / "mempalace" / "palace"
 
 
 def get_palace_path(*, ensure_exists: bool = True) -> Path:
     """Return the resolved mempalace palace path.
 
     Reads ``MEMPALACE_PALACE_PATH`` from the environment, falling back
-    to ``~/.vigil/mempalace/palace``. When ``ensure_exists=True``
+    to ``~/.neuroshield/mempalace/palace``. When ``ensure_exists=True``
     (default) the directory is created if missing — safe to call from
     hot paths.
     """

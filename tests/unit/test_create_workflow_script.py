@@ -2,12 +2,12 @@
 
 Background: ``AVAILABLE_AGENTS`` in ``scripts/create_workflow.py`` previously
 dropped the ``auto_responder`` agent, so the 60-second workflow scaffolder
-could not reference Vigil's autonomous-response capability. The fix
+could not reference NeuroShield AI's autonomous-response capability. The fix
 (``auto_responder`` re-added to the list) is paired with this test so a
 future drift between the script's allow-list and ``AGENT_CONFIGS`` in
 ``services.soc_agents`` fails fast in CI.
 
-See: https://github.com/Vigil-SOC/vigil/issues/204
+See: https://github.com/NeuroShield-AI/neuroshield/issues/204
 """
 
 from __future__ import annotations

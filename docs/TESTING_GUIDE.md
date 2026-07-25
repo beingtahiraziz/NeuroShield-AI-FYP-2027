@@ -1,6 +1,6 @@
 # Testing Guide
 
-Complete guide to testing the Vigil platform.
+Complete guide to testing the NeuroShield AI platform.
 
 ## Table of Contents
 
@@ -15,7 +15,7 @@ Complete guide to testing the Vigil platform.
 
 ## Overview
 
-The Vigil testing strategy includes:
+The NeuroShield AI testing strategy includes:
 
 - **Unit Tests**: Test individual functions and classes in isolation
 - **Integration Tests**: Test API endpoints with database and mocked external services

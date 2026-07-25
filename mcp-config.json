@@ -21,13 +21,13 @@
       "command": "python3",
       "args": ["-m", "mempalace.mcp_server"],
       "env": {
-        "MEMPALACE_PALACE_PATH": "${MEMPALACE_PALACE_PATH:-${HOME}/.vigil/mempalace/palace}"
+        "MEMPALACE_PALACE_PATH": "${MEMPALACE_PALACE_PATH:-${HOME}/.neuroshield/mempalace/palace}"
       }
     },
 
-    "_comment_internal": "--- DeepTempo Internal Servers ---",
+    "_comment_internal": "--- NeuroShield Internal Servers ---",
 
-    "deeptempo-findings": {
+    "neuroshield-findings": {
       "command": "python3",
       "args": ["mcp-servers/servers/deeptempo_findings.py"],
       "cwd": "${workspaceFolder}"

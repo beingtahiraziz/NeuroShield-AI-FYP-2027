@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
-"""Migrate legacy secrets into ``~/.vigil/secrets.enc``.
+"""Migrate legacy secrets into ``~/.neuroshield/secrets.enc``.
 
-Historically Vigil spread secrets across several places:
+Historically NeuroShield AI spread secrets across several places:
 
 - ``.env`` at the repo root
-- ``~/.deeptempo/.env`` (the ``DotEnvBackend`` default)
+- ``~/.neuroshield/.env`` (the ``DotEnvBackend`` default)
 - OS env vars
 - macOS Keychain (only if enabled)
 
 This script reads every well-known secret name from all of those stores,
-writes them to the new encrypted backend (``~/.vigil/secrets.enc``), and
+writes them to the new encrypted backend (``~/.neuroshield/secrets.enc``), and
 then reports on what was moved. It does **not** delete from the old
 stores by default — pass ``--purge`` to strip migrated values from
-``~/.deeptempo/.env`` (the root ``.env`` is never touched automatically;
+``~/.neuroshield/.env`` (the root ``.env`` is never touched automatically;
 edit it by hand if you want to clean it up).
 
 Run from the repo root::
@@ -70,7 +70,7 @@ def main() -> int:
     parser.add_argument(
         "--purge",
         action="store_true",
-        help="Delete migrated values from ~/.deeptempo/.env after success.",
+        help="Delete migrated values from ~/.neuroshield/.env after success.",
     )
     args = parser.parse_args()
 
@@ -80,7 +80,7 @@ def main() -> int:
         return 2
 
     env = EnvironmentBackend()
-    dotenv = DotEnvBackend()  # default path: ~/.deeptempo/.env
+    dotenv = DotEnvBackend()  # default path: ~/.neuroshield/.env
 
     candidates = list(LEGACY_NAMES) + _scan_dotenv_for_provider_refs(dotenv)
     moved: list[str] = []

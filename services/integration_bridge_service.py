@@ -108,7 +108,7 @@ class IntegrationBridgeService:
 
     def __init__(self):
         """Initialize the integration bridge service."""
-        self.config_path = Path.home() / ".deeptempo" / "integrations_config.json"
+        self.config_path = Path.home() / ".neuroshield" / "integrations_config.json"
 
     def load_integration_config(self) -> Dict:
         """

@@ -53,7 +53,7 @@ try:
 
     from core.telemetry import extract_traceparent, get_tracer
 
-    _tracer = get_tracer("vigil.daemon.agent_runner")
+    _tracer = get_tracer("neuroshield.daemon.agent_runner")
 except Exception:
     _tracer = None  # type: ignore[assignment]
 
@@ -75,7 +75,7 @@ def compute_call_cost(
     cached input at 0.5×. Counting them at full input rate (the pre-#184
     behavior) over-bills cache reads by 10× and under-bills cache writes
     by 25%, so this matters for any workload that uses prompt caching —
-    which after #84 PR-C is most of Vigil's traffic.
+    which after #84 PR-C is most of NeuroShield AI's traffic.
 
     GH #84 PR-E removed the previous Sonnet-pricing fallback: with
     per-component model selection (#89) active, silently billing a GPT-4o
@@ -388,8 +388,8 @@ class AgentRunner:
                     context=_parent_ctx,
                     kind=SpanKind.INTERNAL,
                     attributes={
-                        "vigil.investigation.id": inv_id,
-                        "vigil.investigation.workflow_id": investigation.get(
+                        "neuroshield.investigation.id": inv_id,
+                        "neuroshield.investigation.workflow_id": investigation.get(
                             "workflow_id", ""
                         ),
                     },
@@ -502,9 +502,9 @@ class AgentRunner:
                             "iteration",
                             kind=SpanKind.INTERNAL,
                             attributes={
-                                "vigil.investigation.id": inv_id,
-                                "vigil.agent.iteration": iteration,
-                                "vigil.investigation.current_step": state.get(
+                                "neuroshield.investigation.id": inv_id,
+                                "neuroshield.agent.iteration": iteration,
+                                "neuroshield.investigation.current_step": state.get(
                                     "current_step", 1
                                 ),
                             },
@@ -669,7 +669,7 @@ class AgentRunner:
             self._active_agents.pop(inv_id, None)
             try:
                 if _agent_span is not None:
-                    _agent_span.set_attribute("vigil.agent.total_iterations", iteration)
+                    _agent_span.set_attribute("neuroshield.agent.total_iterations", iteration)
                     _agent_span.set_attribute(
                         "gen_ai.usage.input_tokens", total_input_tokens
                     )
@@ -953,7 +953,7 @@ Do NOT repeat tool calls you've already made unless checking for updates."""
                         "llm_call",
                         kind=SpanKind.CLIENT,
                         attributes={
-                            "vigil.investigation.id": inv_id,
+                            "neuroshield.investigation.id": inv_id,
                             "gen_ai.system": "anthropic",
                             "gen_ai.request.model": self.config.plan_model,
                             "gen_ai.tool_use.round": turn,
@@ -1210,10 +1210,10 @@ Do NOT repeat tool calls you've already made unless checking for updates."""
                     "tool_call",
                     kind=SpanKind.CLIENT,
                     attributes={
-                        "vigil.investigation.id": inv_id,
-                        "vigil.tool.name": tool_name,
-                        "vigil.tool.tier": tier,
-                        "vigil.tool.input_size": len(
+                        "neuroshield.investigation.id": inv_id,
+                        "neuroshield.tool.name": tool_name,
+                        "neuroshield.tool.tier": tier,
+                        "neuroshield.tool.input_size": len(
                             json.dumps(tool_input, default=str)
                         ),
                     },
@@ -1234,7 +1234,7 @@ Do NOT repeat tool calls you've already made unless checking for updates."""
             )
             try:
                 if _tool_span is not None:
-                    _tool_span.set_attribute("vigil.tool.success", False)
+                    _tool_span.set_attribute("neuroshield.tool.success", False)
                     _tool_span.end()
             except Exception:
                 pass
@@ -1283,10 +1283,10 @@ Do NOT repeat tool calls you've already made unless checking for updates."""
                     )
                     try:
                         if _tool_span is not None:
-                            _tool_span.set_attribute("vigil.tool.success", True)
-                            _tool_span.set_attribute("vigil.tool.output_size", len(_r))
+                            _tool_span.set_attribute("neuroshield.tool.success", True)
+                            _tool_span.set_attribute("neuroshield.tool.output_size", len(_r))
                             _tool_span.set_attribute(
-                                "vigil.tool.duration_ms",
+                                "neuroshield.tool.duration_ms",
                                 round((_time.monotonic() - _t0) * 1000, 1),
                             )
                             _tool_span.end()
@@ -1329,12 +1329,12 @@ Do NOT repeat tool calls you've already made unless checking for updates."""
                         )
                         try:
                             if _tool_span is not None:
-                                _tool_span.set_attribute("vigil.tool.success", True)
+                                _tool_span.set_attribute("neuroshield.tool.success", True)
                                 _tool_span.set_attribute(
-                                    "vigil.tool.output_size", len(_r)
+                                    "neuroshield.tool.output_size", len(_r)
                                 )
                                 _tool_span.set_attribute(
-                                    "vigil.tool.duration_ms",
+                                    "neuroshield.tool.duration_ms",
                                     round((_time.monotonic() - _t0) * 1000, 1),
                                 )
                                 _tool_span.end()
@@ -1347,9 +1347,9 @@ Do NOT repeat tool calls you've already made unless checking for updates."""
         _result_str = f"Tool '{tool_name}' not found or unavailable"
         try:
             if _tool_span is not None:
-                _tool_span.set_attribute("vigil.tool.success", False)
+                _tool_span.set_attribute("neuroshield.tool.success", False)
                 _tool_span.set_attribute(
-                    "vigil.tool.duration_ms", round((_time.monotonic() - _t0) * 1000, 1)
+                    "neuroshield.tool.duration_ms", round((_time.monotonic() - _t0) * 1000, 1)
                 )
                 _tool_span.end()
         except Exception:

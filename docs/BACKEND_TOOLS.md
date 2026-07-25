@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Vigil platform supports **backend tool integration** via Claude Agent SDK. This enables autonomous tool execution through the Claude API with no desktop dependency.
+The NeuroShield AI platform supports **backend tool integration** via Claude Agent SDK. This enables autonomous tool execution through the Claude API with no desktop dependency.
 
 ## Architecture
 
@@ -183,7 +183,7 @@ Backend tools use the existing database configuration:
 
 ```bash
 # In .env file
-DATABASE_URL="postgresql://deeptempo:deeptempo_secure_password_change_me@localhost:5432/deeptempo_soc"
+DATABASE_URL="postgresql://neuroshield:deeptempo_secure_password_change_me@localhost:5432/neuroshield_soc"
 ```
 
 ## Testing

@@ -1,4 +1,4 @@
-"""Budgets API — read/write Vigil's Bifrost VK config + show live quota.
+"""Budgets API — read/write NeuroShield AI's Bifrost VK config + show live quota.
 
 Lives at ``/api/analytics/budget*`` (mounted under analytics so the cost
 dashboard can call it from the same axios client as the other cost

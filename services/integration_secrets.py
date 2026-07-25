@@ -1,12 +1,12 @@
 """Per-integration registry of secret-typed configuration fields.
 
-Vigil's persistence story for integration credentials is split:
+NeuroShield AI's persistence story for integration credentials is split:
 
 - **Non-secret config** (URLs, regions, verify_ssl flags, paths) goes into the
   ``IntegrationConfig`` database table via ``database.config_service`` and is
-  mirrored to ``~/.deeptempo/integrations_config.json`` for back-compat.
+  mirrored to ``~/.neuroshield/integrations_config.json`` for back-compat.
 - **Secret credentials** (API keys, passwords, bearer tokens) go into the
-  encrypted secrets store at ``~/.vigil/secrets.enc`` via
+  encrypted secrets store at ``~/.neuroshield/secrets.enc`` via
   ``backend.secrets_manager.set_secret`` / ``get_secret``.
 
 This module exposes the mapping from frontend form-field name → environment

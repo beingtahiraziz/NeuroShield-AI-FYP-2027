@@ -212,21 +212,21 @@ The MCP tools can also be called directly via the MCP server.
 Available tools:
 
 Case Management:
-  - deeptempo-findings_create_case
-  - deeptempo-findings_add_finding_to_case
-  - deeptempo-findings_bulk_add_findings_to_case
-  - deeptempo-findings_add_case_activity
-  - deeptempo-findings_add_case_timeline_entry
-  - deeptempo-findings_add_case_mitre_techniques
-  - deeptempo-findings_add_resolution_step
-  - deeptempo-findings_create_case_from_killchain
-  - deeptempo-findings_update_case
-  - deeptempo-findings_get_case
-  - deeptempo-findings_list_cases
+  - neuroshield-findings_create_case
+  - neuroshield-findings_add_finding_to_case
+  - neuroshield-findings_bulk_add_findings_to_case
+  - neuroshield-findings_add_case_activity
+  - neuroshield-findings_add_case_timeline_entry
+  - neuroshield-findings_add_case_mitre_techniques
+  - neuroshield-findings_add_resolution_step
+  - neuroshield-findings_create_case_from_killchain
+  - neuroshield-findings_update_case
+  - neuroshield-findings_get_case
+  - neuroshield-findings_list_cases
 
 Example tool call (via MCP):
 {
-  "tool": "deeptempo-findings_add_finding_to_case",
+  "tool": "neuroshield-findings_add_finding_to_case",
   "arguments": {
     "case_id": "case-20260121-abc123",
     "finding_id": "f-20260121-def456"

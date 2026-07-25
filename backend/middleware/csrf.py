@@ -1,7 +1,7 @@
 """
 Double-submit cookie CSRF middleware.
 
-Disabled by default in this PR (`VIGIL_CSRF_ENABLED=false`). PR 4 flips it
+Disabled by default in this PR (`NEUROSHIELD_CSRF_ENABLED=false`). PR 4 flips it
 on once the frontend starts injecting the `X-CSRF-Token` header and uses
 HttpOnly auth cookies.
 
@@ -18,12 +18,12 @@ How it works:
 
 Exempt paths:
 - Endpoints that authenticate themselves (webhooks using HMAC, ingestion
-  endpoints using bearer/API-key) opt out via `VIGIL_CSRF_EXEMPT_PATHS`.
+  endpoints using bearer/API-key) opt out via `NEUROSHIELD_CSRF_EXEMPT_PATHS`.
   Any request whose path starts with one of the configured prefixes skips
   both the cookie check and the cookie seeding.
 
 Report-only mode:
-- `VIGIL_CSRF_REPORT_ONLY=true` logs violations at WARNING but lets the
+- `NEUROSHIELD_CSRF_REPORT_ONLY=true` logs violations at WARNING but lets the
   request through. Useful for the rollout window — flip enforcement on
   after a few days of clean logs.
 """
@@ -72,20 +72,20 @@ class CSRFMiddleware(BaseHTTPMiddleware):
     ):
         super().__init__(app)
         self.enabled = (
-            _env_bool("VIGIL_CSRF_ENABLED", True) if enabled is None else enabled
+            _env_bool("NEUROSHIELD_CSRF_ENABLED", True) if enabled is None else enabled
         )
         self.report_only = (
-            _env_bool("VIGIL_CSRF_REPORT_ONLY", True)
+            _env_bool("NEUROSHIELD_CSRF_REPORT_ONLY", True)
             if report_only is None
             else report_only
         )
         self.exempt_paths = (
             tuple(exempt_paths)
             if exempt_paths is not None
-            else _parse_exempt_paths(os.getenv("VIGIL_CSRF_EXEMPT_PATHS"))
+            else _parse_exempt_paths(os.getenv("NEUROSHIELD_CSRF_EXEMPT_PATHS"))
         )
         self.cookie_secure = (
-            _env_bool("VIGIL_COOKIE_SECURE", True)
+            _env_bool("NEUROSHIELD_COOKIE_SECURE", True)
             if cookie_secure is None
             else cookie_secure
         )

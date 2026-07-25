@@ -72,7 +72,7 @@ export default function MainLayout() {
             gap: 0.5,
           }}
         >
-          <Tooltip title="Vigil Chat">
+          <Tooltip title="NeuroShield AI Chat">
             <IconButton
               onClick={() => setClaudeOpen(!claudeOpen)}
               sx={{

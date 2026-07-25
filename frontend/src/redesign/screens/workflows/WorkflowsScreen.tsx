@@ -349,7 +349,7 @@ function buildRunPrompt(wf: Workflow, p: { finding_id?: string; case_id?: string
   return prompt.trim()
 }
 
-/** Run a workflow — collects a target, then sends it to the Vigil chat where
+/** Run a workflow — collects a target, then sends it to the NeuroShield AI chat where
     the response streams (matching the old app's "launch in chat" behavior). */
 function RunModal({ wf, openChat, onClose }: { wf: Workflow; openChat: (prompt?: string) => void; onClose: () => void }) {
   const [findingId, setFindingId] = useState('')
@@ -391,7 +391,7 @@ function RunModal({ wf, openChat, onClose }: { wf: Workflow; openChat: (prompt?:
   return (
     <Popup open onClose={onClose} title={`Run · ${wf.name}`}>
       <div className="flex flex-col gap-3.5">
-        <p className="text-[12.5px] text-tx-3 leading-[1.5]">Provide at least one target, then run it in the Vigil chat — the agents stream their work there. Findings and cases drive the investigation; context and hypothesis steer hunts.</p>
+        <p className="text-[12.5px] text-tx-3 leading-[1.5]">Provide at least one target, then run it in the NeuroShield AI chat — the agents stream their work there. Findings and cases drive the investigation; context and hypothesis steer hunts.</p>
         <ComboField label="Finding ID" value={findingId} onChange={setFindingId} placeholder="f-20260614-3b5c585e" options={findingOpts} hint={findingOpts.length ? `${findingOpts.length} recent findings — start typing to filter.` : undefined} />
         <ComboField label="Case ID" value={caseId} onChange={setCaseId} placeholder="case-2026-0142" options={caseOpts} />
         <Field label="Context" value={context} onChange={setContext} placeholder="Active ransomware on HOST-42…" textarea />
@@ -938,10 +938,10 @@ function AgentEditModal({ agentId, onClose, onSaved }: { agentId: string | null;
         <div className="flex flex-col gap-3.5">
           {agent?.forked_from && <p className="text-[11.5px] text-tx-3">Forked from <span className="mono">{agent.forked_from}</span></p>}
 
-          {/* AI assist — describe the agent and let Vigil draft the fields */}
+          {/* AI assist — describe the agent and let NeuroShield AI draft the fields */}
           <div className="border border-line rounded-[8px] overflow-hidden">
             <button className="w-full flex items-center gap-2 px-3 py-2.5 text-[12.5px] text-tx-2 bg-bg hover:bg-panel" onClick={() => setAiOpen((v) => !v)}>
-              <Icon name="sparkle" size={14} /> AI assist — describe the agent, Vigil drafts the fields
+              <Icon name="sparkle" size={14} /> AI assist — describe the agent, NeuroShield AI drafts the fields
               <span className="ml-auto" style={{ transform: aiOpen ? 'rotate(90deg)' : 'none', transition: 'transform .12s', display: 'inline-flex' }}><Icon name="chevR" size={13} /></span>
             </button>
             {aiOpen && (
@@ -981,8 +981,8 @@ function AgentEditModal({ agentId, onClose, onSaved }: { agentId: string | null;
 
           {/* Prompt fragments */}
           <div className="pt-1.5 text-[11px] font-semibold tracking-[0.06em] uppercase text-tx-3">Prompt fragments</div>
-          <p className="text-[11.5px] text-tx-3 -mt-2">Rendered into the Vigil base prompt (preserves mempalace + entity-recognition directives).</p>
-          <Field label="Role *" value={form.role} onChange={(v) => set('role', v)} hint={'Renders as: "You are a SOC {role} in the Vigil SOC platform."'} />
+          <p className="text-[11.5px] text-tx-3 -mt-2">Rendered into the NeuroShield AI base prompt (preserves mempalace + entity-recognition directives).</p>
+          <Field label="Role *" value={form.role} onChange={(v) => set('role', v)} hint={'Renders as: "You are a SOC {role} in the NeuroShield AI SOC platform."'} />
           <Field label="Extra principles" value={form.extra_principles} onChange={(v) => set('extra_principles', v)} textarea />
           <Field label="Methodology" value={form.methodology} onChange={(v) => set('methodology', v)} textarea />
           <label className="flex items-center gap-2.5 text-[12.5px] text-tx-2 cursor-pointer">

@@ -504,7 +504,7 @@ def _execute_attack_tool(
         return {
             "success": True,
             "layer": {
-                "name": "DeepTempo Findings",
+                "name": "NeuroShield Findings",
                 "version": "4.5",
                 "domain": "enterprise-attack",
                 "description": "ATT&CK techniques from findings",

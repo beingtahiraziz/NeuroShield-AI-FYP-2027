@@ -6,7 +6,7 @@
 
 ## Side-by-Side Comparison
 
-| Dimension | [Company Name] | Open Source (Vigil + ARTEMIS + ecosystem) |
+| Dimension | [Company Name] | Open Source (NeuroShield AI + ARTEMIS + ecosystem) |
 |---|---|---|
 | **Primary focus** | | |
 | **Offensive testing** | | |

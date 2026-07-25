@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://deeptempo.ai/schemas/finding.schema.json",
-  "title": "DeepTempo Finding",
-  "description": "A security finding from DeepTempo LogLM with embedding and MITRE ATT&CK predictions",
+  "$id": "https://neuroshield.ai/schemas/finding.schema.json",
+  "title": "NeuroShield Finding",
+  "description": "A security finding from NeuroShield LogLM with embedding and MITRE ATT&CK predictions",
   "type": "object",
   "required": ["finding_id", "embedding", "mitre_predictions", "anomaly_score", "timestamp", "data_source"],
   "properties": {

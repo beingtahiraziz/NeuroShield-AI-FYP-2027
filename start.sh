@@ -1,5 +1,5 @@
 #!/bin/bash
-# Start Vigil SOC
+# Start NeuroShield AI SOC
 # Usage: ./start.sh [-d|--daemon]
 source "$(dirname "$0")/scripts/lib.sh"
 
@@ -26,7 +26,7 @@ elif ! node -e "process.exit(parseInt(process.version.slice(1))>=18?0:1)" 2>/dev
 fi
 
 # --- Git submodules ---
-if [ -d ".git" ] && [ ! -f "deeptempo-core/pyproject.toml" ] && [ ! -f "deeptempo-core/setup.py" ]; then
+if [ -d ".git" ] && [ ! -f "neuroshield-core/pyproject.toml" ] && [ ! -f "neuroshield-core/setup.py" ]; then
     git submodule update --init --recursive || echo "Warning: submodule init failed."
 fi
 
@@ -43,10 +43,10 @@ load_env
 export BIND_HOST="${BIND_HOST:-127.0.0.1}"
 
 # --- Docker services ---
-ensure_container deeptempo-postgres postgres
+ensure_container neuroshield-postgres postgres
 wait_for_postgres || true
-ensure_container deeptempo-redis redis
-ensure_container deeptempo-bifrost bifrost
+ensure_container neuroshield-redis redis
+ensure_container neuroshield-bifrost bifrost
 
 if [ -z "${BIFROST_URL+x}" ] || [ "${BIFROST_URL}" = "http://bifrost:8080" ]; then
     export BIFROST_URL="http://localhost:8080"
@@ -67,7 +67,7 @@ export PYTHONPATH="${PWD}:${PYTHONPATH:-}"
 print_ready() {
     echo ""
     echo "=========================================="
-    echo "Vigil SOC v$VERSION - Ready"
+    echo "NeuroShield AI SOC v$VERSION - Ready"
     echo "=========================================="
     echo "Backend:  http://localhost:6987"
     echo "Frontend: http://localhost:6988"

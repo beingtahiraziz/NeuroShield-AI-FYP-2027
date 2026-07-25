@@ -1,6 +1,6 @@
 # Kafka Ingestion
 
-Stream security findings into Vigil from Apache Kafka topics. Runs
+Stream security findings into NeuroShield AI from Apache Kafka topics. Runs
 alongside the existing REST polling (`daemon/poller.py`) and file/webhook
 upload (`backend/api/ingestion.py`) paths — Kafka messages land in the
 same processing pipeline (triage, enrichment, autonomous investigation).
@@ -10,7 +10,7 @@ same processing pipeline (triage, enrichment, autonomous investigation).
 ## When to use it
 
 - You already publish security events to Kafka (Splunk HEC forwarders, Falco, custom
-  producers) and want Vigil to consume them directly, rather than polling the source.
+  producers) and want NeuroShield AI to consume them directly, rather than polling the source.
 - You need lower ingestion latency than polling (REST pollers run on 60–300s intervals).
 - You want horizontal scalability via Kafka consumer groups.
 
@@ -31,7 +31,7 @@ overhead you don't need.
 
 See the "Follow-ups" section of
 [plans/please-examine-gh-issue-squishy-hippo.md](../.claude/plans/please-examine-gh-issue-squishy-hippo.md)
-or [GH issue #83](https://github.com/Vigil-SOC/vigil/issues/83) for the
+or [GH issue #83](https://github.com/NeuroShield-AI/neuroshield/issues/83) for the
 post-MVP roadmap.
 
 ---
@@ -40,7 +40,7 @@ post-MVP roadmap.
 
 ### 1. Start the Kafka broker
 
-Vigil ships a single-broker KRaft-mode Kafka service under the `kafka`
+NeuroShield AI ships a single-broker KRaft-mode Kafka service under the `kafka`
 Docker Compose profile (no Zookeeper):
 
 ```bash
@@ -49,7 +49,7 @@ docker compose --profile kafka up -d kafka
 ```
 
 Broker listens on `localhost:9092` (host) and `kafka:29092` (inside the
-`deeptempo-network` Docker network). Data is persisted in the
+`neuroshield-network` Docker network). Data is persisted in the
 `kafka_data` named volume.
 
 ### 2. Create a topic (optional)
@@ -58,19 +58,19 @@ Auto-create is enabled in the bundled broker, so producers can publish
 to new topics on first write. To pre-create one:
 
 ```bash
-docker exec deeptempo-kafka /opt/kafka/bin/kafka-topics.sh \
+docker exec neuroshield-kafka /opt/kafka/bin/kafka-topics.sh \
   --bootstrap-server localhost:9092 \
   --create --if-not-exists --topic security.findings \
   --partitions 1 --replication-factor 1
 ```
 
-### 3. Enable Kafka in Vigil
+### 3. Enable Kafka in NeuroShield AI
 
 Two equivalent paths — pick whichever you prefer.
 
 **Option A: Settings UI** (recommended)
 
-1. Open Vigil → **Settings** → **Kafka**.
+1. Open NeuroShield AI → **Settings** → **Kafka**.
 2. Toggle **Enable Kafka consumer** on.
 3. Set **Bootstrap servers** (e.g. `localhost:9092` for local dev,
    `kafka:29092` when the daemon runs inside Docker).
@@ -86,7 +86,7 @@ curl -X PUT http://localhost:6987/api/kafka/config \
   -d '{
     "enabled": true,
     "bootstrap_servers": "localhost:9092",
-    "consumer_group": "vigil-soc",
+    "consumer_group": "neuroshield-soc",
     "topics": ["security.findings"],
     "auto_offset_reset": "latest",
     "security_protocol": "PLAINTEXT",
@@ -156,8 +156,8 @@ python produce.py
 - **Direct DB check**:
 
   ```bash
-  docker exec -e PGPASSWORD=$POSTGRES_PASSWORD deeptempo-postgres \
-    psql -U deeptempo -d deeptempo_soc \
+  docker exec -e PGPASSWORD=$POSTGRES_PASSWORD neuroshield-postgres \
+    psql -U neuroshield -d neuroshield_soc \
     -c "SELECT finding_id, data_source, severity FROM findings \
         WHERE data_source LIKE 'kafka:%' ORDER BY created_at DESC LIMIT 5;"
   ```
@@ -196,7 +196,7 @@ in the status endpoint to see how many were dropped.
 ## Deduplication
 
 Each `finding_id` is tracked in a Redis sorted set
-(`vigil:dedup:kafka`). A duplicate within the retention window (24h
+(`neuroshield:dedup:kafka`). A duplicate within the retention window (24h
 TTL, capped at 10k entries) is skipped and `stats.duplicates_skipped`
 is incremented — the finding is **not** re-enqueued and does **not**
 create a second DB row.
@@ -218,7 +218,7 @@ All env vars, with their defaults:
 |---|---|---|
 | `KAFKA_ENABLED` | `false` | Master switch — also toggleable in UI |
 | `KAFKA_BOOTSTRAP_SERVERS` | `localhost:9092` | Broker list |
-| `KAFKA_CONSUMER_GROUP` | `vigil-soc` | Consumer group id |
+| `KAFKA_CONSUMER_GROUP` | `neuroshield-soc` | Consumer group id |
 | `KAFKA_TOPICS` | _(empty)_ | Comma-separated list |
 | `KAFKA_AUTO_OFFSET_RESET` | `latest` | `latest` or `earliest` |
 | `KAFKA_SECURITY_PROTOCOL` | `PLAINTEXT` | `PLAINTEXT`\|`SSL`\|`SASL_PLAINTEXT`\|`SASL_SSL` |
@@ -296,7 +296,7 @@ not `localhost:9092` — that one's for producers running on the host.
     "last_error": null,
     "last_error_at": null,
     "topics": ["security.findings"],
-    "consumer_group": "vigil-soc"
+    "consumer_group": "neuroshield-soc"
   }
 }
 ```
@@ -311,7 +311,7 @@ counters so the UI still renders.
 
 **UI shows `ENABLED (not yet connected)` indefinitely**
 - Check `logs/daemon.log` for `aiokafka` errors.
-- Verify broker reachability: `docker exec deeptempo-daemon nc -z kafka 29092`
+- Verify broker reachability: `docker exec neuroshield-daemon nc -z kafka 29092`
   (inside Docker) or `nc -z localhost 9092` (from host).
 - If using SASL/SSL, confirm the secret env vars are set on the
   daemon process — they're env-only.

@@ -143,7 +143,7 @@ export default function PlatformDatabaseTab({ setMessage }: Props) {
         Platform Database Proxy
       </Typography>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-        Optional intermediate hop in front of Vigil's own metadata
+        Optional intermediate hop in front of NeuroShield AI's own metadata
         Postgres (PgBouncer pooler or SSH tunnel to a private bastion).
         Credentials are kept in the encrypted secrets store, never the
         DB itself. HTTP/SOCKS proxies are not offered for the platform
@@ -232,7 +232,7 @@ export default function PlatformDatabaseTab({ setMessage }: Props) {
                       ssh_private_key_path: e.target.value,
                     })
                   }
-                  placeholder="/home/vigil/.ssh/id_ed25519"
+                  placeholder="/home/neuroshield/.ssh/id_ed25519"
                   helperText="Absolute path on the backend host."
                 />
                 <TextField

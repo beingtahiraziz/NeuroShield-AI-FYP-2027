@@ -7,7 +7,7 @@
    ============================================================ */
 import '../styles.css'
 import { useTheme } from '../../contexts/ThemeContext'
-import { VigilMark } from '../shared/VigilLogo'
+import { NeuroShieldMark } from '../shared/NeuroShieldLogo'
 import { accentVars } from './accent'
 
 const DEFAULT_ACCENT: [string, string] = ['#7d74f3', '#9a92f7']
@@ -33,7 +33,7 @@ export default function RedesignLoader({ label = 'Loading console…' }: { label
   return (
     <div className="soc-console soc-loader" data-theme={mode} style={accentVars(a, b)}>
       <div className="soc-loader-inner">
-        <VigilMark className="soc-loader-mark" />
+        <NeuroShieldMark className="soc-loader-mark" />
         <div className="soc-loader-track" />
         <div className="soc-loader-label">{label}</div>
       </div>

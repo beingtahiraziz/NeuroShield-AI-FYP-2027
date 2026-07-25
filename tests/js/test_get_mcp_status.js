@@ -26,7 +26,7 @@ const fs = require('fs');
     
     // Find and open chat
     console.log('→ Looking for CopilotKit chat button...');
-    const chatButton = await page.$('button[aria-label*="Vigil Chat"]');
+    const chatButton = await page.$('button[aria-label*="NeuroShield AI Chat"]');
     
     if (!chatButton) {
       console.log('✗ ERROR: Chat button not found!');
@@ -98,7 +98,7 @@ const fs = require('fs');
       const hasNewContent = chatContent !== previousContent;
       const hasThinking = /thinking|processing|loading|\.\.\./.test(chatContent);
       const hasToolCall = /calling|executing|using tool|get_mcp_connection_status/i.test(chatContent);
-      const hasServerData = /deeptempo|tempo-flow|approval|attack-layer|connected|servers/i.test(chatContent);
+      const hasServerData = /neuroshield|tempo-flow|approval|attack-layer|connected|servers/i.test(chatContent);
       
       // Visual indicator
       let icon = '⏳';
@@ -149,7 +149,7 @@ const fs = require('fs');
     const hasThinkingIndicator = /thinking|processing|analyzing|checking/i.test(aiResponse);
     const hasLoadingIndicator = /loading|\.\.\./.test(aiResponse);
     
-    const serverNames = ['deeptempo-findings', 'tempo-flow', 'approval', 'attack-layer'];
+    const serverNames = ['neuroshield-findings', 'tempo-flow', 'approval', 'attack-layer'];
     const mentionedServers = serverNames.filter(name => aiResponse.toLowerCase().includes(name));
     
     const hasConnectionData = /connected|total.*server|(\d+)\s+server/i.test(aiResponse);

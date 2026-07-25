@@ -78,7 +78,7 @@ All scripts are now **executable** and ready to use! ✅
 **What you'll see:**
 ```
 ==========================================
-Vigil SOC - Startup
+NeuroShield AI SOC - Startup
 ==========================================
 ✓ Loading environment variables from .env
 ✓ PostgreSQL is already running
@@ -88,7 +88,7 @@ Starting backend API server...
 Starting frontend dev server...
 
 ==========================================
-✅ Vigil SOC - Ready!
+✅ NeuroShield AI SOC - Ready!
 ==========================================
 Backend API:   http://localhost:6987
 Frontend UI:   http://localhost:6988
@@ -158,7 +158,7 @@ tail -f logs/*.log
 
 **Connect to database:**
 ```bash
-docker exec -it deeptempo-postgres psql -U postgres -d deeptempo
+docker exec -it neuroshield-postgres psql -U postgres -d neuroshield
 ```
 
 ---
@@ -210,7 +210,7 @@ docker exec -it deeptempo-postgres psql -U postgres -d deeptempo
 # 1. Create environment file
 cat > .env << 'EOF'
 DEV_MODE=true
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/deeptempo
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/neuroshield
 JWT_SECRET_KEY=dev-secret-key-change-in-production
 JWT_ALGORITHM=HS256
 JWT_EXPIRATION_MINUTES=1440

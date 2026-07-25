@@ -1,6 +1,6 @@
-# Vigil Helm chart — secret management patterns
+# NeuroShield AI Helm chart — secret management patterns
 
-The chart supports four ways to provide secrets to Vigil pods. Pick whichever
+The chart supports four ways to provide secrets to NeuroShield AI pods. Pick whichever
 fits your existing secret-management setup; all four produce the same
 Kubernetes Secret shape that backend, daemon, llm-worker, and the db-init
 Job reference.
@@ -51,8 +51,8 @@ brew install kubeseal   # or download from github.com/bitnami-labs/sealed-secret
    apiVersion: v1
    kind: Secret
    metadata:
-     name: vigil-secrets
-     namespace: vigil
+     name: neuroshield-secrets
+     namespace: neuroshield
    type: Opaque
    stringData:
      ANTHROPIC_API_KEY: sk-ant-...
@@ -66,7 +66,7 @@ brew install kubeseal   # or download from github.com/bitnami-labs/sealed-secret
 2. Seal it:
 
    ```bash
-   kubeseal -o yaml < secret.yaml > vigil-sealed-secret.yaml
+   kubeseal -o yaml < secret.yaml > neuroshield-sealed-secret.yaml
    ```
 
    The output is safe to commit — only the controller's private key can
@@ -75,19 +75,19 @@ brew install kubeseal   # or download from github.com/bitnami-labs/sealed-secret
 3. Apply the sealed manifest and install the chart:
 
    ```bash
-   kubectl apply -f vigil-sealed-secret.yaml
-   # The controller creates the vigil-secrets Secret automatically.
+   kubectl apply -f neuroshield-sealed-secret.yaml
+   # The controller creates the neuroshield-secrets Secret automatically.
 
-   helm install vigil ./helm/vigil \
-     -n vigil --create-namespace \
-     --set secrets.existingSecret=vigil-secrets
+   helm install neuroshield ./helm/neuroshield \
+     -n neuroshield --create-namespace \
+     --set secrets.existingSecret=neuroshield-secrets
    ```
 
 4. To rotate: re-run step 1 with new values, re-seal, re-apply. The chart
    does not need to be upgraded — the app pods pick up the new Secret on the
    next restart (the chart annotates backend/daemon pods with a Secret
    checksum so they restart automatically on `helm upgrade`; for out-of-band
-   Secret changes, trigger a rollout manually: `kubectl rollout restart -n vigil deploy`).
+   Secret changes, trigger a rollout manually: `kubectl rollout restart -n neuroshield deploy`).
 
 See [docs/examples/sealed-secret.yaml](./examples/sealed-secret.yaml) for a
 reference template.
@@ -106,7 +106,7 @@ you decrypt at deploy time and pipe the plaintext into `kubectl apply`.
 brew install sops age
 
 # Generate an age key (one per team or per environment)
-age-keygen -o ~/.sops/vigil.txt
+age-keygen -o ~/.sops/neuroshield.txt
 # Commit the PUBLIC half to your repo in .sops.yaml
 ```
 
@@ -124,12 +124,12 @@ creation_rules:
 1. Write the plain Secret manifest:
 
    ```yaml
-   # secrets/vigil-secrets.yaml
+   # secrets/neuroshield-secrets.yaml
    apiVersion: v1
    kind: Secret
    metadata:
-     name: vigil-secrets
-     namespace: vigil
+     name: neuroshield-secrets
+     namespace: neuroshield
    type: Opaque
    stringData:
      ANTHROPIC_API_KEY: sk-ant-...
@@ -140,7 +140,7 @@ creation_rules:
 2. Encrypt in place:
 
    ```bash
-   sops -e -i secrets/vigil-secrets.yaml
+   sops -e -i secrets/neuroshield-secrets.yaml
    ```
 
    Commit the encrypted file.
@@ -149,15 +149,15 @@ creation_rules:
 
    ```bash
    # Decrypt and apply in one pipe
-   export SOPS_AGE_KEY_FILE=~/.sops/vigil.txt
-   sops -d secrets/vigil-secrets.yaml | kubectl apply -f -
+   export SOPS_AGE_KEY_FILE=~/.sops/neuroshield.txt
+   sops -d secrets/neuroshield-secrets.yaml | kubectl apply -f -
 
-   helm install vigil ./helm/vigil \
-     -n vigil --create-namespace \
-     --set secrets.existingSecret=vigil-secrets
+   helm install neuroshield ./helm/neuroshield \
+     -n neuroshield --create-namespace \
+     --set secrets.existingSecret=neuroshield-secrets
    ```
 
-4. Rotation: edit the encrypted file directly with `sops secrets/vigil-secrets.yaml`
+4. Rotation: edit the encrypted file directly with `sops secrets/neuroshield-secrets.yaml`
    (opens in your `$EDITOR` with decrypted plaintext; saves back encrypted).
 
 See [docs/examples/sops-config.yaml](./examples/sops-config.yaml) for a
@@ -173,12 +173,12 @@ sops-encrypted values file:
 helm plugin install https://github.com/jkroepke/helm-secrets
 
 # Encrypted values file
-sops -e -i helm/vigil/values-prod-secrets.yaml
+sops -e -i helm/neuroshield/values-prod-secrets.yaml
 
 # Install
-helm secrets install vigil ./helm/vigil \
-  -n vigil --create-namespace \
-  -f helm/vigil/values-prod-secrets.yaml
+helm secrets install neuroshield ./helm/neuroshield \
+  -n neuroshield --create-namespace \
+  -f helm/neuroshield/values-prod-secrets.yaml
 ```
 
 This lets you use `secrets.anthropicApiKey: ...` directly (not `existingSecret`)
@@ -199,5 +199,5 @@ because the values file itself is encrypted at rest.
 - **SOPS** (pattern 2 here) is best when you already standardize on
   encrypting config files and don't want a cluster-side decryption controller.
 
-All three work cleanly with Vigil's `secrets.existingSecret`. Never mix —
-pick one and stick with it for the full Vigil install.
+All three work cleanly with NeuroShield AI's `secrets.existingSecret`. Never mix —
+pick one and stick with it for the full NeuroShield AI install.

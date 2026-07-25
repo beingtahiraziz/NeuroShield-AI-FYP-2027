@@ -88,7 +88,7 @@ SECURITY_DETECTION_TOOLS = [
     }
 ]
 
-# DeepTempo Findings Tools (Already implemented in backend)
+# NeuroShield Findings Tools (Already implemented in backend)
 DEEPTEMPO_FINDING_TOOLS = [
     {
         "name": "list_findings",

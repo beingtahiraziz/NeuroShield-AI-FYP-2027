@@ -33,7 +33,7 @@ MOCK_TOOL_USE_RESPONSE = {
         {
             "type": "tool_use",
             "id": "toolu_01FindingRetrieval",
-            "name": "deeptempo-findings_get_finding",
+            "name": "neuroshield-findings_get_finding",
             "input": {
                 "finding_id": "f-20260109-test123"
             }
@@ -161,12 +161,12 @@ MOCK_AGENT_RESPONSE = {
         ],
         "tool_calls": [
             {
-                "tool": "deeptempo-findings_get_finding",
+                "tool": "neuroshield-findings_get_finding",
                 "input": {"finding_id": "f-20260109-test123"},
                 "output": {"title": "Suspicious network traffic", "severity": "high"}
             },
             {
-                "tool": "deeptempo-findings_create_case",
+                "tool": "neuroshield-findings_create_case",
                 "input": {"title": "Investigate suspicious traffic", "findings": ["f-20260109-test123"]},
                 "output": {"case_id": "case-20260128-auto123"}
             }

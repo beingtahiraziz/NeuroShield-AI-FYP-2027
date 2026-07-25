@@ -24,7 +24,7 @@ def special_char_config(monkeypatch):
     monkeypatch.setenv("POSTGRES_PASSWORD", SPECIAL_PASSWORD)
     monkeypatch.setenv("POSTGRES_HOST", "db.example.com")
     monkeypatch.setenv("POSTGRES_PORT", "5432")
-    monkeypatch.setenv("POSTGRES_DB", "deeptempo_soc")
+    monkeypatch.setenv("POSTGRES_DB", "neuroshield_soc")
     monkeypatch.setenv("POSTGRES_SSL_MODE", "prefer")
     return DatabaseConfig()
 
@@ -38,7 +38,7 @@ def test_special_chars_round_trip(special_char_config, async_driver):
     assert parsed.username == SPECIAL_USER
     assert parsed.host == "db.example.com"
     assert parsed.port == 5432
-    assert parsed.database == "deeptempo_soc"
+    assert parsed.database == "neuroshield_soc"
 
 
 def test_raw_special_chars_not_present_in_dsn(special_char_config):

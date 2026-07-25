@@ -26,8 +26,8 @@ try:
     from core.telemetry import get_meter, get_tracer, inject_traceparent
     from opentelemetry.trace import SpanKind
 
-    _tracer = get_tracer("vigil.daemon.orchestrator")
-    _orch_meter = get_meter("vigil.daemon.orchestrator")
+    _tracer = get_tracer("neuroshield.daemon.orchestrator")
+    _orch_meter = get_meter("neuroshield.daemon.orchestrator")
     _inv_created = _orch_meter.create_counter(
         "soc_daemon_orchestrator_investigations_created_total",
         description="Total investigations created",
@@ -361,11 +361,11 @@ class Orchestrator:
                     "investigation",
                     kind=SpanKind.INTERNAL,
                     attributes={
-                        "vigil.investigation.id": inv_id,
-                        "vigil.investigation.workflow_id": workflow_id,
-                        "vigil.investigation.trigger_type": trigger_type,
-                        "vigil.investigation.priority": priority,
-                        "vigil.investigation.finding_count": len(findings),
+                        "neuroshield.investigation.id": inv_id,
+                        "neuroshield.investigation.workflow_id": workflow_id,
+                        "neuroshield.investigation.trigger_type": trigger_type,
+                        "neuroshield.investigation.priority": priority,
+                        "neuroshield.investigation.finding_count": len(findings),
                     },
                 )
                 _tp_carrier: Dict = {}

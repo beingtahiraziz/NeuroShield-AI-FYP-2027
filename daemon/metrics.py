@@ -59,7 +59,7 @@ class DaemonMetrics:
 
         try:
             from core.telemetry import get_meter
-            meter = get_meter("vigil.daemon")
+            meter = get_meter("neuroshield.daemon")
 
             self._polls_counter = meter.create_counter(
                 name="soc_daemon_poller_polls_total",

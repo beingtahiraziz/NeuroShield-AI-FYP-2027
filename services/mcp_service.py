@@ -198,7 +198,7 @@ class MCPServer:
     
     def get_log_path(self) -> Path:
         """Get the log file path for this server."""
-        # Keep hyphens as servers log to files with hyphens (e.g., deeptempo-findings.log)
+        # Keep hyphens as servers log to files with hyphens (e.g., neuroshield-findings.log)
         return Path(f"/tmp/{self.name}.log")
 
 
@@ -206,7 +206,7 @@ class MCPService:
     """Service for managing MCP servers."""
     
     # Path to persist enabled/disabled state for each MCP server
-    _STATE_FILE = Path.home() / ".deeptempo" / "mcp_server_enabled.json"
+    _STATE_FILE = Path.home() / ".neuroshield" / "mcp_server_enabled.json"
     
     def __init__(self, project_root: Optional[Path] = None):
         """
@@ -257,7 +257,7 @@ class MCPService:
             logger.error(f"Could not save MCP enabled state: {e}")
     
     # Internal/platform servers that should be on by default
-    _DEFAULT_ENABLED = {"deeptempo-findings", "tempo-flow", "security-detections", "approval", "attack-layer", "mempalace"}
+    _DEFAULT_ENABLED = {"neuroshield-findings", "tempo-flow", "security-detections", "approval", "attack-layer", "mempalace"}
 
     def is_server_enabled(self, server_name: str) -> bool:
         """Check whether a server is enabled. Internal platform servers default to True; all others default to False."""
@@ -378,7 +378,7 @@ class MCPService:
                     # Inherit the backend's environment so servers that need
                     # runtime config not declared in mcp-config.json can connect
                     # — notably the POSTGRES_* vars DatabaseService reads for
-                    # case/DB tools (deeptempo-findings). Declared config env
+                    # case/DB tools (neuroshield-findings). Declared config env
                     # entries still take precedence. Required-credential
                     # detection scans the raw config above, not this spawn env,
                     # so dormancy behavior is unchanged.
@@ -504,7 +504,7 @@ class MCPService:
         """Get default server configurations if mcp-config.json is not available."""
         return [
             {
-                "name": "deeptempo-findings",
+                "name": "neuroshield-findings",
                 "command": python_exe_str,
                 "args": ["-m", "tools.deeptempo_findings"],
                 "cwd": project_path_str,

@@ -1,6 +1,6 @@
 # Detection Engineering
 
-Integration of security detection rules provides 7,200+ detection rules and AI-powered detection engineering capabilities to vigil.
+Integration of security detection rules provides 7,200+ detection rules and AI-powered detection engineering capabilities to neuroshield.
 
 ## Overview
 

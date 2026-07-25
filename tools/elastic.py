@@ -1,7 +1,7 @@
 """Elastic Security MCP tool server.
 
 Exposes Elasticsearch search and Kibana Security API capabilities as
-MCP tools for use by Vigil's AI agents.
+MCP tools for use by NeuroShield AI's AI agents.
 """
 
 import asyncio

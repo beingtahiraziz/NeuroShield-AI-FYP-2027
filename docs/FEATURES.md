@@ -33,7 +33,7 @@ Generate professional case reports with full timeline, findings, and resolution 
 
 ### Board Brief
 
-One-page risk posture report designed for boards and CEOs. Triggered by saying "Generate board brief" or "Create board report" in the Vigil chat.
+One-page risk posture report designed for boards and CEOs. Triggered by saying "Generate board brief" or "Create board report" in the NeuroShield AI chat.
 
 | Section | Contents |
 |---------|----------|

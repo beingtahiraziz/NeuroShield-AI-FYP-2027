@@ -1,18 +1,18 @@
 # Secrets Audit (GH #84 PR-F)
 
-Snapshot of how Vigil handles credentials at rest today, and the gaps that
+Snapshot of how NeuroShield AI handles credentials at rest today, and the gaps that
 a future migration should close. Generated alongside the PR-F Settings-UI
 surface for runtime cost toggles — a companion to that work, not a
 migration itself.
 
-## How Vigil stores secrets today
+## How NeuroShield AI stores secrets today
 
 Three storage layers, in priority order (see
 [backend/secrets_manager.py](../backend/secrets_manager.py)):
 
 1. **Environment variables** — process env (`os.environ`). Always
    available; cannot be rotated at runtime.
-2. **`~/.deeptempo/.env`** — per-user dotenv file, chmod `0o600`. Default
+2. **`~/.neuroshield/.env`** — per-user dotenv file, chmod `0o600`. Default
    write target for `set_secret()`. Survives restart but is host-local.
 3. **OS keyring** (macOS Keychain, Linux Secret Service) — opt-in via
    `ENABLE_KEYRING=true`. Best for desktop/dev; not used by the server

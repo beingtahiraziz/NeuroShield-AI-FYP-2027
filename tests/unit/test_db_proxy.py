@@ -162,7 +162,7 @@ def test_ssh_tunnel_opens_forwarder_and_rewrites_endpoint():
                 "proxy_type": "ssh_tunnel",
                 "proxy_host": "bastion.corp",
                 "proxy_port": 22,
-                "proxy_username": "vigil",
+                "proxy_username": "neuroshield",
                 "ssh_private_key_path": "/keys/id_ed25519",
             }
         )

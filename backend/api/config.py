@@ -144,7 +144,7 @@ async def set_demo_mode(config: DemoModeConfig):
         Success status
     """
     try:
-        config_file = Path.home() / ".deeptempo" / "general_config.json"
+        config_file = Path.home() / ".neuroshield" / "general_config.json"
         config_file.parent.mkdir(parents=True, exist_ok=True)
 
         # Load existing config
@@ -317,7 +317,7 @@ async def get_s3_config():
             }
 
         # Fallback to file-based config
-        config_file = Path.home() / ".deeptempo" / "s3_config.json"
+        config_file = Path.home() / ".neuroshield" / "s3_config.json"
         if config_file.exists():
             with open(config_file, "r") as f:
                 config = json.load(f)
@@ -394,7 +394,7 @@ async def set_s3_config(config: S3Config):
             )
 
         # Also save to file for backward compatibility
-        config_file = Path.home() / ".deeptempo" / "s3_config.json"
+        config_file = Path.home() / ".neuroshield" / "s3_config.json"
         config_file.parent.mkdir(parents=True, exist_ok=True)
         with open(config_file, "w") as f:
             json.dump(config_data, f, indent=2)
@@ -557,7 +557,7 @@ async def test_s3_connection():
 
         if not s3_integration:
             # Fallback to file-based config
-            config_file = Path.home() / ".deeptempo" / "s3_config.json"
+            config_file = Path.home() / ".neuroshield" / "s3_config.json"
             if config_file.exists():
                 with open(config_file, "r") as f:
                     s3_integration = json.load(f)
@@ -650,7 +650,7 @@ async def get_theme_config():
             return config_value
 
         # Fallback to file-based config
-        config_file = Path.home() / ".deeptempo" / "theme_config.json"
+        config_file = Path.home() / ".neuroshield" / "theme_config.json"
         if config_file.exists():
             with open(config_file, "r") as f:
                 config = json.load(f)
@@ -692,7 +692,7 @@ async def set_theme_config(config: ThemeConfig):
             )
 
         # Also save to file for backward compatibility
-        config_file = Path.home() / ".deeptempo" / "theme_config.json"
+        config_file = Path.home() / ".neuroshield" / "theme_config.json"
         config_file.parent.mkdir(parents=True, exist_ok=True)
         with open(config_file, "w") as f:
             json.dump(config_data, f, indent=2)
@@ -738,7 +738,7 @@ async def get_integrations_config():
             }
 
         # Fallback to file-based config
-        config_file = Path.home() / ".deeptempo" / "integrations_config.json"
+        config_file = Path.home() / ".neuroshield" / "integrations_config.json"
         if config_file.exists():
             with open(config_file, "r") as f:
                 config = json.load(f)
@@ -814,7 +814,7 @@ async def set_integrations_config(config: IntegrationsConfig):
                 logger.error(f"Failed to save integration '{integration_id}'")
 
         # Also save to file for backward compatibility — sanitized only.
-        config_file = Path.home() / ".deeptempo" / "integrations_config.json"
+        config_file = Path.home() / ".neuroshield" / "integrations_config.json"
         config_file.parent.mkdir(parents=True, exist_ok=True)
         config_data = {
             "enabled_integrations": config.enabled_integrations,
@@ -933,7 +933,7 @@ async def get_general_config():
             return config_value
 
         # Fallback to file-based config
-        config_file = Path.home() / ".deeptempo" / "general_config.json"
+        config_file = Path.home() / ".neuroshield" / "general_config.json"
 
         if config_file.exists():
             with open(config_file, "r") as f:
@@ -997,7 +997,7 @@ async def set_general_config(config: GeneralConfig):
             )
 
         # Also save to file for backward compatibility (during transition)
-        config_file = Path.home() / ".deeptempo" / "general_config.json"
+        config_file = Path.home() / ".neuroshield" / "general_config.json"
         config_file.parent.mkdir(parents=True, exist_ok=True)
         with open(config_file, "w") as f:
             json.dump(config_data, f, indent=2)
@@ -1546,7 +1546,7 @@ async def secrets_status() -> Dict[str, Any]:
     """Report which backend the secrets manager is using and why.
 
     Used by the Settings UI (and `curl` debugging) to answer "why are my
-    creds not landing in ~/.vigil/secrets.enc?". Includes the chosen
+    creds not landing in ~/.neuroshield/secrets.enc?". Includes the chosen
     write backend, what was expected per ``SECRETS_BACKEND`` env, whether
     cryptography imported, and where each backend lives on disk.
     """
@@ -1586,7 +1586,7 @@ async def secrets_reinit(
 async def secrets_migrate_to_encrypted(
     request: Optional[_SecretsMigrateRequest] = None,
 ) -> Dict[str, Any]:
-    """Move secrets from ``~/.deeptempo/.env`` to ``~/.vigil/secrets.enc``.
+    """Move secrets from ``~/.neuroshield/.env`` to ``~/.neuroshield/secrets.enc``.
 
     Encrypted store is authoritative on conflicts: if a key exists in
     both with different values, the dotenv entry is left in place and

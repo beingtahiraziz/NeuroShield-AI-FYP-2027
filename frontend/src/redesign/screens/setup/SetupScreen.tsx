@@ -6,7 +6,7 @@ import { Fragment, useEffect, useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import '../../styles.css'
 import { Icon } from '../../shared/icons'
-import { VigilMark } from '../../shared/VigilLogo'
+import { NeuroShieldMark } from '../../shared/NeuroShieldLogo'
 import { SettingsCard } from '../../shared/ui'
 import { LlmProviderWizard } from '../settings/LlmProviderDialog'
 import AutonomyDialog from './AutonomyDialog'
@@ -20,7 +20,7 @@ import { llmProviderApi } from '../../../services/api'
 
 // Per-browser "I'm done here" flag, set on "Go to dashboard". Readiness stays
 // live-derived; this only lets a finished user leave /setup without it nagging.
-const SETUP_DISMISSED_KEY = 'vigil.setupDismissed'
+const SETUP_DISMISSED_KEY = 'neuroshield.setupDismissed'
 const readSetupDismissed = (): boolean => {
   try {
     return localStorage.getItem(SETUP_DISMISSED_KEY) === '1'
@@ -58,9 +58,9 @@ const Shell = ({ children }: { children: React.ReactNode }) => (
 const Header = () => (
   <header className="text-center mb-6">
     <span className="inline-grid place-items-center w-12 h-12 rounded-lg bg-accent-dim text-accent-2 mb-3">
-      <VigilMark className="w-6 h-6" />
+      <NeuroShieldMark className="w-6 h-6" />
     </span>
-    <h1 className="text-tx text-xl font-semibold">Welcome to Vigil</h1>
+    <h1 className="text-tx text-xl font-semibold">Welcome to NeuroShield AI</h1>
     <p className="text-tx-3 text-sm mt-1">
       Just one thing to start: connect an AI provider. Everything else is
       optional and can wait.
@@ -261,7 +261,7 @@ const SetupScreen = () => {
         <Header />
         <SettingsCard title="Setup required" desc="Administrator access needed">
           <p className="text-tx-2 text-sm">
-            Vigil isn&apos;t set up yet. Ask an administrator to add an AI provider in
+            NeuroShield AI isn&apos;t set up yet. Ask an administrator to add an AI provider in
             Settings → AI Config.
           </p>
         </SettingsCard>

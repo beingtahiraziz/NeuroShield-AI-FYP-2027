@@ -220,7 +220,7 @@ class FederationRunner:
 
             url = os.getenv("REDIS_URL", "redis://localhost:6379/0")
             r = aioredis.from_url(url, decode_responses=True)
-            key = f"vigil:federation:trigger:{source_id}"
+            key = f"neuroshield:federation:trigger:{source_id}"
             # GETDEL is atomic — flag is consumed on read.
             val = await r.getdel(key)
             await r.close()
@@ -243,7 +243,7 @@ def request_poll_now(source_id: str) -> bool:
 
         url = os.getenv("REDIS_URL", "redis://localhost:6379/0")
         client = redis.from_url(url, decode_responses=True)
-        client.set(f"vigil:federation:trigger:{source_id}", str(int(time.time())), ex=300)
+        client.set(f"neuroshield:federation:trigger:{source_id}", str(int(time.time())), ex=300)
         return True
     except Exception as e:
         logger.warning("request_poll_now(%s) failed: %s", source_id, e)

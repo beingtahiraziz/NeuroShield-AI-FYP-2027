@@ -1,6 +1,6 @@
 /* ============================================================
-   SOC Console — shell: nav rail, topbar, view router, Vigil chat
-   dock, floating "Ask Vigil" FAB, and the theme tweaks panel.
+   SOC Console — shell: nav rail, topbar, view router, NeuroShield AI chat
+   dock, floating "Ask NeuroShield AI" FAB, and the theme tweaks panel.
    Ported from the design's index HTML + main.js.
    ============================================================ */
 import { useCallback, useEffect, useState } from 'react'
@@ -27,7 +27,7 @@ import WorkflowsScreen from './screens/workflows/WorkflowsScreen'
 import AutoOpsScreen from './screens/autoops/AutoOpsScreen'
 import SettingsScreen from './screens/settings/SettingsScreen'
 import NotFoundScreen from './screens/notfound/NotFoundScreen'
-import { VigilMark, VigilLogo } from './shared/VigilLogo'
+import { NeuroShieldMark, NeuroShieldLogo } from './shared/NeuroShieldLogo'
 
 const SCREENS: Record<ScreenKey, (props: ScreenProps) => JSX.Element> = {
   dashboard: DashboardScreen,
@@ -179,8 +179,8 @@ function SocConsoleInner() {
             aria-label={railExpanded ? 'Collapse navigation' : 'Expand navigation'}
             aria-expanded={railExpanded}
           >
-            <VigilMark className="nav-logo mark" />
-            <VigilLogo className="nav-logo full" />
+            <NeuroShieldMark className="nav-logo mark" />
+            <NeuroShieldLogo className="nav-logo full" />
           </button>
           <div className="rail-sep" />
           {NAV.filter(([, , key, gate]) => {
@@ -238,23 +238,23 @@ function SocConsoleInner() {
           </main>
         </div>
 
-        {/* Vigil chat dock */}
+        {/* NeuroShield AI chat dock */}
         <Chat open={chatOpen} onClose={closeChat} seed={chatSeed} onSeedConsumed={() => setChatSeed(null)} />
       </div>
 
-      {/* floating Vigil assistant button — hidden while the chat dock is open
+      {/* floating NeuroShield AI assistant button — hidden while the chat dock is open
           (the dock has its own close control, so showing both is redundant) and
           while a full-bleed detail view is open (e.g. a case detail, which has
-          its own "Open in Vigil" action — two Vigil buttons would be redundant) */}
+          its own "Open in NeuroShield AI" action — two NeuroShield AI buttons would be redundant) */}
       {!chatOpen && !viewFull && (
         <button
           className="chat-fab"
-          title="Ask Vigil - AI assistant"
-          aria-label="Ask Vigil chat assistant"
+          title="Ask NeuroShield AI - AI assistant"
+          aria-label="Ask NeuroShield AI chat assistant"
           onClick={() => openChat()}
         >
           <Icon name="brain" />
-          <span>Ask Vigil</span>
+          <span>Ask NeuroShield AI</span>
         </button>
       )}
       </ToastProvider>

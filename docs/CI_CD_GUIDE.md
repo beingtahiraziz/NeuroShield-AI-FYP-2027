@@ -1,6 +1,6 @@
 # CI/CD Guide
 
-Complete guide to the CI/CD pipeline for Vigil.
+Complete guide to the CI/CD pipeline for NeuroShield AI.
 
 ## Table of Contents
 
@@ -15,7 +15,7 @@ Complete guide to the CI/CD pipeline for Vigil.
 
 ## Overview
 
-Vigil uses **GitHub Actions** for CI/CD with three main workflows:
+NeuroShield AI uses **GitHub Actions** for CI/CD with three main workflows:
 
 1. **ci-cd.yml**: Main pipeline for PRs and pushes
 2. **release.yml**: Production deployment on tags
@@ -100,8 +100,8 @@ Vigil uses **GitHub Actions** for CI/CD with three main workflows:
 
 **Jobs**:
 1. `version` - Resolve the `vX.Y.Z` version from the pushed tag
-2. `build-backend` - Build & push `ghcr.io/vigil-soc/vigil-backend` (also reused by the llm-worker)
-3. `build-daemon` - Build & push `ghcr.io/vigil-soc/vigil-daemon`
+2. `build-backend` - Build & push `ghcr.io/neuroshield-soc/neuroshield-backend` (also reused by the llm-worker)
+3. `build-daemon` - Build & push `ghcr.io/neuroshield-soc/neuroshield-daemon`
 4. `smoke-test` - Pull the published images and verify they start
 5. `update-release` - Append the image digests to the GitHub Release notes
 
@@ -243,7 +243,7 @@ trivy image --severity CRITICAL,HIGH ghcr.io/user/image:tag
 > below describe the *manual* deploy path via `scripts/deploy_to_vm.sh`
 > (and the intended automated wiring for when deployment is turned on,
 > post-1.0). The script's default `IMAGE_NAME` is stale — override it,
-> e.g. `IMAGE_NAME=vigil-soc/vigil`, so it pulls the published images.
+> e.g. `IMAGE_NAME=neuroshield-soc/neuroshield`, so it pulls the published images.
 
 **Staging** (intended: automatic on main):
 ```bash
@@ -336,7 +336,7 @@ gh secret set SLACK_WEBHOOK_URL -b "https://hooks.slack.com/..."
 **Manual Rollback**:
 ```bash
 ssh user@staging-host
-cd /opt/vigil
+cd /opt/neuroshield
 docker-compose down
 git checkout previous-commit
 docker-compose up -d
@@ -351,7 +351,7 @@ docker-compose up -d
 
 What a version tag (e.g. `v1.2.3`) actually triggers (`release.yml`):
 
-1. Build & push `vigil-backend` and `vigil-daemon` images to GHCR
+1. Build & push `neuroshield-backend` and `neuroshield-daemon` images to GHCR
 2. Trivy-scan the published images
 3. Smoke-test that the images start
 4. Annotate the GitHub Release with the image digests
@@ -377,7 +377,7 @@ See `RELEASING.md` for the full process.
   if: failure()
   run: |
     ssh $VM_USER@$VM_HOST '
-      cd /opt/vigil &&
+      cd /opt/neuroshield &&
       docker-compose down &&
       docker-compose up -d --force-recreate
     '
@@ -389,10 +389,10 @@ See `RELEASING.md` for the full process.
 ssh prod-user@prod-host
 
 # View available images
-docker images | grep vigil
+docker images | grep neuroshield
 
 # Rollback to previous version
-cd /opt/vigil
+cd /opt/neuroshield
 export IMAGE_TAG=1.2.2  # Previous version (image tags are pushed without the v prefix; git tags still use v)
 docker-compose up -d --force-recreate
 ```
@@ -538,7 +538,7 @@ Actions → Failed workflow → test-unit-backend → Logs
 ```bash
 # SSH to VM and check logs
 ssh user@host
-cd /opt/vigil
+cd /opt/neuroshield
 docker-compose logs --tail=100 backend
 
 # Check service status

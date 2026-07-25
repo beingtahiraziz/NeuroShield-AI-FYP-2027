@@ -33,7 +33,7 @@ Backend tools are automatically enabled for web UI users via the Claude Agent SD
 
 | Category | Servers | Status |
 |----------|---------|--------|
-| Core | deeptempo-findings, approval, attack-layer, tempo-flow | Implemented |
+| Core | neuroshield-findings, approval, attack-layer, tempo-flow | Implemented |
 | Community | GitHub, PostgreSQL | Active |
 | Detection Engineering | Security-Detections-MCP | Implemented |
 | SIEM | Splunk, Elastic Security | Implemented |
@@ -192,7 +192,7 @@ Settings > Integrations > Elastic Security (SIEM):
 ### Features
 
 - **Alert Ingestion**: Daemon poller fetches detection alerts from Kibana Detections API
-- **Bi-directional Sync**: Case status changes in Vigil sync back to Elastic Security alerts
+- **Bi-directional Sync**: Case status changes in NeuroShield AI sync back to Elastic Security alerts
 - **IOC Enrichment**: Agents query Elasticsearch indices for logs matching case IOCs
 
 ## Timesketch
@@ -299,9 +299,9 @@ Tools: `anyrun_get_report`, `anyrun_search`, `anyrun_get_iocs`
 
 ### CAPE Sandbox
 
-Open-source Cuckoo fork for on-prem detonation. Vigil ships an MCP client
+Open-source Cuckoo fork for on-prem detonation. NeuroShield AI ships an MCP client
 (`tools/cape_sandbox.py`) that talks to an existing CAPE deployment over
-its REST API — Vigil does **not** host CAPE itself. CAPE requires KVM and
+its REST API — NeuroShield AI does **not** host CAPE itself. CAPE requires KVM and
 Windows guest VMs, so it's typically deployed on bare metal, not inside
 Docker Desktop.
 
@@ -324,7 +324,7 @@ for any file hash on the finding. Safety gates:
 - File extension must be in `SANDBOX_ALLOWED_FILE_TYPES` (default list
   matches common malware extensions).
 - `file_size` (when known) must be ≤ `SANDBOX_MAX_FILE_SIZE_MB`.
-- No binary bytes are ever sent from Vigil. Only hash-cache lookups and
+- No binary bytes are ever sent from NeuroShield AI. Only hash-cache lookups and
   sandbox-API submission-by-hash are performed.
 
 A companion scheduler task (`sandbox_poll`, default every 60s) picks up
@@ -335,7 +335,7 @@ extracted IOCs into `CaseIOC`. See [SANDBOX.md](./SANDBOX.md).
 
 ### Cloudflare (WAF, Zero Trust Gateway, Access)
 
-Closes the loop by letting Vigil propose and (with approval) execute
+Closes the loop by letting NeuroShield AI propose and (with approval) execute
 enforcement actions on Cloudflare's edge:
 
 | Action type | MCP tool | Cloudflare API |
@@ -413,13 +413,13 @@ CRIBL_WORKER_GROUP="default"
 ```
 
 Benefits:
-- Normalize log formats before DeepTempo analysis
+- Normalize log formats before NeuroShield analysis
 - Filter noise, reduce Splunk ingestion 30-50%
 - Enrich events with GeoIP, asset info
 - Route data to multiple destinations
 
 ```
-Data Sources -> Cribl Stream -> DeepTempo LogLM
+Data Sources -> Cribl Stream -> NeuroShield LogLM
                             -> Splunk
                             -> S3/Data Lake
 ```
@@ -435,23 +435,23 @@ Settings > Integrations > Custom Integration Builder:
 
 ## CloudCurrent VStrike (Network Topology Fusion)
 
-VStrike enriches DeepTempo findings with network topology, asset, segment,
+VStrike enriches NeuroShield findings with network topology, asset, segment,
 and mission-system context, then pushes the enriched findings back into
-Vigil. Vigil can also query VStrike on demand for asset topology and blast
+NeuroShield AI. NeuroShield AI can also query VStrike on demand for asset topology and blast
 radius.
 
 ### Integration surface
 
 | Direction | Endpoint / Tool | Purpose |
 |-----------|-----------------|---------|
-| VStrike → Vigil | `POST /api/integrations/vstrike/findings` | Push enriched findings (batched) |
-| Vigil → VStrike | `GET /api/integrations/vstrike/health` | Outbound reachability check |
-| Vigil → VStrike | `GET /api/integrations/vstrike/topology/asset/{id}` | Asset topology lookup |
-| Vigil → VStrike | `GET /api/integrations/vstrike/topology/asset/{id}/adjacent` | One-hop neighbors |
-| Vigil → VStrike | `GET /api/integrations/vstrike/topology/asset/{id}/blast-radius` | Blast radius |
-| Vigil → VStrike | `POST /api/integrations/vstrike/network-graph` | Full network graph: `{label, nodes, edges, bbox}` |
-| Vigil → VStrike | `POST /api/integrations/vstrike/ui/legend-apply` | Apply selected legend in the iframe |
-| Vigil → VStrike | `POST /api/integrations/vstrike/ui/rightpanel-focus` | Open / focus the iframe's right-hand details panel |
+| VStrike → NeuroShield AI | `POST /api/integrations/vstrike/findings` | Push enriched findings (batched) |
+| NeuroShield AI → VStrike | `GET /api/integrations/vstrike/health` | Outbound reachability check |
+| NeuroShield AI → VStrike | `GET /api/integrations/vstrike/topology/asset/{id}` | Asset topology lookup |
+| NeuroShield AI → VStrike | `GET /api/integrations/vstrike/topology/asset/{id}/adjacent` | One-hop neighbors |
+| NeuroShield AI → VStrike | `GET /api/integrations/vstrike/topology/asset/{id}/blast-radius` | Blast radius |
+| NeuroShield AI → VStrike | `POST /api/integrations/vstrike/network-graph` | Full network graph: `{label, nodes, edges, bbox}` |
+| NeuroShield AI → VStrike | `POST /api/integrations/vstrike/ui/legend-apply` | Apply selected legend in the iframe |
+| NeuroShield AI → VStrike | `POST /api/integrations/vstrike/ui/rightpanel-focus` | Open / focus the iframe's right-hand details panel |
 | MCP | `tools/vstrike.py` (`vstrike_*` tools) | Agent-invokable topology queries + UI control |
 
 #### Recently added MCP tools
@@ -466,9 +466,9 @@ UX wiring:
 
 - The toolbar's Legend dropdown now has an Apply button parallel to the existing Storyline Apply.
 - Picking a node from the toolbar search results chains `ui-camera-node` → `ui-rightpanel-focus` so the camera selects the node and its details panel opens automatically.
-- Clicking an adjacent-asset chip in `NetworkContextPanel` chains the same way: Vigil highlights the node in its own EntityGraph, then drives VStrike with `cameraNode` + `focusRightPanel`.
+- Clicking an adjacent-asset chip in `NetworkContextPanel` chains the same way: NeuroShield AI highlights the node in its own EntityGraph, then drives VStrike with `cameraNode` + `focusRightPanel`.
 
-Service methods accept `**kwargs` and REST routes use `extra="allow"` Pydantic models, so future schema bumps on VStrike's side don't require a Vigil refactor.
+Service methods accept `**kwargs` and REST routes use `extra="allow"` Pydantic models, so future schema bumps on VStrike's side don't require a NeuroShield AI refactor.
 
 ### Configuration
 
@@ -479,7 +479,7 @@ Either set env vars (recommended for push/CI) or configure via the UI:
 VSTRIKE_BASE_URL="https://vstrike.example.com"
 VSTRIKE_API_KEY="<outbound bearer token>"
 VSTRIKE_VERIFY_SSL="true"
-VSTRIKE_INBOUND_API_KEY="<bearer token Vigil expects on inbound push>"
+VSTRIKE_INBOUND_API_KEY="<bearer token NeuroShield AI expects on inbound push>"
 ```
 
 UI: **Settings → Integrations → CloudCurrent VStrike**.

@@ -177,7 +177,7 @@ def _resolve_provider_model_for_request(
 # to a shared constant so chat() and chat_stream() stay consistent and tests can
 # assert it.)
 ROUTER_NO_TOOLS_SYSTEM_PROMPT = (
-    "You are Vigil, a concise SOC triage analyst. This local "
+    "You are NeuroShield AI, a concise SOC triage analyst. This local "
     "Ollama/OpenAI-compatible chat path has no executable tools. "
     "Do not claim to fetch, search, query, enrich, call, store, "
     "or retrieve anything. Do not mention tool names, XML tags, "
@@ -191,7 +191,7 @@ ROUTER_NO_TOOLS_SYSTEM_PROMPT = (
 # Counterpart prompt for the agentic router path: models that DO support tool
 # calling run the full OpenAIAgentService loop, so they are told to use tools.
 ROUTER_AGENT_TOOLS_SYSTEM_PROMPT = (
-    "You are Vigil, an AI-native SOC analyst. You have access to security "
+    "You are NeuroShield AI, an AI-native SOC analyst. You have access to security "
     "tools for investigating findings, searching detections, querying cases, "
     "and integrating with external security platforms via MCP. Use tools when "
     "the user asks you to look something up, enrich data, or take action. Be "
@@ -1213,7 +1213,7 @@ async def summarize_conversation(request: SummarizeRequest):
             full_text[:max_chars] + "\n\n[... earlier conversation truncated ...]"
         )
 
-    summary_prompt = f"""Summarize the following conversation between a user and an AI assistant (Vigil SOC platform). 
+    summary_prompt = f"""Summarize the following conversation between a user and an AI assistant (NeuroShield AI SOC platform).
 Preserve ALL important context including:
 - Key findings, case IDs, IOCs, and entity references discussed
 - Decisions made and actions taken

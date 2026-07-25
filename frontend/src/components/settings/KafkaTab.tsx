@@ -54,7 +54,7 @@ interface KafkaStats {
 const DEFAULTS: KafkaConfig = {
   enabled: false,
   bootstrap_servers: 'localhost:9092',
-  consumer_group: 'vigil-soc',
+  consumer_group: 'neuroshield-soc',
   topics: [],
   auto_offset_reset: 'latest',
   security_protocol: 'PLAINTEXT',
@@ -168,7 +168,7 @@ export default function KafkaTab({ onMessage }: Props) {
         </Typography>
       </Box>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-        Stream security findings from Kafka topics into Vigil. Messages
+        Stream security findings from Kafka topics into NeuroShield AI. Messages
         must be JSON-encoded finding objects containing at minimum a
         <code> finding_id</code> field. Secrets (SASL password, SSL CA
         path) must be set via environment variables — they are not

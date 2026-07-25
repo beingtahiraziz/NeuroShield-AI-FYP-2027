@@ -210,7 +210,7 @@ def _bifrost_headers(interaction_id: Optional[str] = None) -> Dict[str, str]:
     """Log-correlation and budget-VK headers every Bifrost call carries."""
     headers: Dict[str, str] = {}
     if interaction_id:
-        headers["x-bf-lh-vigil-interaction-id"] = interaction_id
+        headers["x-bf-lh-neuroshield-interaction-id"] = interaction_id
     try:
         from services.budget_service import get_active_vk, should_enforce
 
@@ -299,9 +299,9 @@ class LLMRouter:
         Other providers use Bifrost's OpenAI-format ``/v1`` endpoint.
 
         ``interaction_id`` (when set) is attached as the
-        ``x-bf-lh-vigil-interaction-id`` header — Bifrost's logging plugin
+        ``x-bf-lh-neuroshield-interaction-id`` header — Bifrost's logging plugin
         captures any ``x-bf-lh-*`` header into ``LogEntry.metadata``, so
-        operators can correlate Vigil's local ``LLMInteractionLog`` row
+        operators can correlate NeuroShield AI's local ``LLMInteractionLog`` row
         with the matching Bifrost log entry by that UUID. (#185)
         """
         messages, system_prompt = _pre_dispatch_sanitize(messages, system_prompt)
