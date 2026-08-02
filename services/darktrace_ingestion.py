@@ -2,7 +2,7 @@
 Darktrace Ingestion Service.
 
 Transforms inbound Darktrace webhook payloads (Model Breach, AI Analyst,
-System Status) into Vigil finding dictionaries and hands them to the shared
+System Status) into NeuroShield AI finding dictionaries and hands them to the shared
 ``IngestionService``.
 
 Darktrace pushes alerts via outbound webhooks (SaaS tenants have no syslog

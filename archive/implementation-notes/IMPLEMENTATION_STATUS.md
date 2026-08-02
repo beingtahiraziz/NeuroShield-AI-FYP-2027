@@ -232,7 +232,7 @@ docker-compose --profile splunk up -d
 - Backend API: http://localhost:8000
 - Frontend: http://localhost:3000
 - Splunk UI: http://localhost:8001 (admin/changeme123)
-- PgAdmin: http://localhost:5050 (admin@deeptempo.ai/admin)
+- PgAdmin: http://localhost:5050 (admin@neuroshield.ai/admin)
 
 ### Default Credentials
 - **Admin User**: admin / admin123

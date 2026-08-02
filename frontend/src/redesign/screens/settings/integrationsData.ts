@@ -39,7 +39,7 @@ export interface McpCategory {
 /** Display categories, in order. A server matches the first category whose
     `servers` list contains it; anything unmatched lands in "Other". */
 export const MCP_CATEGORIES: McpCategory[] = [
-  { label: 'Internal / Platform', servers: ['deeptempo-findings', 'tempo-flow', 'approval', 'attack-layer', 'security-detections'] },
+  { label: 'Internal / Platform', servers: ['neuroshield-findings', 'tempo-flow', 'approval', 'attack-layer', 'security-detections'] },
   { label: 'Reference Servers', servers: ['github'] },
   { label: 'EDR / XDR', servers: ['crowdstrike', 'sentinelone', 'carbon-black', 'microsoft-defender'] },
   { label: 'SIEM / Data Lake', servers: ['splunk', 'azure-sentinel', 'gcp-secops', 'cribl-stream'] },
@@ -52,7 +52,7 @@ export const MCP_CATEGORIES: McpCategory[] = [
 ]
 
 export const SERVER_DESCRIPTIONS: Record<string, string> = {
-  'deeptempo-findings': 'Core findings and case management. Required for the investigation workflow, case creation, and findings display.',
+  'neuroshield-findings': 'Core findings and case management. Required for the investigation workflow, case creation, and findings display.',
   'tempo-flow': 'Orchestrates multi-step agent workflows and playbook execution. Required for automated investigation chains.',
   approval: 'Human-in-the-loop approval queue for response actions (isolate host, block IP, etc.). Prevents the AI from taking destructive actions without analyst review.',
   'attack-layer': 'Maps findings to MITRE ATT&CK techniques and generates Navigator layers for coverage visualization.',

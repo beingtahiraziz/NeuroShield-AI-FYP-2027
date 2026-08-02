@@ -1,6 +1,6 @@
 # Deployment Guide
 
-Complete guide to deploying Vigil to VMs and managing production environments.
+Complete guide to deploying NeuroShield AI to VMs and managing production environments.
 
 ## Table of Contents
 
@@ -17,7 +17,7 @@ Complete guide to deploying Vigil to VMs and managing production environments.
 
 ## Overview
 
-Vigil can be deployed in several configurations:
+NeuroShield AI can be deployed in several configurations:
 
 1. **Single VM**: All services on one machine (development/testing)
 2. **Multi-VM**: Distributed deployment (staging/production)
@@ -127,12 +127,12 @@ chmod 600 ~/.ssh/authorized_keys
 
 ```bash
 # As deployer user
-sudo mkdir -p /opt/vigil
-sudo chown deployer:deployer /opt/vigil
-cd /opt/vigil
+sudo mkdir -p /opt/neuroshield
+sudo chown deployer:deployer /opt/neuroshield
+cd /opt/neuroshield
 
 # Clone repository
-git clone https://github.com/your-org/vigil.git .
+git clone https://github.com/your-org/neuroshield.git .
 
 # Create necessary directories
 mkdir -p logs evidence backups
@@ -200,14 +200,14 @@ git push origin v1.2.3
 
 ```bash
 # On deployment machine
-cd /opt/vigil
+cd /opt/neuroshield
 
 # Pull latest code
 git pull origin main
 
 # Set environment variables
 export REGISTRY=ghcr.io
-export IMAGE_NAME=your-org/vigil
+export IMAGE_NAME=your-org/neuroshield
 export IMAGE_TAG=latest
 
 # Run deployment script
@@ -219,7 +219,7 @@ chmod +x scripts/deploy_to_vm.sh
 
 ```bash
 # On deployment machine
-cd /opt/vigil
+cd /opt/neuroshield
 
 # Set environment variables in .env file
 cp env.example .env
@@ -241,19 +241,19 @@ docker-compose ps
 
 ### Environment Variables
 
-**File**: `/opt/vigil/.env`
+**File**: `/opt/neuroshield/.env`
 
 `.env` is for bootstrap-only settings. LLM provider keys, SIEM
 credentials, and other secrets are configured through the web UI
 (Settings → AI / LLM Providers, Settings → Integrations) and stored
-encrypted at `~/.vigil/secrets.enc`. For server-side / orchestrated
+encrypted at `~/.neuroshield/secrets.enc`. For server-side / orchestrated
 deployments where the UI isn't available at first boot, inject secrets
 via the Helm chart values (see [HELM.md](HELM.md)) or your secret
 manager of choice.
 
 ```bash
 # Database
-DATABASE_URL=postgresql://deeptempo:secure_password@postgres:5432/deeptempo_soc
+DATABASE_URL=postgresql://neuroshield:secure_password@postgres:5432/neuroshield_soc
 POSTGRES_PASSWORD=secure_password_change_me
 
 # Backend
@@ -270,7 +270,7 @@ RELEASE_VERSION=v1.2.3
 
 ### Docker Compose Configuration
 
-**File**: `/opt/vigil/docker-compose.yml`
+**File**: `/opt/neuroshield/docker-compose.yml`
 
 ```yaml
 version: '3.8'
@@ -278,10 +278,10 @@ version: '3.8'
 services:
   postgres:
     image: postgres:16-alpine
-    container_name: deeptempo-postgres
+    container_name: neuroshield-postgres
     environment:
-      POSTGRES_DB: deeptempo_soc
-      POSTGRES_USER: deeptempo
+      POSTGRES_DB: neuroshield_soc
+      POSTGRES_USER: neuroshield
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
@@ -289,7 +289,7 @@ services:
 
   backend:
     image: ${REGISTRY}/${IMAGE_NAME}-backend:${IMAGE_TAG}
-    container_name: deeptempo-backend
+    container_name: neuroshield-backend
     environment:
       - DATABASE_URL
       - SECRET_KEY
@@ -298,7 +298,7 @@ services:
     volumes:
       # Persist the encrypted secret store across container restarts so
       # provider keys configured via the UI survive image upgrades.
-      - vigil_secrets:/root/.vigil
+      - vigil_secrets:/root/.neuroshield
     ports:
       - "6987:6987"
     depends_on:
@@ -307,12 +307,12 @@ services:
 
   soc-daemon:
     image: ${REGISTRY}/${IMAGE_NAME}-daemon:${IMAGE_TAG}
-    container_name: deeptempo-daemon
+    container_name: neuroshield-daemon
     environment:
       - DATABASE_URL
       - BIFROST_URL
     volumes:
-      - vigil_secrets:/root/.vigil
+      - vigil_secrets:/root/.neuroshield
     ports:
       - "8081:8081"  # Webhook
       - "9090:9090"  # Metrics
@@ -327,12 +327,12 @@ volumes:
 
 ### Nginx Reverse Proxy (Optional)
 
-**File**: `/etc/nginx/sites-available/vigil`
+**File**: `/etc/nginx/sites-available/neuroshield`
 
 ```nginx
 server {
     listen 80;
-    server_name app.deeptempo.ai;
+    server_name app.neuroshield.ai;
     
     # Redirect to HTTPS
     return 301 https://$server_name$request_uri;
@@ -340,11 +340,11 @@ server {
 
 server {
     listen 443 ssl http2;
-    server_name app.deeptempo.ai;
+    server_name app.neuroshield.ai;
     
     # SSL certificates
-    ssl_certificate /etc/letsencrypt/live/app.deeptempo.ai/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/app.deeptempo.ai/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/app.neuroshield.ai/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/app.neuroshield.ai/privkey.pem;
     
     # API
     location /api {
@@ -357,7 +357,7 @@ server {
     
     # Frontend
     location / {
-        root /opt/vigil/frontend/build;
+        root /opt/neuroshield/frontend/build;
         try_files $uri $uri/ /index.html;
     }
 }
@@ -430,7 +430,7 @@ curl http://localhost:9090/metrics
 docker run -d -p 3000:3000 grafana/grafana
 
 # Add Prometheus datasource
-# Import Vigil dashboard
+# Import NeuroShield AI dashboard
 ```
 
 ---
@@ -442,17 +442,17 @@ docker run -d -p 3000:3000 grafana/grafana
 **Automated Daily Backups**:
 ```bash
 # Create backup script
-vi /opt/vigil/scripts/backup.sh
+vi /opt/neuroshield/scripts/backup.sh
 ```
 
 ```bash
 #!/bin/bash
-BACKUP_DIR="/opt/vigil/backups"
+BACKUP_DIR="/opt/neuroshield/backups"
 DATE=$(date +%Y%m%d_%H%M%S)
 BACKUP_FILE="$BACKUP_DIR/deeptempo_$DATE.sql"
 
 # Create backup
-docker-compose exec -T postgres pg_dump -U deeptempo deeptempo_soc > $BACKUP_FILE
+docker-compose exec -T postgres pg_dump -U neuroshield neuroshield_soc > $BACKUP_FILE
 
 # Compress
 gzip $BACKUP_FILE
@@ -469,7 +469,7 @@ echo "Backup completed: ${BACKUP_FILE}.gz"
 crontab -e
 
 # Add daily backup at 2 AM
-0 2 * * * /opt/vigil/scripts/backup.sh >> /opt/vigil/logs/backup.log 2>&1
+0 2 * * * /opt/neuroshield/scripts/backup.sh >> /opt/neuroshield/logs/backup.log 2>&1
 ```
 
 ### Database Restore
@@ -479,7 +479,7 @@ crontab -e
 docker-compose stop backend soc-daemon
 
 # Restore from backup
-gunzip -c backups/deeptempo_20260127.sql.gz | docker-compose exec -T postgres psql -U deeptempo deeptempo_soc
+gunzip -c backups/deeptempo_20260127.sql.gz | docker-compose exec -T postgres psql -U neuroshield neuroshield_soc
 
 # Start services
 docker-compose start backend soc-daemon
@@ -538,7 +538,7 @@ docker-compose up -d --build --force-recreate backend
 docker-compose ps postgres
 
 # Test connection
-docker-compose exec postgres psql -U deeptempo -d deeptempo_soc -c "SELECT 1;"
+docker-compose exec postgres psql -U neuroshield -d neuroshield_soc -c "SELECT 1;"
 
 # Check network
 docker network ls
@@ -576,10 +576,10 @@ df -h
 docker system prune -a --volumes
 
 # Remove old images
-docker images | grep vigil | grep -v latest | awk '{print $3}' | xargs docker rmi
+docker images | grep neuroshield | grep -v latest | awk '{print $3}' | xargs docker rmi
 
 # Cleanup old logs
-find /opt/vigil/logs -name "*.log" -mtime +7 -delete
+find /opt/neuroshield/logs -name "*.log" -mtime +7 -delete
 ```
 
 ---
@@ -654,7 +654,7 @@ curl http://localhost:6987/health
 docker-compose down
 
 # 2. Restore database backup
-gunzip -c backups/pre-v1.2.3.sql.gz | docker-compose exec -T postgres psql -U deeptempo deeptempo_soc
+gunzip -c backups/pre-v1.2.3.sql.gz | docker-compose exec -T postgres psql -U neuroshield neuroshield_soc
 
 # 3. Revert code
 git checkout v1.2.2

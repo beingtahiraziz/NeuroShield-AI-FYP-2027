@@ -48,7 +48,7 @@ export default function SystemSection({ notify }: SectionProps) {
   return (
     <SettingsCard
       title="Platform Database Proxy"
-      desc="Optional hop in front of Vigil's own metadata Postgres (PgBouncer pooler or SSH tunnel to a bastion). Credentials are kept in the encrypted secrets store. Changes take effect after a backend restart."
+      desc="Optional hop in front of NeuroShield AI's own metadata Postgres (PgBouncer pooler or SSH tunnel to a bastion). Credentials are kept in the encrypted secrets store. Changes take effect after a backend restart."
       actions={
         <button className="btn primary" onClick={handleSave} disabled={saving}>
           <Icon name="check2" /> {saving ? 'Saving…' : 'Save Configuration'}
@@ -108,7 +108,7 @@ export default function SystemSection({ notify }: SectionProps) {
                 <Field label="SSH Private Key Path" hint="Absolute path on the backend host.">
                   <TextInput
                     value={form.ssh_private_key_path}
-                    placeholder="/home/vigil/.ssh/id_ed25519"
+                    placeholder="/home/neuroshield/.ssh/id_ed25519"
                     onChange={(e) => setForm({ ...form, ssh_private_key_path: e.target.value })}
                   />
                 </Field>

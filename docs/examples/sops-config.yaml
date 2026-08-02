@@ -1,4 +1,4 @@
-# Example .sops.yaml for encrypting Vigil secret manifests.
+# Example .sops.yaml for encrypting NeuroShield AI secret manifests.
 #
 # Place this at the repo root as `.sops.yaml`. SOPS reads it to decide which
 # encryption key to use for files matching `path_regex`.
@@ -22,4 +22,4 @@ creation_rules:
 
   # Alternative: AWS KMS
   # - path_regex: secrets/.*\.yaml$
-  #   kms: 'arn:aws:kms:us-east-1:123456789012:alias/vigil-sops'
+  #   kms: 'arn:aws:kms:us-east-1:123456789012:alias/neuroshield-sops'

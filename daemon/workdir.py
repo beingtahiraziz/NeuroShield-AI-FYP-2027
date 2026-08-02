@@ -113,7 +113,7 @@ class WorkdirManager:
     
     def append_log(self, investigation_id: str, event: Dict[str, Any]):
         event.setdefault("ts", datetime.utcnow().isoformat())
-        event.setdefault("vigil.investigation.id", investigation_id)
+        event.setdefault("neuroshield.investigation.id", investigation_id)
         # Embed current OTEL trace context so log lines are correlatable in Jaeger/Grafana
         try:
             from opentelemetry import trace

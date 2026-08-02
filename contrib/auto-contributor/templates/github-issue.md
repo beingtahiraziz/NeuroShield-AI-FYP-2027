@@ -12,7 +12,7 @@
 [2-3 sentences describing the gap. Reference the proprietary capability that exposed this gap, but do NOT name the specific vendor unless the issue is public. Frame it as a workflow need, not as "Company X has this and we don't."]
 
 **Example:**
-> Proprietary AI red-teaming platforms can reconstruct validated kill chains from offensive tool output and prioritize remediation by how many attack paths a single fix would eliminate. Vigil's Responder agent currently recommends containment actions but does not weight them by kill-chain-elimination impact. This means SOC teams using Vigil alongside offensive tools (like ARTEMIS) must manually assess which remediations have the highest blast-radius reduction.
+> Proprietary AI red-teaming platforms can reconstruct validated kill chains from offensive tool output and prioritize remediation by how many attack paths a single fix would eliminate. NeuroShield AI's Responder agent currently recommends containment actions but does not weight them by kill-chain-elimination impact. This means SOC teams using NeuroShield AI alongside offensive tools (like ARTEMIS) must manually assess which remediations have the highest blast-radius reduction.
 
 ## Proposed Solution
 
@@ -27,10 +27,10 @@
 - [ ] Other: [describe]
 
 ### How it works
-[3-5 bullet points describing the implementation approach. Be specific about inputs, outputs, and how this connects to existing Vigil components.]
+[3-5 bullet points describing the implementation approach. Be specific about inputs, outputs, and how this connects to existing NeuroShield AI components.]
 
 ### Interfaces
-- **Input:** [What data this component consumes — e.g., ARTEMIS findings JSON, Vigil findings database]
+- **Input:** [What data this component consumes — e.g., ARTEMIS findings JSON, NeuroShield AI findings database]
 - **Output:** [What it produces — e.g., prioritized remediation list, MITRE ATT&CK layer, Sigma rules]
 - **Connects to:** [Which existing agents, skills, or MCP servers it interacts with]
 
@@ -63,7 +63,7 @@
 
 ## References
 
-- [Link to relevant Vigil docs]
+- [Link to relevant NeuroShield AI docs]
 - [Link to relevant ARTEMIS docs]
 - [Link to relevant research papers or blog posts]
 - [Link to the auto-contributor report that generated this issue]

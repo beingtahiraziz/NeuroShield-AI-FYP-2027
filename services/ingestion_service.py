@@ -1,11 +1,11 @@
 """
-Data Ingestion Service for Vigil SOC
+Data Ingestion Service for NeuroShield AI SOC
 
 Handles ingestion of findings and cases from various formats:
 - JSON files
 - CSV files  
 - JSONL (JSON Lines) files
-- Parquet files (DeepTempo LogLM embeddings)
+- Parquet files (NeuroShield LogLM embeddings)
 - Direct JSON data
 
 All data is stored in PostgreSQL when available, with fallback to JSON files.
@@ -642,7 +642,7 @@ class IngestionService:
         data_source: str = 'flow'
     ) -> Dict[str, Any]:
         """
-        Ingest findings from a DeepTempo LogLM parquet file.
+        Ingest findings from a NeuroShield LogLM parquet file.
 
         Parquet files contain embedding vectors and metadata from the LogLM
         model. Columns are mapped to the findings schema as follows:
@@ -713,7 +713,7 @@ class IngestionService:
         data_source: str = 'flow'
     ) -> Dict[str, Any]:
         """
-        Transform a row from a DeepTempo LogLM parquet file into a finding dict.
+        Transform a row from a NeuroShield LogLM parquet file into a finding dict.
 
         Args:
             row: Dictionary of column values for one row

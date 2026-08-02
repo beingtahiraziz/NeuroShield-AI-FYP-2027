@@ -1043,7 +1043,7 @@ export interface KafkaStats {
 export const KAFKA_DEFAULTS: KafkaConfig = {
   enabled: false,
   bootstrap_servers: 'localhost:9092',
-  consumer_group: 'vigil-soc',
+  consumer_group: 'neuroshield-soc',
   topics: [],
   auto_offset_reset: 'latest',
   security_protocol: 'PLAINTEXT',

@@ -1,5 +1,5 @@
 """
-SQLAlchemy Database Models for Vigil SOC
+SQLAlchemy Database Models for NeuroShield AI SOC
 
 Defines the database schema for cases, findings, and related entities.
 """
@@ -55,7 +55,7 @@ case_findings = Table(
 
 
 class Finding(Base):
-    """Finding model - represents a security finding from DeepTempo LogLM."""
+    """Finding model - represents a security finding from NeuroShield LogLM."""
 
     __tablename__ = "findings"
 
@@ -450,7 +450,7 @@ class SystemConfig(Base):
     """
     System Configuration - Stores system-wide configuration settings.
 
-    This replaces file-based configs in ~/.deeptempo/ for better multi-user
+    This replaces file-based configs in ~/.neuroshield/ for better multi-user
     support, ACID compliance, and audit trails.
     """
 
@@ -2134,7 +2134,7 @@ class LLMInteractionLog(Base):
     duration_ms: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     error: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     # Bifrost virtual-key attribution (#186). Stores the VK the call was
-    # made under so we can group spend per-tenant once Vigil grows a
+    # made under so we can group spend per-tenant once NeuroShield AI grows a
     # tenant model. Empty / NULL for calls made before the budget feature
     # was enabled or while running in DEV_MODE / LLM_BUDGET_UNLIMITED.
     virtual_key_id: Mapped[Optional[str]] = mapped_column(String(64), nullable=True)

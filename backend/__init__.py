@@ -1,4 +1,4 @@
-"""Vigil SOC Backend API."""
+"""NeuroShield AI SOC Backend API."""
 
 from pathlib import Path
 

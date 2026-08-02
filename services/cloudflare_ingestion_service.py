@@ -1,7 +1,7 @@
 """Cloudy / Cloudflare Security Insights ingestion.
 
 Transforms a Cloudflare-pushed event (with an attached Cloudy natural-language
-summary) into a Vigil finding. Because the public Cloudy webhook contract is
+summary) into a NeuroShield AI finding. Because the public Cloudy webhook contract is
 not stable as of writing, this transformer is intentionally permissive: any
 fields the upstream payload happens to provide are forwarded into the finding
 under `evidence.cloudy_summary` and `entity_context`.
@@ -25,7 +25,7 @@ def _utcnow_iso() -> str:
 
 
 class CloudyIngestionService:
-    """Build Vigil findings from Cloudflare Cloudy event payloads."""
+    """Build NeuroShield AI findings from Cloudflare Cloudy event payloads."""
 
     def __init__(self):
         # Lazy import: ingestion_service is also lazy elsewhere in the codebase;
@@ -35,7 +35,7 @@ class CloudyIngestionService:
         self.ingestion_service = IngestionService()
 
     def transform_event(self, payload: Dict[str, Any]) -> Optional[Dict[str, Any]]:
-        """Map a Cloudy webhook payload to a Vigil finding dict.
+        """Map a Cloudy webhook payload to a NeuroShield AI finding dict.
 
         Returns ``None`` if the payload is unparseable. Returns a dict suitable
         for `IngestionService.ingest_finding()` otherwise.

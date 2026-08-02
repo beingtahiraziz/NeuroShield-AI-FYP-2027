@@ -1,4 +1,4 @@
-# Vigil SOC
+# NeuroShield AI SOC
 
 AI-powered Security Operations Center using Claude and MCP (Model Context Protocol).
 
@@ -13,7 +13,7 @@ AI-powered Security Operations Center using Claude and MCP (Model Context Protoc
                               ▼
 ┌─────────────────────────────────────────────────────────────────┐
 │                      MCP Server Layer                            │
-│  DeepTempo Findings │ Approval │ Attack Layer │ 30+ Integrations │
+│  NeuroShield Findings │ Approval │ Attack Layer │ 30+ Integrations │
 └─────────────────────────────────────────────────────────────────┘
                               │
                               ▼
@@ -24,7 +24,7 @@ AI-powered Security Operations Center using Claude and MCP (Model Context Protoc
                               │
                               ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                      DeepTempo LogLM                             │
+│                      NeuroShield LogLM                             │
 │   Embeddings │ Anomaly Detection │ MITRE ATT&CK Classification  │
 └─────────────────────────────────────────────────────────────────┘
 ```
@@ -33,7 +33,7 @@ AI-powered Security Operations Center using Claude and MCP (Model Context Protoc
 
 | Component | Purpose |
 |-----------|---------|
-| **DeepTempo LogLM** | Detection, embedding generation, MITRE classification |
+| **NeuroShield LogLM** | Detection, embedding generation, MITRE classification |
 | **Claude + Agents** | Reasoning, investigation workflows, response orchestration |
 | **MCP Servers** | Tool access for findings, cases, integrations |
 | **PostgreSQL** | Findings, cases, embeddings, audit logs |
@@ -67,7 +67,7 @@ AI-powered Security Operations Center using Claude and MCP (Model Context Protoc
 
 ## Data Flow
 
-1. **Ingest**: DeepTempo exports findings with embeddings
+1. **Ingest**: NeuroShield exports findings with embeddings
 2. **Store**: PostgreSQL holds findings, cases, embeddings
 3. **Query**: Claude invokes MCP tools to search/filter
 4. **Analyze**: Specialized agents guide investigation

@@ -10,7 +10,7 @@ Two backends ship out of the box:
   Mailgun / corporate SMTP relay via env vars — we deliberately don't
   depend on any single provider's SDK.
 
-Select via `VIGIL_EMAIL_BACKEND=console|smtp`. Default: `console`, so a
+Select via `NEUROSHIELD_EMAIL_BACKEND=console|smtp`. Default: `console`, so a
 misconfigured production deploy won't crash auth; it'll just not send the
 email and log the content instead. Flip to `smtp` when SMTP creds are set.
 """
@@ -43,7 +43,7 @@ class ConsoleBackend(EmailBackend):
         logger.info(
             "[email/console] to=%s from=%s subject=%r\n%s",
             to,
-            from_addr or os.getenv("SMTP_FROM", "noreply@vigil.local"),
+            from_addr or os.getenv("SMTP_FROM", "noreply@neuroshield.local"),
             subject,
             body,
         )
@@ -66,7 +66,7 @@ class SMTPBackend(EmailBackend):
         self.password = password or os.getenv("SMTP_PASSWORD")
         tls_env = os.getenv("SMTP_TLS", "true").strip().lower()
         self.use_tls = use_tls if use_tls is not None else tls_env in ("true", "1", "yes", "on")
-        self.default_from = default_from or os.getenv("SMTP_FROM", "noreply@vigil.local")
+        self.default_from = default_from or os.getenv("SMTP_FROM", "noreply@neuroshield.local")
 
     def send(
         self,
@@ -80,7 +80,7 @@ class SMTPBackend(EmailBackend):
             raise RuntimeError(
                 "SMTPBackend selected but SMTP_HOST is not set. "
                 "Configure SMTP_HOST / SMTP_PORT / credentials, or set "
-                "VIGIL_EMAIL_BACKEND=console."
+                "NEUROSHIELD_EMAIL_BACKEND=console."
             )
 
         msg = EmailMessage()
@@ -105,13 +105,13 @@ def get_email_backend() -> EmailBackend:
     global _backend
     if _backend is not None:
         return _backend
-    choice = (os.getenv("VIGIL_EMAIL_BACKEND") or "console").strip().lower()
+    choice = (os.getenv("NEUROSHIELD_EMAIL_BACKEND") or "console").strip().lower()
     if choice == "smtp":
         _backend = SMTPBackend()
     else:
         if choice != "console":
             logger.warning(
-                "Unknown VIGIL_EMAIL_BACKEND=%r; falling back to console backend", choice
+                "Unknown NEUROSHIELD_EMAIL_BACKEND=%r; falling back to console backend", choice
             )
         _backend = ConsoleBackend()
     return _backend

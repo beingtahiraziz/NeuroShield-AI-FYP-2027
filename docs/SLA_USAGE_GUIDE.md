@@ -2,7 +2,7 @@
 
 ## Overview
 
-This guide shows you how to add and manage SLA (Service Level Agreements) for cases in Vigil.
+This guide shows you how to add and manage SLA (Service Level Agreements) for cases in NeuroShield AI.
 
 ## Automatic SLA Assignment ✨
 

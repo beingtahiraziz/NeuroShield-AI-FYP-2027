@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 
 
 class TimelineService:
-    """Service for transforming DeepTempo data to Timesketch timeline format."""
+    """Service for transforming NeuroShield data to Timesketch timeline format."""
     
     @staticmethod
     def findings_to_timeline_events(findings: List[Dict]) -> List[Dict]:
@@ -87,7 +87,7 @@ class TimelineService:
                 'timestamp': timestamp_str,
                 'timestamp_desc': 'Event Time',
                 'message': message,
-                'source': 'DeepTempo Finding',
+                'source': 'NeuroShield Finding',
                 'source_short': 'DT',
                 'data_type': 'security:finding',
                 'finding_id': finding_id,
@@ -163,7 +163,7 @@ class TimelineService:
                 'timestamp': timestamp_str,
                 'timestamp_desc': 'Case Created',
                 'message': f"Case created: {case_title}",
-                'source': 'DeepTempo Case',
+                'source': 'NeuroShield Case',
                 'source_short': 'DT-CASE',
                 'data_type': 'security:case',
                 'case_id': case_id,
@@ -192,7 +192,7 @@ class TimelineService:
                     'timestamp': timestamp_str,
                     'timestamp_desc': 'Case Event',
                     'message': timeline_event.get('event', ''),
-                    'source': 'DeepTempo Case Timeline',
+                    'source': 'NeuroShield Case Timeline',
                     'source_short': 'DT-CASE',
                     'data_type': 'security:case:event',
                     'case_id': case_id,

@@ -99,7 +99,7 @@ Intent Recognition ("add to case" → add_finding_to_case tool)
           ↓
 MCP Tool Selection & Parameter Extraction
           ↓
-MCP Server (deeptempo-findings)
+MCP Server (neuroshield-findings)
           ↓
 Database Service (DatabaseDataService)
           ↓
@@ -119,7 +119,7 @@ Claude's Internal Process:
    - case_id: case-123
    - finding_id: f-001
    - context: "shows lateral movement"
-3. Selects tool: deeptempo-findings_add_finding_to_case
+3. Selects tool: neuroshield-findings_add_finding_to_case
 4. Executes tool call
 5. Sees success response
 6. Optionally adds activity noting the context

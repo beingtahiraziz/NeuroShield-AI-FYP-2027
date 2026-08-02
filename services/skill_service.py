@@ -244,7 +244,7 @@ class SkillService:
         mitre_block = "\n".join(f"  {tid} — {name}" for tid, name in MITRE_TACTICS)
         existing_block = self._format_existing_skills()
 
-        return f"""You design reusable "Skills" for the Vigil SOC platform.
+        return f"""You design reusable "Skills" for the NeuroShield AI SOC platform.
 
 A Skill is a parameterized, composable unit of work an AI SOC analyst can
 invoke. Each skill has: name, category, input_schema (JSON Schema), output_schema,

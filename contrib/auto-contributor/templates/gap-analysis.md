@@ -39,7 +39,7 @@ These exist in open source but with meaningful limitations versus the proprietar
 
 These capabilities have no current open-source equivalent and represent contribution opportunities.
 
-| # | Vendor Capability | Category | Priority | Suggested Vigil Enhancement | Complexity |
+| # | Vendor Capability | Category | Priority | Suggested NeuroShield AI Enhancement | Complexity |
 |---|---|---|---|---|---|
 | | | | P1/P2/P3 | [Agent / Skill / MCP / Rules / Template] | S/M/L |
 
@@ -63,7 +63,7 @@ For each gap identified above, provide enough context for Phase 3 (contribution 
 
 **Why it matters for SOC operations:** [1-2 sentences on the real-world workflow this enables]
 
-**Where it would live in Vigil:**
+**Where it would live in NeuroShield AI:**
 - [ ] New agent in `backend/agents/`
 - [ ] New skill in `skills/`
 - [ ] New MCP server in `mcp-servers/`
@@ -82,13 +82,13 @@ For each gap identified above, provide enough context for Phase 3 (contribution 
 
 ## Open-Source Advantages Not Covered by Vendor
 
-Capabilities that Vigil or the open-source ecosystem provides but the proprietary vendor does not claim or disclose:
+Capabilities that NeuroShield AI or the open-source ecosystem provides but the proprietary vendor does not claim or disclose:
 
 | # | Capability | Project | Why It Matters |
 |---|---|---|---|
 | | Full source code transparency | All | Auditability, customization, trust |
-| | Foundation model flexibility | Vigil | No vendor lock-in on LLM choice |
-| | Community-contributed detection rules | Vigil + Sigma | 7,200+ rules with coverage analysis |
+| | Foundation model flexibility | NeuroShield AI | No vendor lock-in on LLM choice |
+| | Community-contributed detection rules | NeuroShield AI + Sigma | 7,200+ rules with coverage analysis |
 | | Data sovereignty (runs in your environment) | All | No data leaves your infrastructure |
 | | Cost transparency | All | API costs only, no enterprise licensing |
 | | | | |
@@ -103,7 +103,7 @@ Capabilities that Vigil or the open-source ecosystem provides but the proprietar
 2. **[Gap name]** — [1 sentence]
 3. **[Gap name]** — [1 sentence]
 
-**Suggested new Vigil Skill (if applicable):**
+**Suggested new NeuroShield AI Skill (if applicable):**
 
 If the gaps cluster into a coherent workflow, recommend a new Skill that chains the required agents:
 

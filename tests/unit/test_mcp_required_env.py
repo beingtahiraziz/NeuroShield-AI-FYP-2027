@@ -182,8 +182,8 @@ class TestSubstituteEnvVars:
         service = MCPService()
         monkeypatch.setenv("HOME", "/Users/test")
         assert (
-            service._substitute_env_vars("${UNSET_VAR_XYZ:-${HOME}/.vigil/palace}")
-            == "/Users/test/.vigil/palace"
+            service._substitute_env_vars("${UNSET_VAR_XYZ:-${HOME}/.neuroshield/palace}")
+            == "/Users/test/.neuroshield/palace"
         )
 
     def test_nested_default_when_both_unset(self):
@@ -204,14 +204,14 @@ class TestSubstituteEnvVars:
         # from another test would short-circuit the ${VAR:-default} expansion.
         monkeypatch.delenv("MEMPALACE_PALACE_PATH", raising=False)
         result = service._substitute_env_vars(
-            "${MEMPALACE_PALACE_PATH:-${HOME}/.vigil/mempalace/palace}"
+            "${MEMPALACE_PALACE_PATH:-${HOME}/.neuroshield/mempalace/palace}"
         )
-        assert result == "/Users/test/.vigil/mempalace/palace"
+        assert result == "/Users/test/.neuroshield/mempalace/palace"
 
         # When the env var is explicitly set, it wins.
         monkeypatch.setenv("MEMPALACE_PALACE_PATH", "/custom/palace")
         result = service._substitute_env_vars(
-            "${MEMPALACE_PALACE_PATH:-${HOME}/.vigil/mempalace/palace}"
+            "${MEMPALACE_PALACE_PATH:-${HOME}/.neuroshield/mempalace/palace}"
         )
         assert result == "/custom/palace"
 

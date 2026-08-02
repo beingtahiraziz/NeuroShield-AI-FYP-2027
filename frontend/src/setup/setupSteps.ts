@@ -7,7 +7,7 @@ import type { LLMProvider, AIConfigResponse, BudgetSettings } from '../services/
 
 // --- Data-source identification -------------------------------------------
 
-// Categories whose connected integrations mean Vigil is actually being fed
+// Categories whose connected integrations mean NeuroShield AI is actually being fed
 // telemetry. Enrichment / output / identity / sandbox / forensics are excluded.
 export const DATA_SOURCE_CATEGORIES = new Set<string>([
   'SIEM',
@@ -98,7 +98,7 @@ export const SETUP_STEPS: SetupStep[] = [
   {
     id: 'data-source',
     label: 'Connect a data source',
-    description: 'A SIEM or EDR so Vigil has alerts to triage.',
+    description: 'A SIEM or EDR so NeuroShield AI has alerts to triage.',
     doneLabel: 'Connected',
     tier: 'recommended',
     settingsSection: 'integrations',
@@ -117,7 +117,7 @@ export const SETUP_STEPS: SetupStep[] = [
   {
     id: 'cost-guardrails',
     label: 'Set cost guardrails',
-    description: 'Cap how much Vigil spends each month.',
+    description: 'Cap how much NeuroShield AI spends each month.',
     doneLabel: 'Configured',
     tier: 'optional',
     settingsSection: 'ai-config',
@@ -126,7 +126,7 @@ export const SETUP_STEPS: SetupStep[] = [
   {
     id: 'autonomy',
     label: 'Enable autonomous mode',
-    description: 'Let Vigil triage and investigate 24/7, within your cost caps.',
+    description: 'Let NeuroShield AI triage and investigate 24/7, within your cost caps.',
     doneLabel: 'Enabled',
     tier: 'optional',
     settingsSection: 'autoinvestigate',

@@ -15,7 +15,7 @@ import { streamFetch, aiDecisionsApi } from '../services/api'
 // nav). Stub it with a full-permission user so every rail item + screen renders.
 vi.mock('../contexts/AuthContext', () => ({
   useAuth: () => ({
-    user: { full_name: 'Test User', email: 'test@vigil.local', role_id: 'role-admin', mfa_enabled: false },
+    user: { full_name: 'Test User', email: 'test@neuroshield.local', role_id: 'role-admin', mfa_enabled: false },
     logout: vi.fn(),
     hasPermission: () => true,
   }),
@@ -289,7 +289,7 @@ describe('SocConsole redesign', () => {
 
   it('opens the chat dock without error', () => {
     renderConsole()
-    fireEvent.click(screen.getByRole('button', { name: /Ask Vigil/ }))
+    fireEvent.click(screen.getByRole('button', { name: /Ask NeuroShield AI/ }))
     // wired chat starts empty with its prompt
     expect(screen.getByText(/investigate a finding/)).toBeInTheDocument()
   })
@@ -310,7 +310,7 @@ describe('SocConsole redesign', () => {
 
   it('opens chat settings showing status, model and advanced sections', async () => {
     renderConsole()
-    fireEvent.click(screen.getByRole('button', { name: /Ask Vigil/ }))
+    fireEvent.click(screen.getByRole('button', { name: /Ask NeuroShield AI/ }))
     fireEvent.click(screen.getByRole('button', { name: 'Chat settings' }))
     // MCP status resolves from the mocked api (2 of 2 servers ok)
     expect(await screen.findByText('2/2')).toBeInTheDocument()
@@ -341,8 +341,8 @@ describe('SocConsole redesign', () => {
     } as unknown as Response)
 
     renderConsole()
-    fireEvent.click(screen.getByRole('button', { name: /Ask Vigil/ }))
-    fireEvent.change(screen.getByPlaceholderText(/Ask Vigil/), { target: { value: 'hi' } })
+    fireEvent.click(screen.getByRole('button', { name: /Ask NeuroShield AI/ }))
+    fireEvent.change(screen.getByPlaceholderText(/Ask NeuroShield AI/), { target: { value: 'hi' } })
     fireEvent.click(screen.getByRole('button', { name: 'Send' }))
 
     // the two text deltas are concatenated and rendered as the reply. waitFor

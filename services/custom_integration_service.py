@@ -50,7 +50,7 @@ class CustomIntegrationService:
     def __init__(self):
         """Initialize the custom integration service."""
         self.custom_integrations_dir = (
-            Path.home() / ".deeptempo" / "custom_integrations"
+            Path.home() / ".neuroshield" / "custom_integrations"
         ).resolve()
         self.custom_integrations_dir.mkdir(parents=True, exist_ok=True)
         self.metadata_file = self.custom_integrations_dir / "metadata.json"
@@ -236,7 +236,7 @@ Please analyze this documentation and generate:
 
 2. **MCP Server Code** (Python):
    - Complete, production-ready MCP server implementation
-   - Follow the Vigil SOC patterns
+   - Follow the NeuroShield AI SOC patterns
    - Include proper error handling
    - Use config_utils.py for configuration loading
    - Define tools based on the API's capabilities

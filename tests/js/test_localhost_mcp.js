@@ -76,7 +76,7 @@ const fs = require('fs');
       
       // Check if response has appeared
       const pageText = await page.evaluate(() => document.body.innerText);
-      if (pageText.includes('list_mcp_tools') || pageText.includes('deeptempo') || pageText.includes('tool')) {
+      if (pageText.includes('list_mcp_tools') || pageText.includes('neuroshield') || pageText.includes('tool')) {
         console.log(`  → Response detected at ${i} seconds!`);
       }
     }
@@ -98,7 +98,7 @@ const fs = require('fs');
     const hasToolCall = toolCallPattern.test(fullText);
     
     const mcpServerNames = [
-      'deeptempo-findings',
+      'neuroshield-findings',
       'tempo-flow',
       'approval',
       'attack-layer',

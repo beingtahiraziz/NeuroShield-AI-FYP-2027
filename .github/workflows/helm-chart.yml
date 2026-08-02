@@ -30,37 +30,37 @@ jobs:
       - name: Verify db-init SQL copies are in sync
         run: |
           # The chart bundles a copy of database/init/*.sql under
-          # helm/vigil/files/database-init/ because Helm can only read files
+          # helm/neuroshield/files/database-init/ because Helm can only read files
           # inside the chart directory. Drift here means the chart would
           # ship a different schema than the docker-compose stack.
-          diff -r database/init helm/vigil/files/database-init \
+          diff -r database/init helm/neuroshield/files/database-init \
             --exclude=README.md
 
       - name: Fetch chart dependencies
         run: |
           helm repo add bitnami https://charts.bitnami.com/bitnami
           helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
-          helm dependency update helm/vigil
+          helm dependency update helm/neuroshield
           # Helm 4 requires subcharts extracted, not just as tgz
-          for tgz in helm/vigil/charts/*.tgz; do
-            tar -xzf "$tgz" -C helm/vigil/charts/
+          for tgz in helm/neuroshield/charts/*.tgz; do
+            tar -xzf "$tgz" -C helm/neuroshield/charts/
           done
 
       - name: helm lint (default values)
-        run: helm lint helm/vigil
+        run: helm lint helm/neuroshield
 
       - name: helm lint (dev values)
-        run: helm lint helm/vigil -f helm/vigil/values-dev.yaml
+        run: helm lint helm/neuroshield -f helm/neuroshield/values-dev.yaml
 
       - name: helm lint (Bitnami subcharts enabled)
         run: |
-          helm lint helm/vigil \
+          helm lint helm/neuroshield \
             --set postgresql.enabled=false --set postgresql.bitnami.enabled=true \
             --set redis.enabled=false --set redis.bitnami.enabled=true
 
       - name: helm template (default values)
         run: |
-          helm template release-check helm/vigil \
+          helm template release-check helm/neuroshield \
             --set secrets.anthropicApiKey=test-key \
             --set secrets.postgresPassword=test-password \
             > /tmp/manifest-default.yaml
@@ -68,14 +68,14 @@ jobs:
 
       - name: helm template (dev values)
         run: |
-          helm template release-check helm/vigil \
-            -f helm/vigil/values-dev.yaml \
+          helm template release-check helm/neuroshield \
+            -f helm/neuroshield/values-dev.yaml \
             --set secrets.anthropicApiKey=test-key \
             > /tmp/manifest-dev.yaml
 
       - name: helm template (Bitnami subcharts)
         run: |
-          helm template release-check helm/vigil \
+          helm template release-check helm/neuroshield \
             --set secrets.anthropicApiKey=test-key \
             --set postgresql.enabled=false --set postgresql.bitnami.enabled=true \
             --set redis.enabled=false --set redis.bitnami.enabled=true \

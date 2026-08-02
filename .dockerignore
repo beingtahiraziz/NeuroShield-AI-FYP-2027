@@ -50,7 +50,7 @@ LICENSE
 # build backends read README.md for metadata (mempalace's pyproject declares
 # `readme = "README.md"`, which hard-fails if the file is absent). The `*.md`
 # wildcard above would otherwise strip them from the build context.
-!deeptempo-core/README.md
+!neuroshield-core/README.md
 !mcp-servers/README.md
 !mempalace/README.md
 

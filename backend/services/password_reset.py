@@ -30,7 +30,7 @@ from itsdangerous import BadSignature, SignatureExpired, URLSafeTimedSerializer
 logger = logging.getLogger(__name__)
 
 
-RESET_TOKEN_PURPOSE = "vigil-password-reset"
+RESET_TOKEN_PURPOSE = "neuroshield-password-reset"
 DEFAULT_TTL_SECONDS = 3600  # 1 hour
 
 _USED_TOKEN_PREFIX = "password_reset_used:"

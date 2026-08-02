@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom'
 import '../../styles.css'
 import { useAuth } from '../../../contexts/AuthContext'
 import { Icon } from '../../shared/icons'
-import { VigilLogo } from '../../shared/VigilLogo'
+import { NeuroShieldLogo } from '../../shared/NeuroShieldLogo'
 import { accentVars } from '../../shell/accent'
 import { RedesignThemeProvider, useSocTheme } from '../../shell/theme'
 
@@ -91,13 +91,13 @@ function LoginInner() {
         {/* ---------- brand panel ---------- */}
         <section className="brand">
           <div className="brand-top">
-            <VigilLogo className="auth-logo" />
+            <NeuroShieldLogo className="auth-logo" />
           </div>
 
           <div className="brand-body">
             <h1>Security operations, under one calm pane of glass.</h1>
             <p>
-              Triage findings, correlate signals across your estate, and let Vigil
+              Triage findings, correlate signals across your estate, and let NeuroShield AI
               surface what actually needs an analyst — before it becomes an incident.
             </p>
           </div>

@@ -126,14 +126,14 @@ def test_backend_status_reports_canonical_keys():
 def isolated_manager(tmp_path, monkeypatch):
     """Build a SecretsManager with backends pointed at a tmp directory.
 
-    Avoids touching the developer's real ~/.vigil/ and ~/.deeptempo/.env
+    Avoids touching the developer's real ~/.neuroshield/ and ~/.neuroshield/.env
     during tests.
     """
     monkeypatch.setattr(secrets_manager, "_CRYPTOGRAPHY_AVAILABLE", True)
-    encrypted = EncryptedFileBackend(data_dir=tmp_path / "vigil")
+    encrypted = EncryptedFileBackend(data_dir=tmp_path / "neuroshield")
     # Make sure _crypto_ok reflects the patched module-level value.
     encrypted._crypto_ok = True
-    dotenv = DotEnvBackend(env_file=tmp_path / "deeptempo" / ".env")
+    dotenv = DotEnvBackend(env_file=tmp_path / "neuroshield" / ".env")
 
     mgr = SecretsManager(write_backend="encrypted")
     mgr.encrypted_backend = encrypted

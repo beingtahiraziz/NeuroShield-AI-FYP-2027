@@ -88,5 +88,5 @@ export const TITLES: Record<ScreenKey, [string, string]> = {
   decisions: ['AI Decisions', 'Review and provide feedback for AI decisions'],
   workflows: ['Workflows & Skills', 'Pre-built multi-agent workflows for common SOC operations'],
   autoops: ['Auto Ops', 'Autonomous operations — master orchestrator and sub-agent investigations'],
-  settings: ['Settings', 'Configure Vigil — AI, integrations, users and platform'],
+  settings: ['Settings', 'Configure NeuroShield AI — AI, integrations, users and platform'],
 }

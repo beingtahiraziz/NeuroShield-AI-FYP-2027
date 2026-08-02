@@ -1,7 +1,7 @@
 # Submodules (editable installs)
 # NOTE: These are only installed when submodules are initialized.
 # Run: git submodule update --init --recursive
--e ./deeptempo-core
+-e ./neuroshield-core
 -e ./mcp-servers
 # mempalace is a first-class component (#129). It's a git submodule rather than
 # a PyPI pin so we can track a specific upstream SHA and patch locally; chromadb
@@ -9,7 +9,7 @@
 -e ./mempalace
 
 
-# Vigil SOC - Requirements
+# NeuroShield AI SOC - Requirements
 # Python 3.10+ required (claude-agent-sdk requires >=3.10)
 
 # Core

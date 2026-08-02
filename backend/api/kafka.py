@@ -39,7 +39,7 @@ class KafkaConfigBody(BaseModel):
 
     enabled: bool = False
     bootstrap_servers: str = "localhost:9092"
-    consumer_group: str = "vigil-soc"
+    consumer_group: str = "neuroshield-soc"
     topics: List[str] = Field(default_factory=list)
     auto_offset_reset: str = "latest"
     security_protocol: str = "PLAINTEXT"

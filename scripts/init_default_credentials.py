@@ -29,7 +29,7 @@ def init_default_credentials():
     """Initialize default roles and admin user in the database."""
     
     print("=" * 50)
-    print("Vigil SOC - Default Credentials Setup")
+    print("NeuroShield AI SOC - Default Credentials Setup")
     print("=" * 50)
     
     # Initialize database connection
@@ -177,7 +177,7 @@ def init_default_credentials():
     # Hash: $2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewY5aeWG6QErKLzG
     admin_user_sql = """
     INSERT INTO users (user_id, username, email, password_hash, full_name, role_id, is_active, is_verified) VALUES
-    ('user-admin-default', 'admin', 'admin@deeptempo.ai', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewY5aeWG6QErKLzG', 'System Administrator', 'role-admin', true, true)
+    ('user-admin-default', 'admin', 'admin@neuroshield.ai', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewY5aeWG6QErKLzG', 'System Administrator', 'role-admin', true, true)
     ON CONFLICT (user_id) DO NOTHING;
     """
     
@@ -221,7 +221,7 @@ def init_default_credentials():
             print("=" * 50)
             print(f"Username: admin")
             print(f"Password: admin123")
-            print(f"Email:    admin@deeptempo.ai")
+            print(f"Email:    admin@neuroshield.ai")
             print(f"Role:     Admin (full system access)")
             print("")
             print("⚠️  IMPORTANT: Change the default password after first login!")

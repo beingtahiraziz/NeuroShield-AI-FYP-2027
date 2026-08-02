@@ -15,7 +15,7 @@ ENVIRONMENT=${1:-staging}
 VM_HOST=${VM_HOST:-}
 VM_USER=${VM_USER:-deployer}
 REGISTRY=${REGISTRY:-ghcr.io}
-IMAGE_NAME=${IMAGE_NAME:-deeptempo/ai-opensoc}
+IMAGE_NAME=${IMAGE_NAME:-neuroshield/ai-opensoc}
 IMAGE_TAG=${IMAGE_TAG:-latest}
 DEPLOY_DIR="/opt/ai-opensoc"
 

@@ -1,6 +1,6 @@
-# Contributing to Vigil
+# Contributing to NeuroShield AI
 
-Thank you for your interest in contributing to Vigil. This document covers how to get started, how to submit changes, and how to find things to work on.
+Thank you for your interest in contributing to NeuroShield AI. This document covers how to get started, how to submit changes, and how to find things to work on.
 
 ## Getting Started
 
@@ -15,8 +15,8 @@ Thank you for your interest in contributing to Vigil. This document covers how t
 ### Local Setup
 
 ```bash
-git clone --recurse-submodules https://github.com/Vigil-SOC/vigil.git
-cd vigil
+git clone --recurse-submodules https://github.com/NeuroShield-AI/neuroshield.git
+cd neuroshield
 ./start.sh
 ```
 
@@ -31,8 +31,8 @@ See the [README](README.md) for full setup instructions including manual install
 1. **Fork** the repository to your GitHub account
 2. **Clone** your fork locally:
    ```bash
-   git clone --recurse-submodules https://github.com/YOUR-USERNAME/vigil.git
-   cd vigil
+   git clone --recurse-submodules https://github.com/YOUR-USERNAME/neuroshield.git
+   cd neuroshield
    ```
 3. **Create a branch** for your work:
    ```bash
@@ -47,11 +47,11 @@ See the [README](README.md) for full setup instructions including manual install
    ```bash
    git push origin feature/your-feature-name
    ```
-7. **Open a Pull Request** from your fork to `Vigil-SOC/vigil:main`
+7. **Open a Pull Request** from your fork to `NeuroShield-AI/neuroshield:main`
 
 ### Sign-Off Requirement (DCO)
 
-All commits must include a `Signed-off-by` line certifying you have the right to submit the code under Vigil's Apache 2.0 license. This is the [Developer Certificate of Origin](DCO).
+All commits must include a `Signed-off-by` line certifying you have the right to submit the code under NeuroShield AI's Apache 2.0 license. This is the [Developer Certificate of Origin](DCO).
 
 Add it automatically with the `-s` flag:
 
@@ -68,13 +68,13 @@ git config user.email "your@email.com"
 
 ### Versioning and Releases
 
-Vigil follows [Semantic Versioning](https://semver.org/). While in `0.x`,
+NeuroShield AI follows [Semantic Versioning](https://semver.org/). While in `0.x`,
 minor version bumps may include breaking changes to agent prompts, workflow
 schemas, and MCP integration interfaces. Patch bumps are always backward
 compatible. See [`RELEASING.md`](RELEASING.md) for the full release process.
 
-The Helm chart at `helm/vigil/` has two version fields: `appVersion`
-(the Vigil release the chart deploys) and chart `version` (the chart
+The Helm chart at `helm/neuroshield/` has two version fields: `appVersion`
+(the NeuroShield AI release the chart deploys) and chart `version` (the chart
 packaging version). release-please bumps **both in lockstep** on every
 release. See [`RELEASING.md`](RELEASING.md) for the rationale and the
 escape hatch for chart-only changes between app releases.
@@ -83,11 +83,11 @@ escape hatch for chart-only changes between app releases.
 
 ### Good First Issues
 
-Look for issues labeled [`good-first-issue`](https://github.com/Vigil-SOC/vigil/labels/good-first-issue) — these are scoped, well-defined tasks suitable for new contributors.
+Look for issues labeled [`good-first-issue`](https://github.com/NeuroShield-AI/neuroshield/labels/good-first-issue) — these are scoped, well-defined tasks suitable for new contributors.
 
 ### Using the Auto-Contributor
 
-Vigil includes a competitive research tool in `contrib/auto-contributor/` that identifies capability gaps versus proprietary AI security platforms and generates contribution specifications. If you want to find meaningful work:
+NeuroShield AI includes a competitive research tool in `contrib/auto-contributor/` that identifies capability gaps versus proprietary AI security platforms and generates contribution specifications. If you want to find meaningful work:
 
 1. Pick a proprietary AI SOC or security platform
 2. Run the auto-contributor skill to identify gaps
@@ -99,7 +99,7 @@ See `contrib/README.md` for details.
 
 Contributions are welcome across all areas:
 
-- **New MCP integrations** — connect Vigil to additional security tools (EDR, SIEM, cloud, ticketing)
+- **New MCP integrations** — connect NeuroShield AI to additional security tools (EDR, SIEM, cloud, ticketing)
 - **Agent improvements** — enhance agent prompts, reasoning, or tool usage
 - **New Workflows** — define new multi-agent workflows in `workflows/`
 - **Detection rules** — add Sigma, Splunk, Elastic, or KQL rules
@@ -112,7 +112,7 @@ Contributions are welcome across all areas:
 ### Project Structure
 
 ```
-vigil/
+neuroshield/
 ├── workflows/       # Multi-agent workflow definitions (WORKFLOW.md files)
 ├── contrib/         # Community development tools (not runtime)
 ├── mcp-servers/     # MCP server implementations
@@ -175,7 +175,7 @@ Signed-off-by: Your Name <your@email.com>
 - `test:` — adding or fixing tests
 - `perf:` — performance improvement
 
-**Common scopes for Vigil:** `agents`, `workflows`, `mcp`, `frontend`,
+**Common scopes for NeuroShield AI:** `agents`, `workflows`, `mcp`, `frontend`,
 `daemon`, `helm`, `api`, `db`.
 
 **Breaking changes:** add `!` after the type/scope (`feat!:`) or include
@@ -215,4 +215,4 @@ Join us on [Discord](https://discord.gg/Kw68sPJU) to discuss ideas, get help, an
 
 ## License
 
-By contributing to Vigil, you agree that your contributions will be licensed under the [Apache 2.0 License](LICENSE).
+By contributing to NeuroShield AI, you agree that your contributions will be licensed under the [Apache 2.0 License](LICENSE).

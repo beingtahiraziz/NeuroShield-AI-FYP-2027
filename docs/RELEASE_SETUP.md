@@ -1,6 +1,6 @@
 # Release Setup
 
-One time setup for Vigil's automated release flow. Day to day releases
+One time setup for NeuroShield AI's automated release flow. Day to day releases
 need no configuration on this page — see [RELEASING.md](../RELEASING.md)
 for the release procedure. This document covers the GitHub App that
 `.github/workflows/release-please.yml` depends on.
@@ -14,8 +14,8 @@ leave, and tokens auto-rotate so there is no manual key rotation chore.
 
 ## Required App permissions
 
-Create a GitHub App on the `Vigil-SOC` org (org Owner role required) at
-[github.com/organizations/Vigil-SOC/settings/apps](https://github.com/organizations/Vigil-SOC/settings/apps).
+Create a GitHub App on the `NeuroShield-AI` org (org Owner role required) at
+[github.com/organizations/NeuroShield-AI/settings/apps](https://github.com/organizations/NeuroShield-AI/settings/apps).
 Grant only these **Repository permissions** — leave everything else at
 "No access":
 
@@ -27,13 +27,13 @@ Grant only these **Repository permissions** — leave everything else at
 | Workflows      | Read and write | In case the release PR ever touches `.github/workflows/`  |
 
 Uncheck "Active" under Webhooks (not needed). Restrict installation to
-"Only on this account". Install the App on the `vigil` repo only.
+"Only on this account". Install the App on the `neuroshield` repo only.
 
 ## Wire it into the repo
 
 `.github/workflows/release-please.yml` references two repo-level
 configuration items by exact name. Set both at
-[Settings → Secrets and variables → Actions](https://github.com/Vigil-SOC/vigil/settings/secrets/actions):
+[Settings → Secrets and variables → Actions](https://github.com/NeuroShield-AI/neuroshield/settings/secrets/actions):
 
 | Name                         | Tab           | Value                                                                                                                       |
 |------------------------------|---------------|-----------------------------------------------------------------------------------------------------------------------------|

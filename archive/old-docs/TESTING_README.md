@@ -1,4 +1,4 @@
-# Testing Guide - Vigil-SOC
+# Testing Guide - NeuroShield-AI
 
 This guide explains how to run tests, interpret results, and use test feedback with Cursor.
 

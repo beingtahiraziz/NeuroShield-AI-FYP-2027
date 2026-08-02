@@ -43,7 +43,7 @@ class EmailService:
         self.smtp_user = smtp_user or os.getenv('SMTP_USER', '')
         self.smtp_password = smtp_password or os.getenv('SMTP_PASSWORD', '')
         self.use_tls = use_tls
-        self.from_address = from_address or os.getenv('SMTP_FROM', 'noreply@deeptempo.ai')
+        self.from_address = from_address or os.getenv('SMTP_FROM', 'noreply@neuroshield.ai')
         self.enabled = all([self.smtp_host, self.smtp_user, self.smtp_password])
     
     def send_email(
@@ -151,7 +151,7 @@ Priority: {case_priority}
 Please review and take appropriate action.
 
 --
-Vigil SOC
+NeuroShield AI SOC
 """
         
         body_html = f"""
@@ -178,7 +178,7 @@ Vigil SOC
     <p>Please review and take appropriate action.</p>
     
     <hr style="margin-top: 30px; border: none; border-top: 1px solid #ccc;">
-    <p style="font-size: 12px; color: #666;">Vigil SOC</p>
+    <p style="font-size: 12px; color: #666;">NeuroShield AI SOC</p>
 </body>
 </html>
 """
@@ -228,7 +228,7 @@ Elapsed: {breach_percent}%
 Immediate attention required.
 
 --
-Vigil SOC
+NeuroShield AI SOC
 """
         
         body_html = f"""
@@ -262,7 +262,7 @@ Vigil SOC
     <p style="font-weight: bold; color: #d32f2f;">Immediate attention required.</p>
     
     <hr style="margin-top: 30px; border: none; border-top: 1px solid #ccc;">
-    <p style="font-size: 12px; color: #666;">Vigil SOC</p>
+    <p style="font-size: 12px; color: #666;">NeuroShield AI SOC</p>
 </body>
 </html>
 """
@@ -306,7 +306,7 @@ Case: {case_title}
 Comment: {comment_excerpt}
 
 --
-Vigil SOC
+NeuroShield AI SOC
 """
         
         body_html = f"""
@@ -321,7 +321,7 @@ Vigil SOC
     </div>
     
     <hr style="margin-top: 30px; border: none; border-top: 1px solid #ccc;">
-    <p style="font-size: 12px; color: #666;">Vigil SOC</p>
+    <p style="font-size: 12px; color: #666;">NeuroShield AI SOC</p>
 </body>
 </html>
 """
@@ -371,7 +371,7 @@ Reason: {escalation_reason}
 Please review immediately.
 
 --
-Vigil SOC
+NeuroShield AI SOC
 """
         
         body_html = f"""
@@ -405,7 +405,7 @@ Vigil SOC
     <p style="font-weight: bold; color: #ff5722;">Please review immediately.</p>
     
     <hr style="margin-top: 30px; border: none; border-top: 1px solid #ccc;">
-    <p style="font-size: 12px; color: #666;">Vigil SOC</p>
+    <p style="font-size: 12px; color: #666;">NeuroShield AI SOC</p>
 </body>
 </html>
 """

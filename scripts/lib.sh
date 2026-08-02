@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# scripts/lib.sh — shared helpers for Vigil scripts. Source this, don't execute.
+# scripts/lib.sh — shared helpers for NeuroShield AI scripts. Source this, don't execute.
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -17,10 +17,10 @@ fi
 dc() { "${_DC_CMD[@]}" -f "$REPO_ROOT/docker/docker-compose.yml" "$@"; }
 
 # --- Find Python 3.10+ ---
-# Vigil requires Python 3.13+ (claude-agent-sdk). Some integration packages
+# NeuroShield AI requires Python 3.13+ (claude-agent-sdk). Some integration packages
 # (pysnow/ServiceNow, google-cloud-security-command-center, tenable-io) don't
 # support 3.13 yet. Those integrations run as MCP servers in isolated processes
-# with their own runtime — Vigil core never imports their packages directly.
+# with their own runtime — NeuroShield AI core never imports their packages directly.
 find_python() {
     for cmd in python3.13 python3.12 python3.11 python3.10 python3 python; do
         if command -v "$cmd" &>/dev/null; then
@@ -93,8 +93,8 @@ wait_for_url() {
 # --- Ensure a docker service is running ---
 ensure_container() {
     local name="$1" service="$2"
-    # Anchored exact-name match so e.g. deeptempo-postgres-test doesn't
-    # mask a missing deeptempo-postgres.
+    # Anchored exact-name match so e.g. neuroshield-postgres-test doesn't
+    # mask a missing neuroshield-postgres.
     if [ -n "$(docker ps -q -f "name=^${name}$")" ]; then
         return 0
     fi
@@ -105,7 +105,7 @@ ensure_container() {
 wait_for_postgres() {
     local i=0
     while [ $i -lt 30 ]; do
-        docker exec deeptempo-postgres pg_isready -U postgres &>/dev/null && return 0
+        docker exec neuroshield-postgres pg_isready -U postgres &>/dev/null && return 0
         sleep 1; i=$((i + 1))
     done
     echo "Warning: PostgreSQL may not be ready" >&2

@@ -54,7 +54,7 @@ combined = (anomaly_score * 0.6) + (max_mitre_confidence * 0.4)
 <  0.4: low
 ```
 
-## MCP Tools - DeepTempo Findings
+## MCP Tools - NeuroShield Findings
 
 ### `get_finding`
 

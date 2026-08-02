@@ -30,12 +30,12 @@ The workflows are currently configured for **Continuous Integration** only - the
 
 ### 2. `release-please.yml` - Automated Release PRs
 - **Triggers**: Push to `main`, manual dispatch
-- **Purpose**: Read Conventional Commits since the last tag; open or update a release PR that bumps `VERSION`, `helm/vigil/Chart.yaml` (both `appVersion` and `version`, in lockstep), `frontend/package.json`, and `frontend/package-lock.json`, and updates `CHANGELOG.md`. On merge, push the `vX.Y.Z` tag and create the GitHub Release. See `RELEASING.md`.
+- **Purpose**: Read Conventional Commits since the last tag; open or update a release PR that bumps `VERSION`, `helm/neuroshield/Chart.yaml` (both `appVersion` and `version`, in lockstep), `frontend/package.json`, and `frontend/package-lock.json`, and updates `CHANGELOG.md`. On merge, push the `vX.Y.Z` tag and create the GitHub Release. See `RELEASING.md`.
 - **Deployment**: None (tagging only — downstream `release.yml` handles deploys)
 
 ### 3. `release.yml` - Tag-Triggered Image Build & Publish
 - **Triggers**: Version tags (`v*.*.*`)
-- **Purpose**: Build and push the `vigil-backend` and `vigil-daemon` images to GHCR, smoke-test that they start, and annotate the GitHub Release with the image digests. The GitHub Release object itself is created by `release-please.yml`, not this workflow.
+- **Purpose**: Build and push the `neuroshield-backend` and `neuroshield-daemon` images to GHCR, smoke-test that they start, and annotate the GitHub Release with the image digests. The GitHub Release object itself is created by `release-please.yml`, not this workflow.
 - **Deployment**: None — this workflow publishes images only, it does not deploy. (`scripts/deploy_to_vm.sh` is an unwired manual VM-deploy helper kept for the future; see `docs/DEPLOYMENT_GUIDE.md`.)
 
 ### 4. `nightly.yml` - Scheduled Testing
@@ -59,8 +59,8 @@ After the CI builds your images, you can run them anywhere:
 
 ```bash
 # Pull the built images
-docker pull ghcr.io/vigil-soc/vigil-backend:main
-docker pull ghcr.io/vigil-soc/vigil-daemon:main
+docker pull ghcr.io/neuroshield-soc/neuroshield-backend:main
+docker pull ghcr.io/neuroshield-soc/neuroshield-daemon:main
 
 # Run with docker-compose
 docker-compose up -d

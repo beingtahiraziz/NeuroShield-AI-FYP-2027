@@ -1,9 +1,9 @@
 apiVersion: 1
 
 providers:
-  - name: vigil-dashboards
+  - name: neuroshield-dashboards
     orgId: 1
-    folder: Vigil SOC
+    folder: NeuroShield AI SOC
     type: file
     disableDeletion: true
     updateIntervalSeconds: 30

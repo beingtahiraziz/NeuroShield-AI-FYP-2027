@@ -640,7 +640,7 @@ export default function Settings() {
   // ---- MCP server descriptions ----
   const SERVER_DESCRIPTIONS: Record<string, string> = {
     // Internal / Platform
-    'deeptempo-findings': 'Core findings and case management. Required for the investigation workflow, case creation, and findings display.',
+    'neuroshield-findings': 'Core findings and case management. Required for the investigation workflow, case creation, and findings display.',
     'tempo-flow': 'Orchestrates multi-step agent workflows and playbook execution. Required for automated investigation chains.',
     'approval': 'Human-in-the-loop approval queue for response actions (isolate host, block IP, etc.). Prevents the AI from taking destructive actions without analyst review.',
     'attack-layer': 'Maps findings to MITRE ATT&CK techniques and generates Navigator layers for coverage visualization.',
@@ -926,7 +926,7 @@ export default function Settings() {
   const DATA_INGESTION_MCP = new Set(['elastic'])
 
   const MCP_CATEGORIES = [
-    { label: 'Internal / Platform', filter: (n: string) => ['deeptempo-findings', 'tempo-flow', 'approval', 'attack-layer', 'security-detections'].includes(n) },
+    { label: 'Internal / Platform', filter: (n: string) => ['neuroshield-findings', 'tempo-flow', 'approval', 'attack-layer', 'security-detections'].includes(n) },
     { label: 'Reference Servers', filter: (n: string) => ['github'].includes(n) },
     { label: 'EDR / XDR', filter: (n: string) => ['crowdstrike', 'sentinelone', 'carbon-black', 'microsoft-defender'].includes(n) },
     { label: 'SIEM / Data Lake', filter: (n: string) => ['splunk', 'azure-sentinel', 'gcp-secops', 'cribl-stream'].includes(n) },
@@ -1998,7 +1998,7 @@ export default function Settings() {
                     </Box>
                     <Box sx={{ mt: 2 }}>
                       <Link
-                        href="https://github.com/Vigil-SOC/vigil/blob/main/docs/STATE.md"
+                        href="https://github.com/NeuroShield-AI/neuroshield/blob/main/docs/STATE.md"
                         target="_blank"
                         rel="noopener"
                         variant="body2"
@@ -2115,7 +2115,7 @@ export default function Settings() {
             />
           </Box>
           <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 2 }}>
-            Vigil exposes inbound webhooks at <code>POST /api/webhooks/darktrace/&#123;model-breach,ai-analyst,system-status&#125;</code>.
+            NeuroShield AI exposes inbound webhooks at <code>POST /api/webhooks/darktrace/&#123;model-breach,ai-analyst,system-status&#125;</code>.
             Darktrace must sign each request with HMAC-SHA256 in the <code>X-Darktrace-Signature</code> header.
           </Typography>
           <FormControlLabel
@@ -2189,13 +2189,13 @@ export default function Settings() {
         <DialogTitle>How to Configure Your S3 Bucket in AWS</DialogTitle>
         <DialogContent>
           <Box sx={{ '& > *': { mb: 3 } }}>
-            <Alert severity="info">Follow these steps to create and configure an S3 bucket for Vigil SOC to store findings and cases.</Alert>
+            <Alert severity="info">Follow these steps to create and configure an S3 bucket for NeuroShield AI SOC to store findings and cases.</Alert>
             <Box>
               <Typography variant="h6" gutterBottom>Step 1: Create an S3 Bucket</Typography>
               <Typography variant="body2" component="div">
                 1. Sign in to the <a href="https://console.aws.amazon.com/s3/" target="_blank" rel="noopener noreferrer">AWS S3 Console</a><br/>
                 2. Click <strong>"Create bucket"</strong><br/>
-                3. Enter a unique bucket name (e.g., <code>deeptempo-soc-data</code>)<br/>
+                3. Enter a unique bucket name (e.g., <code>neuroshield-soc-data</code>)<br/>
                 4. Select your preferred AWS Region<br/>
                 5. Keep "Block all public access" enabled (recommended)<br/>
                 6. Click <strong>"Create bucket"</strong>
@@ -2206,7 +2206,7 @@ export default function Settings() {
               <Typography variant="body2" component="div">
                 1. Go to the <a href="https://console.aws.amazon.com/iam/" target="_blank" rel="noopener noreferrer">AWS IAM Console</a><br/>
                 2. Click <strong>"Users"</strong> → <strong>"Create user"</strong><br/>
-                3. Enter username (e.g., <code>deeptempo-s3-access</code>)<br/>
+                3. Enter username (e.g., <code>neuroshield-s3-access</code>)<br/>
                 4. Click <strong>"Next"</strong> → Select <strong>"Attach policies directly"</strong> → Click <strong>"Create policy"</strong>
               </Typography>
             </Box>

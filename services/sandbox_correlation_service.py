@@ -1,7 +1,7 @@
 """Correlate completed sandbox reports into case evidence + IOCs.
 
 Sandbox reports (CAPE, Joe, Hybrid Analysis, Any.Run) are large JSON blobs.
-This service normalises their salient parts into Vigil's existing
+This service normalises their salient parts into NeuroShield AI's existing
 ``CaseEvidence`` and ``CaseIOC`` tables so they show up on the case view
 alongside human-entered evidence, without needing a new schema.
 

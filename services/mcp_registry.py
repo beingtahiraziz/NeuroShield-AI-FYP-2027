@@ -31,7 +31,7 @@ class MCPRegistry:
         Register an MCP server and its tools.
         
         Args:
-            name: Server name (e.g., 'security-detections', 'deeptempo-findings')
+            name: Server name (e.g., 'security-detections', 'neuroshield-findings')
             config: Server config (command, args, env, etc.)
             tools: List of tool definitions (name, description, input_schema)
         """

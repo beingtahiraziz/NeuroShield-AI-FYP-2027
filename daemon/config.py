@@ -115,7 +115,7 @@ class KafkaConfig:
     """
     enabled: bool = False
     bootstrap_servers: str = "localhost:9092"
-    consumer_group: str = "vigil-soc"
+    consumer_group: str = "neuroshield-soc"
     topics: List[str] = field(default_factory=list)
     auto_offset_reset: str = "latest"  # "latest" | "earliest"
     max_poll_records: int = 500
@@ -232,7 +232,7 @@ class DaemonConfig:
         config.kafka.bootstrap_servers = os.getenv(
             "KAFKA_BOOTSTRAP_SERVERS", "localhost:9092"
         )
-        config.kafka.consumer_group = os.getenv("KAFKA_CONSUMER_GROUP", "vigil-soc")
+        config.kafka.consumer_group = os.getenv("KAFKA_CONSUMER_GROUP", "neuroshield-soc")
         topics = os.getenv("KAFKA_TOPICS", "").strip()
         config.kafka.topics = [t.strip() for t in topics.split(",") if t.strip()]
         config.kafka.auto_offset_reset = os.getenv("KAFKA_AUTO_OFFSET_RESET", "latest")

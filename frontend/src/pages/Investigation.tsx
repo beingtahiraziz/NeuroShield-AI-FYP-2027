@@ -59,7 +59,7 @@ export default function Investigation() {
   const vstrike = useVStrikeIframe()
 
   // Listen for pivot events dispatched by the VStrike NetworkContextPanel.
-  // In addition to highlighting the node in Vigil's entity graph, ask the
+  // In addition to highlighting the node in NeuroShield AI's entity graph, ask the
   // VStrike iframe to select the same node (via cameraNode) and then open
   // its right-hand details panel, so the analyst sees full context without
   // an extra click. rightpanel-focus itself takes no node argument; it

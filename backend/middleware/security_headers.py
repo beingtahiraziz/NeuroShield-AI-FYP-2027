@@ -57,33 +57,33 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
     ):
         super().__init__(app)
         self.hsts_enabled = (
-            _env_bool("VIGIL_HSTS_ENABLED", True)
+            _env_bool("NEUROSHIELD_HSTS_ENABLED", True)
             if hsts_enabled is None
             else hsts_enabled
         )
         self.frame_options_enabled = (
-            _env_bool("VIGIL_FRAME_OPTIONS_ENABLED", True)
+            _env_bool("NEUROSHIELD_FRAME_OPTIONS_ENABLED", True)
             if frame_options_enabled is None
             else frame_options_enabled
         )
         self.content_type_options_enabled = (
-            _env_bool("VIGIL_CONTENT_TYPE_OPTIONS_ENABLED", True)
+            _env_bool("NEUROSHIELD_CONTENT_TYPE_OPTIONS_ENABLED", True)
             if content_type_options_enabled is None
             else content_type_options_enabled
         )
         self.referrer_policy_enabled = (
-            _env_bool("VIGIL_REFERRER_POLICY_ENABLED", True)
+            _env_bool("NEUROSHIELD_REFERRER_POLICY_ENABLED", True)
             if referrer_policy_enabled is None
             else referrer_policy_enabled
         )
         self.csp_enabled = (
-            _env_bool("VIGIL_CSP_ENABLED", True)
+            _env_bool("NEUROSHIELD_CSP_ENABLED", True)
             if csp_enabled is None
             else csp_enabled
         )
-        self.csp_policy = csp_policy or os.getenv("VIGIL_CSP_POLICY") or DEFAULT_CSP
+        self.csp_policy = csp_policy or os.getenv("NEUROSHIELD_CSP_POLICY") or DEFAULT_CSP
         self.hsts_max_age = (
-            int(os.getenv("VIGIL_HSTS_MAX_AGE", "31536000"))
+            int(os.getenv("NEUROSHIELD_HSTS_MAX_AGE", "31536000"))
             if hsts_max_age is None
             else hsts_max_age
         )

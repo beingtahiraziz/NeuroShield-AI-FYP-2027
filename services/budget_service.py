@@ -13,7 +13,7 @@ free-tier / dev story:
 
 Configuration lives in ``system_config['bifrost.virtual_keys']`` so
 operators edit it from the Settings → LLM Providers → Budgets sub-panel.
-The 60s runtime-config TTL the rest of Vigil uses applies here too.
+The 60s runtime-config TTL the rest of NeuroShield AI uses applies here too.
 """
 
 from __future__ import annotations
@@ -82,7 +82,7 @@ def get_active_vk() -> Optional[str]:
 
     Lazily reads from ``system_config['bifrost.virtual_keys']``. Returns
     None on any DB error so a misconfigured persistence layer can never
-    block LLM traffic — Vigil falls back to no-VK mode and the operator
+    block LLM traffic — NeuroShield AI falls back to no-VK mode and the operator
     sees the bootstrap behavior.
     """
     settings = _get_settings()

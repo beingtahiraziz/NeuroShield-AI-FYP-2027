@@ -98,7 +98,7 @@ index=main source="postgresql_export" | head 100
 python scripts/export_postgres_to_splunk.py \
     --hec-url https://splunk.example.com:8088/services/collector \
     --hec-token 12345678-1234-1234-1234-123456789012 \
-    --index deeptempo \
+    --index neuroshield \
     --no-verify-ssl
 ```
 
@@ -167,36 +167,36 @@ index=main source="postgresql_export"
 
 ### View Findings Only
 ```spl
-index=main sourcetype="deeptempo:finding"
+index=main sourcetype="neuroshield:finding"
 | table _time, finding_id, severity, anomaly_score, data_source
 ```
 
 ### High Severity Findings
 ```spl
-index=main sourcetype="deeptempo:finding" severity IN (high, critical)
+index=main sourcetype="neuroshield:finding" severity IN (high, critical)
 | sort -anomaly_score
 | table _time, finding_id, severity, anomaly_score, mitre_predictions
 ```
 
 ### Cases Timeline
 ```spl
-index=main sourcetype="deeptempo:case"
+index=main sourcetype="neuroshield:case"
 | timechart count by priority
 ```
 
 ### Findings by Data Source
 ```spl
-index=main sourcetype="deeptempo:finding"
+index=main sourcetype="neuroshield:finding"
 | stats count by data_source
 | sort -count
 ```
 
 ### Join Cases with Their Findings
 ```spl
-index=main sourcetype="deeptempo:case"
+index=main sourcetype="neuroshield:case"
 | eval finding_id=mvindex(finding_ids, 0)
 | join finding_id [
-    search index=main sourcetype="deeptempo:finding"
+    search index=main sourcetype="neuroshield:finding"
     | fields finding_id, severity, anomaly_score
 ]
 | table case_id, title, priority, finding_id, severity, anomaly_score
@@ -209,19 +209,19 @@ index=main sourcetype="deeptempo:case"
 
 **Panel 1: Findings by Severity (Pie Chart)**
 ```spl
-index=main sourcetype="deeptempo:finding"
+index=main sourcetype="neuroshield:finding"
 | stats count by severity
 ```
 
 **Panel 2: Cases by Status (Bar Chart)**
 ```spl
-index=main sourcetype="deeptempo:case"
+index=main sourcetype="neuroshield:case"
 | stats count by status
 ```
 
 **Panel 3: High Anomaly Findings (Table)**
 ```spl
-index=main sourcetype="deeptempo:finding" anomaly_score>0.7
+index=main sourcetype="neuroshield:finding" anomaly_score>0.7
 | sort -anomaly_score
 | table _time, finding_id, severity, anomaly_score, data_source
 | head 10
@@ -251,7 +251,7 @@ Create a dedicated index in Splunk for better organization:
 python scripts/export_postgres_to_splunk.py \
     --hec-url https://your-splunk:8088/services/collector \
     --hec-token YOUR_TOKEN \
-    --index deeptempo_soc \
+    --index neuroshield_soc \
     --no-verify-ssl
 ```
 
@@ -341,7 +341,7 @@ You now have a complete, production-ready solution to export your PostgreSQL dat
 python scripts/export_postgres_to_splunk.py \
     --hec-url https://your-splunk:8088/services/collector \
     --hec-token YOUR_HEC_TOKEN \
-    --index deeptempo \
+    --index neuroshield \
     --no-verify-ssl
 ```
 

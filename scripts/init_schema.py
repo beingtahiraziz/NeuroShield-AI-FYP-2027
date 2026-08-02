@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Initialize Vigil SOC database schema.
+Initialize NeuroShield AI SOC database schema.
 
 Calls ``init_database(create_tables=True)`` which runs
 ``Base.metadata.create_all()`` against the configured PostgreSQL database.

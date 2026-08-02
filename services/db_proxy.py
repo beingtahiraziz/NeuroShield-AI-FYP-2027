@@ -1,6 +1,6 @@
 """Database / integration proxy runtime helper.
 
-Wraps three optional hop types operators may want between Vigil and either
+Wraps three optional hop types operators may want between NeuroShield AI and either
 its own metadata Postgres or a DB-shaped integration target:
 
 * ``pgbouncer`` — connection pooler in front of Postgres. Just an endpoint

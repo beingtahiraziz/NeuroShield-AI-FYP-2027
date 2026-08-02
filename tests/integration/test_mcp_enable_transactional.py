@@ -18,7 +18,7 @@ import os
 
 # Keep CSRF out of the way — exercised elsewhere.
 os.environ.setdefault("DEV_MODE", "true")
-os.environ.setdefault("VIGIL_CSRF_ENABLED", "false")
+os.environ.setdefault("NEUROSHIELD_CSRF_ENABLED", "false")
 
 import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
@@ -36,7 +36,7 @@ def client():
 
 @pytest.fixture
 def fake_server_known():
-    """Patch mcp_service so ``deeptempo-findings`` is a known, settable server."""
+    """Patch mcp_service so ``neuroshield-findings`` is a known, settable server."""
     from api import mcp as mcp_api
 
     # Make set_server_enabled succeed (server exists); status is the stdio
@@ -49,7 +49,7 @@ def fake_server_known():
     ), patch.object(
         mcp_api.mcp_service,
         "list_servers",
-        return_value=["deeptempo-findings", "virustotal"],
+        return_value=["neuroshield-findings", "virustotal"],
     ):
         yield
 
@@ -70,7 +70,7 @@ class TestEnableTransactional:
             "services.mcp_client.get_mcp_client", return_value=fake_client
         ):
             r = client.put(
-                "/api/mcp/servers/deeptempo-findings/enabled",
+                "/api/mcp/servers/neuroshield-findings/enabled",
                 json={"enabled": True},
             )
 
@@ -80,7 +80,7 @@ class TestEnableTransactional:
         assert body["connected"] is True
         assert body["error"] is None
         fake_client.connect_to_server.assert_awaited_once_with(
-            "deeptempo-findings", persistent=True
+            "neuroshield-findings", persistent=True
         )
         fake_client.disconnect_from_server.assert_not_called()
 
@@ -120,7 +120,7 @@ class TestEnableTransactional:
             "services.mcp_client.get_mcp_client", return_value=fake_client
         ):
             r = client.put(
-                "/api/mcp/servers/deeptempo-findings/enabled",
+                "/api/mcp/servers/neuroshield-findings/enabled",
                 json={"enabled": False},
             )
 
@@ -130,7 +130,7 @@ class TestEnableTransactional:
         # connected is None when disabling — we didn't attempt a connect.
         assert body["connected"] is None
         fake_client.disconnect_from_server.assert_awaited_once_with(
-            "deeptempo-findings"
+            "neuroshield-findings"
         )
         fake_client.connect_to_server.assert_not_called()
 
@@ -140,7 +140,7 @@ class TestDeadEndpointsGone:
     """The broken /start + /stop paths should no longer exist."""
 
     def test_start_endpoint_is_removed(self, client):
-        r = client.post("/api/mcp/servers/deeptempo-findings/start")
+        r = client.post("/api/mcp/servers/neuroshield-findings/start")
         # Either 404 (route not registered) or 405 (method not allowed) is
         # acceptable — just never a 500 or 200 from the old broken handler.
         assert r.status_code in (404, 405), r.text

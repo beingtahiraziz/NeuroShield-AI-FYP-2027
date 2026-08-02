@@ -22,16 +22,16 @@
 #   --budget             Clear the Bifrost virtual key + spend cap
 #   --autonomy           Disable the autonomous orchestrator (preserves its cost caps)
 #   --data-source NAME   Disconnect MCP server NAME (repeatable). Use ONLY for real telemetry
-#                        sources (splunk, elastic, ...) — never Vigil's internal servers.
+#                        sources (splunk, elastic, ...) — never NeuroShield AI's internal servers.
 #   --all                providers + assignments + budget + autonomy (NOT data sources)
 #   --status             Print current setup state and exit
 #   -y, --yes            Skip the confirmation prompt
 #   -h, --help           Show this help
 #
 # Env:
-#   VIGIL_API   Backend API base URL (default: http://localhost:6987/api)
+#   NEUROSHIELD_API   Backend API base URL (default: http://localhost:6987/api)
 #
-# Auth: assumes DEV_MODE=true (auth bypassed). Set VIGIL_TOKEN to send a
+# Auth: assumes DEV_MODE=true (auth bypassed). Set NEUROSHIELD_TOKEN to send a
 # Bearer token if you run against an authenticated backend.
 #
 # DB step: --providers may need to clear a stale default flag directly in
@@ -44,7 +44,7 @@
 # data_sources) under `-u` is a fatal "unbound variable".
 set -eo pipefail
 
-B="${VIGIL_API:-http://localhost:6987/api}"
+B="${NEUROSHIELD_API:-http://localhost:6987/api}"
 
 # Repo root (this script lives in scripts/) and a Python that has the project's
 # deps — used only by the DB fallback in the --providers reset. Prefer the venv
@@ -56,7 +56,7 @@ PYTHON="python3"
 GREEN='\033[0;32m'; YELLOW='\033[1;33m'; RED='\033[0;31m'; DIM='\033[2m'; NC='\033[0m'
 
 AUTH=()
-[ -n "${VIGIL_TOKEN:-}" ] && AUTH=(-H "Authorization: Bearer ${VIGIL_TOKEN}")
+[ -n "${NEUROSHIELD_TOKEN:-}" ] && AUTH=(-H "Authorization: Bearer ${NEUROSHIELD_TOKEN}")
 
 # --- prerequisites --------------------------------------------------------
 command -v curl   >/dev/null 2>&1 || { echo "curl is required"   >&2; exit 1; }

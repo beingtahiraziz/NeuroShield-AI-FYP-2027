@@ -1,7 +1,7 @@
 """
 Detection Rules Service - Manages detection rule sources (git repos, local directories).
 
-Persists source metadata to ~/.deeptempo/detection_sources.json.
+Persists source metadata to ~/.neuroshield/detection_sources.json.
 Provides CRUD operations, git pull updates, and builds env vars for Security-Detections-MCP.
 """
 
@@ -76,7 +76,7 @@ class DetectionRulesService:
     """Service for managing detection rule sources."""
 
     def __init__(self):
-        self.config_dir = Path.home() / ".deeptempo"
+        self.config_dir = Path.home() / ".neuroshield"
         self.config_path = self.config_dir / "detection_sources.json"
         self.base_dir = Path.home() / "security-detections"
         self.sources: List[Dict[str, Any]] = []

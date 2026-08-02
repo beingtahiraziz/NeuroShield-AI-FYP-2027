@@ -1,5 +1,5 @@
 /* ============================================================
-   Vigil chat dock — Cursor-style, wired to the real Claude stream.
+   NeuroShield AI chat dock — Cursor-style, wired to the real Claude stream.
    POSTs /api/claude/chat/stream and renders the SSE thinking/text
    events live. Agent list comes from agentsApi. Styling uses the
    Tailwind-authored chat-* component classes in styles.css plus
@@ -34,7 +34,7 @@ interface ChatAgent {
   icon?: string
   color?: string
 }
-type Role = 'user' | 'vigil' | 'error'
+type Role = 'user' | 'neuroshield' | 'error'
 interface ChatMsg {
   role: Role
   text: string
@@ -87,7 +87,7 @@ interface Conversation {
   ts: number
   messages: ChatMsg[]
   /** investigation dedup key (the seed prompt) when this thread was opened from
-   *  an "Investigate with Vigil" affordance — lets re-opening the same finding/
+   *  an "Investigate with NeuroShield AI" affordance — lets re-opening the same finding/
    *  case restore the thread instead of starting a duplicate one */
   key?: string
 }
@@ -155,7 +155,7 @@ function toChatMsgs(msgs: ConversationDetail['messages']): ChatMsg[] {
       m.role === 'user'
         ? { role: 'user' as Role, text: m.content }
         : {
-            role: 'vigil' as Role,
+            role: 'neuroshield' as Role,
             text: m.content || '_(no response)_',
             thinking: m.thinking || undefined,
           },
@@ -198,10 +198,10 @@ function safeJson(v: unknown): string {
   }
 }
 
-function VigilMessage({ text, thinking, ms }: { text: string; thinking?: string; ms?: number }) {
+function NeuroShieldMessage({ text, thinking, ms }: { text: string; thinking?: string; ms?: number }) {
   const [open, setOpen] = useState(false)
   return (
-    <div className="msg vigil">
+    <div className="msg neuroshield">
       {thinking && (
         <div className="thought toggle" onClick={() => setOpen((o) => !o)}>
           {`Reasoned${ms != null ? ` for ${(ms / 1000).toFixed(1)}s` : ''} ${open ? '▾' : '▸'}`}
@@ -458,7 +458,7 @@ export default function Chat({
       const payloadMsgs = [
         ...messages
           .filter((m) => m.role !== 'error')
-          .map((m) => ({ role: m.role === 'vigil' ? 'assistant' : 'user', content: m.text })),
+          .map((m) => ({ role: m.role === 'neuroshield' ? 'assistant' : 'user', content: m.text })),
         ...(draft.trim() ? [{ role: 'user', content: draft }] : []),
       ]
       if (payloadMsgs.length === 0 && !systemPrompt) {
@@ -532,7 +532,7 @@ export default function Chat({
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'text/event-stream' },
         body: JSON.stringify({
-          messages: next.map((m) => ({ role: m.role === 'vigil' ? 'assistant' : 'user', content: m.text })),
+          messages: next.map((m) => ({ role: m.role === 'neuroshield' ? 'assistant' : 'user', content: m.text })),
           model,
           max_tokens: maxTokens,
           enable_thinking: enableThinking,
@@ -601,7 +601,7 @@ export default function Chat({
         }
       }
       const ms = Date.now() - start
-      setMessages((m) => [...m, { role: 'vigil', text: curText || '_(no response)_', thinking: curThinking || undefined, ms }])
+      setMessages((m) => [...m, { role: 'neuroshield', text: curText || '_(no response)_', thinking: curThinking || undefined, ms }])
       // Fire a desktop notification on completion, matching the classic
       // drawer (which notifies when an investigation-seeded thread finishes).
       // Gated inside notificationService by the `show_notifications` setting +
@@ -609,7 +609,7 @@ export default function Chat({
       if (currentKeyRef.current && curText) {
         const summary = curText.replace(/[#*`_>[\]]/g, '').replace(/\s+/g, ' ').trim().slice(0, 140)
         notificationService.notifyInvestigationComplete({
-          title: 'Vigil',
+          title: 'NeuroShield AI',
           summary: summary || 'Analysis complete',
         })
       }
@@ -632,7 +632,7 @@ export default function Chat({
     } catch (e) {
       const err = e as { name?: string; message?: string }
       if (err?.name !== 'AbortError') {
-        setMessages((m) => [...m, { role: 'error', text: `Could not reach Vigil: ${err?.message || e}. Is the backend running?` }])
+        setMessages((m) => [...m, { role: 'error', text: `Could not reach NeuroShield AI: ${err?.message || e}. Is the backend running?` }])
       }
     } finally {
       setLoading(false)
@@ -822,9 +822,9 @@ export default function Chat({
         messages: (c.messages || [])
           .filter((m) => m.role !== 'error')
           .map((m) => ({
-            role: m.role === 'vigil' ? 'assistant' : 'user',
+            role: m.role === 'neuroshield' ? 'assistant' : 'user',
             content: m.text,
-            thinking: m.role === 'vigil' ? m.thinking || null : null,
+            thinking: m.role === 'neuroshield' ? m.thinking || null : null,
           })),
       }))
       // preserve investigation dedup keys across the migration
@@ -848,7 +848,7 @@ export default function Chat({
   }, [reloadHistory])
 
   // auto-send a seeded prompt (e.g. "Investigate finding …") when the dock is
-  // opened from an "Investigate with Vigil" affordance
+  // opened from an "Investigate with NeuroShield AI" affordance
   const seedRef = useRef<string | null>(null)
   useEffect(() => {
     // reset once the parent clears the seed, so the same finding can be
@@ -879,13 +879,13 @@ export default function Chat({
       ref={panelRef}
       className={`chat${open ? ' open' : ''}`}
       role="dialog"
-      aria-label="Vigil Assistant"
+      aria-label="NeuroShield AI Assistant"
       aria-hidden={!open}
       onKeyDown={onPanelKeyDown}
     >
       <div className="chat-head">
         <span className="ch-ico"><Icon name="brain" /></span>
-        <h3 className="ch-title">Vigil Assistant</h3>
+        <h3 className="ch-title">NeuroShield AI Assistant</h3>
         <div className="hbtns">
           <button title="History" onClick={() => { setHistoryOpen(true); reloadHistory() }}><Icon name="clock" /></button>
           <button title="Reasoning trace" onClick={openReasoningTrace}><Icon name="reason" /></button>
@@ -898,31 +898,31 @@ export default function Chat({
 
       <div className="chat-body" ref={bodyRef}>
         {messages.length === 0 && !loading && (
-          <div className="chat-empty">Ask Vigil to investigate a finding, correlate activity, or summarize a case.</div>
+          <div className="chat-empty">Ask NeuroShield AI to investigate a finding, correlate activity, or summarize a case.</div>
         )}
         {messages.map((m, i) =>
           m.role === 'user' ? (
             <div className="msg user" key={i}><div className="body">{m.text}</div></div>
           ) : m.role === 'error' ? (
-            <div className="msg vigil err" key={i}><div className="body">{m.text}</div></div>
+            <div className="msg neuroshield err" key={i}><div className="body">{m.text}</div></div>
           ) : (
-            <VigilMessage key={i} text={m.text} thinking={m.thinking} ms={m.ms} />
+            <NeuroShieldMessage key={i} text={m.text} thinking={m.thinking} ms={m.ms} />
           )
         )}
         {loading && (
-          <div className="msg vigil">
-            {/* always-on processing indicator so the user knows Vigil is still
+          <div className="msg neuroshield">
+            {/* always-on processing indicator so the user knows NeuroShield AI is still
                 working — the phase label tracks reasoning → responding */}
-            <div className="vigil-status" aria-live="polite">
+            <div className="neuroshield-status" aria-live="polite">
               <span className="vs-dots" aria-hidden="true"><i /><i /><i /></span>
               <span className="vs-label">
                 {isThinking
-                  ? 'Vigil is reasoning'
+                  ? 'NeuroShield AI is reasoning'
                   : isProcessingTools
-                    ? 'Vigil is running tools'
+                    ? 'NeuroShield AI is running tools'
                     : streamText
-                      ? 'Vigil is responding'
-                      : 'Vigil is working on it'}
+                      ? 'NeuroShield AI is responding'
+                      : 'NeuroShield AI is working on it'}
                 …
               </span>
             </div>
@@ -954,7 +954,7 @@ export default function Chat({
           <textarea
             ref={taRef}
             rows={1}
-            placeholder="Ask Vigil, / for commands, @ for context"
+            placeholder="Ask NeuroShield AI, / for commands, @ for context"
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
             onKeyDown={onKeyDown}
@@ -1167,7 +1167,7 @@ export default function Chat({
           <div className="cs-row">
             <span className="cs-text">
               <span className="cs-name">Extended thinking</span>
-              <span className="cs-help">Stream Vigil’s reasoning before each answer.</span>
+              <span className="cs-help">Stream NeuroShield AI’s reasoning before each answer.</span>
             </span>
             <button
               type="button"
@@ -1191,7 +1191,7 @@ export default function Chat({
                 value={thinkingBudget}
                 onChange={(e) => setThinkingBudget(parseInt(e.target.value, 10) || 10000)}
               />
-              <span className="cs-help">Max tokens Vigil can use for reasoning.</span>
+              <span className="cs-help">Max tokens NeuroShield AI can use for reasoning.</span>
             </div>
           )}
         </section>

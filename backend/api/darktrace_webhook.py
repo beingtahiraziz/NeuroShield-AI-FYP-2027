@@ -4,7 +4,7 @@ Darktrace inbound webhook receiver.
 Accepts pushes from Darktrace (SaaS tenants and on-prem master appliances)
 for three alert streams — Model Breach, AI Analyst, and System Status —
 verifies an HMAC-SHA256 signature against a shared secret, transforms each
-payload into a Vigil finding via ``DarktraceIngestionService``, and ingests
+payload into a NeuroShield AI finding via ``DarktraceIngestionService``, and ingests
 it through the shared ``IngestionService``.
 
 Endpoints:

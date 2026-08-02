@@ -337,8 +337,8 @@ async def test_dispatch_bifrost_openai_no_cache_details_safe():
 
 @pytest.mark.asyncio
 async def test_dispatch_propagates_interaction_id_as_bifrost_log_header_openai():
-    """#185: each LLM call carries an `x-bf-lh-vigil-interaction-id` header
-    so Bifrost's logging plugin can correlate the LogEntry back to Vigil's
+    """#185: each LLM call carries an `x-bf-lh-neuroshield-interaction-id` header
+    so Bifrost's logging plugin can correlate the LogEntry back to NeuroShield AI's
     local LLMInteractionLog row by UUID. The `x-bf-lh-*` prefix is
     Bifrost's logging-headers convention — anything with that prefix gets
     captured into LogEntry.metadata."""
@@ -366,7 +366,7 @@ async def test_dispatch_propagates_interaction_id_as_bifrost_log_header_openai()
 
     headers = mock_client.chat.completions.create.call_args.kwargs.get("extra_headers")
     assert headers is not None
-    assert headers.get("x-bf-lh-vigil-interaction-id") == interaction_id
+    assert headers.get("x-bf-lh-neuroshield-interaction-id") == interaction_id
 
 
 @pytest.mark.asyncio
@@ -429,7 +429,7 @@ async def test_dispatch_propagates_interaction_id_anthropic():
 
     headers = mock_client.messages.create.call_args.kwargs.get("extra_headers")
     assert headers is not None
-    assert headers.get("x-bf-lh-vigil-interaction-id") == interaction_id
+    assert headers.get("x-bf-lh-neuroshield-interaction-id") == interaction_id
 
 
 @pytest.mark.asyncio

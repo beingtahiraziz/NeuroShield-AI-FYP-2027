@@ -1,4 +1,4 @@
-"""Demo data service for Vigil SOC demo mode."""
+"""Demo data service for NeuroShield AI SOC demo mode."""
 
 import random
 import uuid

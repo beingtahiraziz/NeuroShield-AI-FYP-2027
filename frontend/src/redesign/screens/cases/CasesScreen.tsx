@@ -32,7 +32,7 @@ import {
 
 const cap = (s: string) => s[0].toUpperCase() + s.slice(1)
 
-/** build the "Open in Vigil" auto-message for a case */
+/** build the "Open in NeuroShield AI" auto-message for a case */
 function casePrompt(c: CaseRow): string {
   const tactic = c.tactic !== '—' ? `, primary tactic ${c.tactic}` : ''
   return `Investigate case ${c.id}: "${c.title}" — ${c.prio} priority, status ${c.status}, ${c.findings} linked findings${tactic}. Summarize the case and recommend next steps.`
@@ -1037,7 +1037,7 @@ function CasesDetail({
                 <button className="btn ghost" onClick={() => setAction('edit')}><Icon name="edit" /> Edit</button>
                 <button className="btn ghost" onClick={() => setAction('merge')}><Icon name="link" /> Merge</button>
                 <button className="btn ghost" onClick={() => setAction('export')}><Icon name="download" /> Timesketch</button>
-                <button className="btn primary to-vigil-case" onClick={() => openChat(casePrompt(c))}><Icon name="brain" /> Open in Vigil</button>
+                <button className="btn primary to-neuroshield-case" onClick={() => openChat(casePrompt(c))}><Icon name="brain" /> Open in NeuroShield AI</button>
               </div>
             </div>
           ) : (

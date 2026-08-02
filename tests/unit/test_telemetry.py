@@ -30,22 +30,22 @@ def _reload_telemetry():
 # ---------------------------------------------------------------------------
 
 class TestTelemetryDisabled:
-    """When VIGIL_OTEL_ENABLED is not set or false, everything is no-op."""
+    """When NEUROSHIELD_OTEL_ENABLED is not set or false, everything is no-op."""
 
     def test_init_returns_false_when_disabled(self):
         tel = _reload_telemetry()
-        with patch.dict(os.environ, {"VIGIL_OTEL_ENABLED": "false"}, clear=False):
+        with patch.dict(os.environ, {"NEUROSHIELD_OTEL_ENABLED": "false"}, clear=False):
             assert tel.init_telemetry("test-service") is False
 
     def test_init_returns_false_when_unset(self):
         tel = _reload_telemetry()
-        env = {k: v for k, v in os.environ.items() if k != "VIGIL_OTEL_ENABLED"}
+        env = {k: v for k, v in os.environ.items() if k != "NEUROSHIELD_OTEL_ENABLED"}
         with patch.dict(os.environ, env, clear=True):
             assert tel.init_telemetry("test-service") is False
 
     def test_get_tracer_returns_noop_when_disabled(self):
         tel = _reload_telemetry()
-        with patch.dict(os.environ, {"VIGIL_OTEL_ENABLED": "false"}, clear=False):
+        with patch.dict(os.environ, {"NEUROSHIELD_OTEL_ENABLED": "false"}, clear=False):
             tel.init_telemetry("test-service")
             tracer = tel.get_tracer("test")
             span = tracer.start_span("noop")
@@ -54,7 +54,7 @@ class TestTelemetryDisabled:
 
     def test_get_meter_returns_noop_when_disabled(self):
         tel = _reload_telemetry()
-        with patch.dict(os.environ, {"VIGIL_OTEL_ENABLED": "false"}, clear=False):
+        with patch.dict(os.environ, {"NEUROSHIELD_OTEL_ENABLED": "false"}, clear=False):
             tel.init_telemetry("test-service")
             meter = tel.get_meter("test")
             counter = meter.create_counter("test.counter")
@@ -64,7 +64,7 @@ class TestTelemetryDisabled:
 
     def test_noop_span_context_manager(self):
         tel = _reload_telemetry()
-        with patch.dict(os.environ, {"VIGIL_OTEL_ENABLED": "false"}, clear=False):
+        with patch.dict(os.environ, {"NEUROSHIELD_OTEL_ENABLED": "false"}, clear=False):
             tel.init_telemetry("test-service")
             tracer = tel.get_tracer("test")
             with tracer.start_as_current_span("op") as span:
@@ -75,7 +75,7 @@ class TestTelemetryDisabled:
 
     def test_double_init_is_idempotent(self):
         tel = _reload_telemetry()
-        with patch.dict(os.environ, {"VIGIL_OTEL_ENABLED": "false"}, clear=False):
+        with patch.dict(os.environ, {"NEUROSHIELD_OTEL_ENABLED": "false"}, clear=False):
             r1 = tel.init_telemetry("svc")
             r2 = tel.init_telemetry("svc")
             assert r1 is False
@@ -83,14 +83,14 @@ class TestTelemetryDisabled:
 
     def test_shutdown_is_safe_when_disabled(self):
         tel = _reload_telemetry()
-        with patch.dict(os.environ, {"VIGIL_OTEL_ENABLED": "false"}, clear=False):
+        with patch.dict(os.environ, {"NEUROSHIELD_OTEL_ENABLED": "false"}, clear=False):
             tel.init_telemetry("svc")
             tel.shutdown()  # must not raise
 
     def test_shutdown_resets_initialized_flag(self):
         """After shutdown(), init_telemetry() must be callable again (bug fix #3)."""
         tel = _reload_telemetry()
-        with patch.dict(os.environ, {"VIGIL_OTEL_ENABLED": "false"}, clear=False):
+        with patch.dict(os.environ, {"NEUROSHIELD_OTEL_ENABLED": "false"}, clear=False):
             tel.init_telemetry("svc")
             tel.shutdown()
             # _initialized must be False after shutdown so re-init is possible
@@ -102,7 +102,7 @@ class TestTelemetryInitFailure:
 
     def test_init_catches_import_error(self):
         tel = _reload_telemetry()
-        with patch.dict(os.environ, {"VIGIL_OTEL_ENABLED": "true"}, clear=False):
+        with patch.dict(os.environ, {"NEUROSHIELD_OTEL_ENABLED": "true"}, clear=False):
             with patch.dict(
                 sys.modules,
                 {"opentelemetry": None, "opentelemetry.trace": None},
@@ -112,7 +112,7 @@ class TestTelemetryInitFailure:
 
     def test_tracer_still_works_after_init_failure(self):
         tel = _reload_telemetry()
-        with patch.dict(os.environ, {"VIGIL_OTEL_ENABLED": "true"}, clear=False):
+        with patch.dict(os.environ, {"NEUROSHIELD_OTEL_ENABLED": "true"}, clear=False):
             with patch.object(tel, "_do_init", side_effect=RuntimeError("boom")):
                 tel.init_telemetry("svc")
             tracer = tel.get_tracer("test")
@@ -146,13 +146,13 @@ class TestConfigHelpers:
     def test_is_otel_enabled_true(self):
         from core.telemetry import _is_otel_enabled
         for val in ("true", "True", "1", "yes", "YES"):
-            with patch.dict(os.environ, {"VIGIL_OTEL_ENABLED": val}):
+            with patch.dict(os.environ, {"NEUROSHIELD_OTEL_ENABLED": val}):
                 assert _is_otel_enabled() is True
 
     def test_is_otel_enabled_false(self):
         from core.telemetry import _is_otel_enabled
         for val in ("false", "0", "no", ""):
-            with patch.dict(os.environ, {"VIGIL_OTEL_ENABLED": val}):
+            with patch.dict(os.environ, {"NEUROSHIELD_OTEL_ENABLED": val}):
                 assert _is_otel_enabled() is False
 
     def test_llm_content_default_off(self):
@@ -160,7 +160,7 @@ class TestConfigHelpers:
         env = {
             k: v
             for k, v in os.environ.items()
-            if k != "VIGIL_OTEL_RECORD_LLM_CONTENT"
+            if k != "NEUROSHIELD_OTEL_RECORD_LLM_CONTENT"
         }
         with patch.dict(os.environ, env, clear=True):
             assert _should_record_llm_content() is False
@@ -170,7 +170,7 @@ class TestConfigHelpers:
         env = {
             k: v
             for k, v in os.environ.items()
-            if k != "VIGIL_OTEL_RECORD_IOC_VALUES"
+            if k != "NEUROSHIELD_OTEL_RECORD_IOC_VALUES"
         }
         with patch.dict(os.environ, env, clear=True):
             assert _should_record_ioc_values() is False
@@ -227,9 +227,9 @@ class TestSensitiveAttributeScrubber:
         [
             "http.method",
             "http.status_code",
-            "vigil.tool.name",
-            "vigil.tool.tier",
-            "vigil.investigation.id",
+            "neuroshield.tool.name",
+            "neuroshield.tool.tier",
+            "neuroshield.investigation.id",
             "gen_ai.request.model",
             "gen_ai.usage.input_tokens",
             "service.name",
@@ -290,19 +290,19 @@ class TestSensitiveAttributeScrubber:
     def test_short_benign_values_not_redacted(self, scrubber):
         assert scrubber._should_redact("http.method", "GET") is False
         assert scrubber._should_redact("http.status_code", 200) is False
-        assert scrubber._should_redact("vigil.tool.tier", "safe") is False
+        assert scrubber._should_redact("neuroshield.tool.tier", "safe") is False
         assert scrubber._should_redact(
             "gen_ai.request.model", "claude-sonnet-4-5-20250929"
         ) is False
 
     def test_numeric_values_not_redacted(self, scrubber):
         assert scrubber._should_redact("gen_ai.usage.input_tokens", 1500) is False
-        assert scrubber._should_redact("vigil.llm.cost_usd", 0.0255) is False
+        assert scrubber._should_redact("neuroshield.llm.cost_usd", 0.0255) is False
 
     def test_dsn_substring_false_positive(self, scrubber):
         """Keys containing 'dsn' as part of another word must not be redacted."""
         assert scrubber._should_redact("redesign_count", "5") is False
-        assert scrubber._should_redact("vigil.dsnark", "hello") is False
+        assert scrubber._should_redact("neuroshield.dsnark", "hello") is False
 
     # ---- Span integration test ----
 

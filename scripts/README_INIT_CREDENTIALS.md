@@ -2,13 +2,13 @@
 
 ## Purpose
 
-This script ensures that default admin credentials are inserted into PostgreSQL, allowing first-time login to the Vigil SOC system.
+This script ensures that default admin credentials are inserted into PostgreSQL, allowing first-time login to the NeuroShield AI SOC system.
 
 ## Default Credentials
 
 - **Username**: `admin`
 - **Password**: `admin123`
-- **Email**: `admin@deeptempo.ai`
+- **Email**: `admin@neuroshield.ai`
 - **Role**: Admin (full system access)
 
 ⚠️ **IMPORTANT**: Change the default password after first login!
@@ -38,7 +38,7 @@ python3 scripts/init_default_credentials.py
 
 ```
 ==================================================
-Vigil SOC - Default Credentials Setup
+NeuroShield AI SOC - Default Credentials Setup
 ==================================================
 ✓ Database connection established
 ✓ Roles table ready
@@ -54,7 +54,7 @@ Verifying authentication...
 ==================================================
 Username: admin
 Password: admin123
-Email:    admin@deeptempo.ai
+Email:    admin@neuroshield.ai
 Role:     Admin (full system access)
 
 ⚠️  IMPORTANT: Change the default password after first login!
@@ -102,7 +102,7 @@ docker compose -f docker/docker-compose.yml up -d postgres
 **Solution**: Check password hash or recreate user:
 ```sql
 -- Connect to database
-docker exec -it deeptempo-postgres psql -U deeptempo -d deeptempo_soc
+docker exec -it neuroshield-postgres psql -U neuroshield -d neuroshield_soc
 
 -- Delete existing admin user
 DELETE FROM users WHERE username = 'admin';

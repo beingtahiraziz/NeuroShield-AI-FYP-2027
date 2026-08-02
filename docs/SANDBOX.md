@@ -1,6 +1,6 @@
 # Sandbox & Malware Detonation
 
-Vigil integrates with four sandboxes:
+NeuroShield AI integrates with four sandboxes:
 
 | Sandbox | Hosting | MCP source |
 |---|---|---|
@@ -68,13 +68,13 @@ SANDBOX_POLL_INTERVAL=60       # seconds between poller passes
 ## Safety posture
 
 - **Opt-in**: the master `SANDBOX_AUTO_SUBMIT` switch defaults to `false`.
-- **Hash-only**: Vigil never uploads binary bytes. Submission is via hash
+- **Hash-only**: NeuroShield AI never uploads binary bytes. Submission is via hash
   search against the sandbox's own cache. A sandbox returning "unknown"
   means a human operator (or the agent, via the MCP tool) must upload the
   sample manually.
 - **Allowlist + size cap**: safety gating lives in
   `daemon/sandbox_submitter.py::is_hash_safe_to_submit`.
-- **API-only transport**: no shared filesystems between Vigil and the
+- **API-only transport**: no shared filesystems between NeuroShield AI and the
   sandbox; all traffic is HTTPS REST.
 
 ## Result correlation

@@ -1,10 +1,10 @@
 services:
   postgres:
     image: postgres:16-alpine
-    container_name: deeptempo-postgres
+    container_name: neuroshield-postgres
     environment:
-      POSTGRES_DB: deeptempo_soc
-      POSTGRES_USER: deeptempo
+      POSTGRES_DB: neuroshield_soc
+      POSTGRES_USER: neuroshield
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-deeptempo_secure_password_change_me}
       POSTGRES_INITDB_ARGS: "-E UTF8"
     ports:
@@ -15,18 +15,18 @@ services:
       # the repo root where database/init/ actually lives.
       - ../database/init:/docker-entrypoint-initdb.d
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U deeptempo -d deeptempo_soc"]
+      test: ["CMD-SHELL", "pg_isready -U neuroshield -d neuroshield_soc"]
       interval: 10s
       timeout: 5s
       retries: 5
     restart: unless-stopped
     networks:
-      - deeptempo-network
+      - neuroshield-network
 
   # Redis - Job queue backend for ARQ (LLM request queuing + session store)
   redis:
     image: redis:7-alpine
-    container_name: deeptempo-redis
+    container_name: neuroshield-redis
     ports:
       - "6379:6379"
     volumes:
@@ -39,19 +39,19 @@ services:
       retries: 5
     restart: unless-stopped
     networks:
-      - deeptempo-network
+      - neuroshield-network
 
   # SOC Backend API
   backend:
     build:
       context: ..
       dockerfile: docker/Dockerfile.backend
-    container_name: deeptempo-backend
+    container_name: neuroshield-backend
     environment:
       - POSTGRES_HOST=postgres
       - POSTGRES_PORT=5432
-      - POSTGRES_DB=deeptempo_soc
-      - POSTGRES_USER=deeptempo
+      - POSTGRES_DB=neuroshield_soc
+      - POSTGRES_USER=neuroshield
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-deeptempo_secure_password_change_me}
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
       - OPENAI_API_KEY=${OPENAI_API_KEY:-}
@@ -70,20 +70,20 @@ services:
         condition: service_healthy
     restart: unless-stopped
     networks:
-      - deeptempo-network
+      - neuroshield-network
 
   # SOC Daemon - Autonomous monitoring and response
   soc-daemon:
     build:
       context: ..
       dockerfile: docker/Dockerfile.daemon
-    container_name: deeptempo-daemon
+    container_name: neuroshield-daemon
     environment:
       # Database
       - POSTGRES_HOST=postgres
       - POSTGRES_PORT=5432
-      - POSTGRES_DB=deeptempo_soc
-      - POSTGRES_USER=deeptempo
+      - POSTGRES_DB=neuroshield_soc
+      - POSTGRES_USER=neuroshield
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-deeptempo_secure_password_change_me}
       # AI
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
@@ -136,7 +136,7 @@ services:
       # Kafka ingestion (opt-in; UI toggle at /settings?tab=kafka)
       - KAFKA_ENABLED=${KAFKA_ENABLED:-false}
       - KAFKA_BOOTSTRAP_SERVERS=${KAFKA_BOOTSTRAP_SERVERS:-kafka:9092}
-      - KAFKA_CONSUMER_GROUP=${KAFKA_CONSUMER_GROUP:-vigil-soc}
+      - KAFKA_CONSUMER_GROUP=${KAFKA_CONSUMER_GROUP:-neuroshield-soc}
       - KAFKA_TOPICS=${KAFKA_TOPICS:-}
       - KAFKA_AUTO_OFFSET_RESET=${KAFKA_AUTO_OFFSET_RESET:-latest}
       - KAFKA_SECURITY_PROTOCOL=${KAFKA_SECURITY_PROTOCOL:-PLAINTEXT}
@@ -159,20 +159,20 @@ services:
         condition: service_healthy
     restart: unless-stopped
     networks:
-      - deeptempo-network
+      - neuroshield-network
 
   # ARQ Worker - Processes LLM requests from the queue
   llm-worker:
     build:
       context: ..
       dockerfile: docker/Dockerfile.backend
-    container_name: deeptempo-llm-worker
+    container_name: neuroshield-llm-worker
     command: ["python", "-m", "services.run_llm_worker"]
     environment:
       - POSTGRES_HOST=postgres
       - POSTGRES_PORT=5432
-      - POSTGRES_DB=deeptempo_soc
-      - POSTGRES_USER=deeptempo
+      - POSTGRES_DB=neuroshield_soc
+      - POSTGRES_USER=neuroshield
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-deeptempo_secure_password_change_me}
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
       - OPENAI_API_KEY=${OPENAI_API_KEY:-}
@@ -189,7 +189,7 @@ services:
         condition: service_healthy
     restart: unless-stopped
     networks:
-      - deeptempo-network
+      - neuroshield-network
 
   # ─── Multi-provider LLM gateway ───────────────────────────────────────────
   # Bifrost is the single path for all LLM traffic (GH #84 PR-B). Anthropic
@@ -200,7 +200,7 @@ services:
   # cache via its UI at http://localhost:8080.
   bifrost:
     image: maximhq/bifrost:latest
-    container_name: deeptempo-bifrost
+    container_name: neuroshield-bifrost
     ports:
       - "8080:8080"
     environment:
@@ -220,14 +220,14 @@ services:
       retries: 5
     restart: unless-stopped
     networks:
-      - deeptempo-network
+      - neuroshield-network
 
   # PgAdmin for database management (optional, can be commented out in production)
   pgadmin:
     image: dpage/pgadmin4:latest
-    container_name: deeptempo-pgadmin
+    container_name: neuroshield-pgadmin
     environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@deeptempo.ai}
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@neuroshield.ai}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin}
       PGADMIN_CONFIG_SERVER_MODE: 'False'
     ports:
@@ -238,7 +238,7 @@ services:
       - postgres
     restart: unless-stopped
     networks:
-      - deeptempo-network
+      - neuroshield-network
     profiles:
       - dev  # Only start in dev profile
 
@@ -247,7 +247,7 @@ services:
   # OpenTelemetry Collector — receives OTLP spans/metrics, fans out to Jaeger + Prometheus
   otel-collector:
     image: otel/opentelemetry-collector-contrib:0.100.0
-    container_name: deeptempo-otel-collector
+    container_name: neuroshield-otel-collector
     command: ["--config=/etc/otel/otel-collector.yaml"]
     volumes:
       - ./otel-collector.yaml:/etc/otel/otel-collector.yaml:ro
@@ -255,27 +255,27 @@ services:
       - "4317:4317"  # OTLP gRPC
       - "4318:4318"  # OTLP HTTP
     networks:
-      - deeptempo-network
+      - neuroshield-network
     profiles:
       - observability
 
   # Jaeger — distributed trace UI
   jaeger:
     image: jaegertracing/all-in-one:1.57
-    container_name: deeptempo-jaeger
+    container_name: neuroshield-jaeger
     environment:
       - COLLECTOR_OTLP_ENABLED=true
     ports:
       - "16686:16686"  # Jaeger UI
     networks:
-      - deeptempo-network
+      - neuroshield-network
     profiles:
       - observability
 
   # Prometheus — scrapes /metrics from daemon and backend
   prometheus:
     image: prom/prometheus:v2.51.2
-    container_name: deeptempo-prometheus
+    container_name: neuroshield-prometheus
     command:
       - --config.file=/etc/prometheus/prometheus.yml
       - --storage.tsdb.path=/prometheus
@@ -287,14 +287,14 @@ services:
     ports:
       - "9095:9090"  # Prometheus UI on host port 9095 (avoids conflict with daemon's 9090)
     networks:
-      - deeptempo-network
+      - neuroshield-network
     profiles:
       - observability
 
   # Grafana — dashboards for system overview, LLM costs, investigation lifecycle
   grafana:
     image: grafana/grafana:10.4.0
-    container_name: deeptempo-grafana
+    container_name: neuroshield-grafana
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-admin}
       - GF_AUTH_ANONYMOUS_ENABLED=true
@@ -308,7 +308,7 @@ services:
     depends_on:
       - prometheus
     networks:
-      - deeptempo-network
+      - neuroshield-network
     profiles:
       - observability
 
@@ -318,7 +318,7 @@ services:
   splunk:
     image: splunk/splunk:latest
     platform: linux/amd64
-    container_name: deeptempo-splunk
+    container_name: neuroshield-splunk
     hostname: splunk
     environment:
       - SPLUNK_START_ARGS=--accept-license
@@ -335,7 +335,7 @@ services:
       - splunk_etc:/opt/splunk/etc
     restart: unless-stopped
     networks:
-      - deeptempo-network
+      - neuroshield-network
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000"]
       interval: 30s
@@ -349,7 +349,7 @@ services:
   # "Kafka" tab in Settings to enable the consumer and configure topics.
   kafka:
     image: apache/kafka:3.7.0
-    container_name: deeptempo-kafka
+    container_name: neuroshield-kafka
     hostname: kafka
     ports:
       - "9092:9092"  # External listener (host)
@@ -373,7 +373,7 @@ services:
       - kafka_data:/var/lib/kafka/data
     restart: unless-stopped
     networks:
-      - deeptempo-network
+      - neuroshield-network
     profiles:
       - kafka
 
@@ -396,6 +396,6 @@ volumes:
     driver: local
 
 networks:
-  deeptempo-network:
+  neuroshield-network:
     driver: bridge
 

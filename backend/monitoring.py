@@ -2,7 +2,7 @@
 Monitoring and error tracking configuration.
 Integrates Sentry for error tracking and performance monitoring.
 
-When OTEL is active (VIGIL_OTEL_ENABLED=true), Sentry's own distributed
+When OTEL is active (NEUROSHIELD_OTEL_ENABLED=true), Sentry's own distributed
 tracing is disabled (traces_sample_rate=0) to prevent double-tracing.
 The SentrySpanProcessor bridges OTEL error spans to Sentry breadcrumbs so
 both systems remain useful without creating duplicate transaction records.
@@ -108,7 +108,7 @@ def init_sentry() -> None:
 
     # When OTEL is active, disable Sentry's own distributed tracing to prevent
     # double-tracing. Sentry still captures errors — tracing is OTEL's job.
-    otel_active = os.getenv("VIGIL_OTEL_ENABLED", "").lower() in ("true", "1", "yes")
+    otel_active = os.getenv("NEUROSHIELD_OTEL_ENABLED", "").lower() in ("true", "1", "yes")
     traces_sample_rate = 0.0 if otel_active else (
         0.1 if environment == "production" else 1.0
     )

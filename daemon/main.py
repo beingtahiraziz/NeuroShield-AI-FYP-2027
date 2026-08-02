@@ -25,7 +25,7 @@ class SOCDaemon:
         # Initialize OTEL telemetry after logging is set up
         try:
             from core.telemetry import init_telemetry
-            init_telemetry("vigil-daemon")
+            init_telemetry("neuroshield-daemon")
         except Exception as _tel_err:
             logger.warning("Telemetry init failed (non-fatal): %s", _tel_err)
 

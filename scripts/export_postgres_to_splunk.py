@@ -169,9 +169,9 @@ class PostgresToSplunkExporter:
         # HEC format
         hec_event = {
             "time": finding.timestamp.timestamp() if finding.timestamp else datetime.utcnow().timestamp(),
-            "sourcetype": "deeptempo:finding",
+            "sourcetype": "neuroshield:finding",
             "source": "postgresql_export",
-            "host": "deeptempo-soc",
+            "host": "neuroshield-soc",
             "index": self.index,
             "event": event
         }
@@ -227,9 +227,9 @@ class PostgresToSplunkExporter:
         # HEC format
         hec_event = {
             "time": case.created_at.timestamp() if case.created_at else datetime.utcnow().timestamp(),
-            "sourcetype": "deeptempo:case",
+            "sourcetype": "neuroshield:case",
             "source": "postgresql_export",
-            "host": "deeptempo-soc",
+            "host": "neuroshield-soc",
             "index": self.index,
             "event": event
         }
@@ -396,7 +396,7 @@ Examples:
   python scripts/export_postgres_to_splunk.py \\
       --hec-url https://your-splunk:8088/services/collector \\
       --hec-token your-hec-token \\
-      --index deeptempo
+      --index neuroshield
 
   # Export only findings
   python scripts/export_postgres_to_splunk.py \\

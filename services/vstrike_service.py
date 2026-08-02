@@ -1,6 +1,6 @@
 """Outbound REST + MCP client for the VStrike (CloudCurrent) fusion layer.
 
-VStrike pushes enriched findings to Vigil, but we also query it for asset
+VStrike pushes enriched findings to NeuroShield AI, but we also query it for asset
 topology, adjacent-asset lookup, and blast-radius computation during
 investigations. This service is consumed by `backend/api/vstrike.py` (proxy
 endpoints) and `tools/vstrike.py` (MCP server).
@@ -871,13 +871,13 @@ def get_vstrike_service() -> Optional[VStrikeService]:
 
     Configured when ``VSTRIKE_BASE_URL`` is set AND ``VSTRIKE_USERNAME`` +
     ``VSTRIKE_PASSWORD`` are both present. Credentials are looked up via
-    Vigil's secrets manager (encrypted store → env → dotenv → keyring,
+    NeuroShield AI's secrets manager (encrypted store → env → dotenv → keyring,
     in priority order). The non-secret ``url`` and ``verify_ssl`` values
     can come from the same chain, or from ``IntegrationConfig`` (DB) and
     its JSON back-compat mirror via ``core.config.get_integration_config``.
 
     The legacy ``VSTRIKE_API_KEY`` / ``api_key`` field is deprecated —
-    Vigil now exchanges username + password for a JWT internally on first
+    NeuroShield AI now exchanges username + password for a JWT internally on first
     call and refreshes it on 401. Old api_key values left over in the
     secrets store are tolerated but ignored.
     """

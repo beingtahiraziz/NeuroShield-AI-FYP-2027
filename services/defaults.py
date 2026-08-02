@@ -1,4 +1,4 @@
-"""Central default values for Vigil.
+"""Central default values for NeuroShield AI.
 
 Import from here rather than scattering literals across the codebase.
 All values are overridable via environment variables so operator deployments

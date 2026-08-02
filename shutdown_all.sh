@@ -1,5 +1,5 @@
 #!/bin/bash
-# Shutdown Vigil SOC processes
+# Shutdown NeuroShield AI SOC processes
 # Usage: ./shutdown_all.sh [-d|--docker] [--full]
 source "$(dirname "$0")/scripts/lib.sh"
 
@@ -12,7 +12,7 @@ for arg in "$@"; do
     esac
 done
 
-echo "Stopping Vigil SOC..."
+echo "Stopping NeuroShield AI SOC..."
 
 # Kill by PID files
 for pidfile in logs/backend.pid logs/daemon.pid logs/frontend.pid logs/llm_worker.pid; do

@@ -448,7 +448,7 @@ export default function FindingDetailDialog({
                     ))}
                   </Box>
                   <Typography variant="caption" color="text.secondary" sx={{ mt: 1, display: 'block' }}>
-                    Predicted by DeepTempo LogLM model during ingestion
+                    Predicted by NeuroShield LogLM model during ingestion
                   </Typography>
                 </Paper>
               </Grid>

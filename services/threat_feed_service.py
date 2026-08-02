@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 
 # Map STIX 2.1 indicator pattern prefixes to our normalized indicator_type.
-_STIX_TO_VIGIL_TYPE: Dict[str, str] = {
+_STIX_TO_NEUROSHIELD_TYPE: Dict[str, str] = {
     "ipv4-addr:value": "ip",
     "ipv6-addr:value": "ip",
     "domain-name:value": "domain",
@@ -106,7 +106,7 @@ def _extract_observables(pattern: str) -> Iterable[Tuple[str, str]]:
         value = raw_value.strip().strip("'").strip('"')
         if not value:
             continue
-        vigil_type = _STIX_TO_VIGIL_TYPE.get(key)
+        vigil_type = _STIX_TO_NEUROSHIELD_TYPE.get(key)
         if not vigil_type:
             logger.debug("Skipping unrecognized STIX pattern key: %s", key)
             continue

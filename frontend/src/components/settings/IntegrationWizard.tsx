@@ -105,7 +105,7 @@ export const PROXY_FIELDS: IntegrationField[] = [
     label: 'SSH Private Key Path',
     type: 'text',
     section: 'proxy',
-    placeholder: 'e.g. /home/vigil/.ssh/id_ed25519',
+    placeholder: 'e.g. /home/neuroshield/.ssh/id_ed25519',
     helpText: 'Used only when Proxy Type is "SSH tunnel".',
   },
   {

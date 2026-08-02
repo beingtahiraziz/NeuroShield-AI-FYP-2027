@@ -7,8 +7,8 @@
 
 # --- AI SOC / Security Operations ---
 
-- name: Vigil
-  repo: https://github.com/DeepTempo/vigil
+- name: NeuroShield AI
+  repo: https://github.com/NeuroShield/neuroshield
   focus: AI-powered Security Operations Center
   domain: defensive
   license: Apache-2.0
@@ -48,10 +48,10 @@
 # --- Detection Intelligence / Foundation Models ---
 
 - name: LogLM
-  repo: https://deeptempo.ai
+  repo: https://neuroshield.ai
   focus: Foundation model for log-based threat detection
   domain: defensive
-  license: Commercial (DeepTempo)
+  license: Commercial (NeuroShield)
   status: active
   type: foundation-model
   capabilities:
@@ -65,7 +65,7 @@
     - Splunk
     - Snowflake
     - Cribl
-    - Vigil (via findings pipeline)
+    - NeuroShield AI (via findings pipeline)
   architecture:
     model_type: encoder-only transformer with self-attention
     detection_method: high-dimensional embedding followed by purpose-built classifiers
@@ -81,7 +81,7 @@
     "detection gap" between the rate at which AI-powered attacks are generated
     and the rate at which human-authored signatures can be created.
 
-    LogLM complements Vigil's rule-based detection engineering (7,200+ rules)
+    LogLM complements NeuroShield AI's rule-based detection engineering (7,200+ rules)
     by providing a foundation-model detection layer underneath. Rules catch
     known patterns; LogLM catches what rules miss.
 
@@ -169,7 +169,7 @@
     - GCP
   notes: >
     Full SIEM/XDR platform. Strong on compliance (PCI-DSS, HIPAA, GDPR).
-    Agent-based endpoint monitoring. Can serve as a data source for Vigil.
+    Agent-based endpoint monitoring. Can serve as a data source for NeuroShield AI.
 
 # --- Incident Response ---
 
@@ -189,7 +189,7 @@
     - Cortex (enrichment/response)
     - MISP
   notes: >
-    Mature case management platform. Vigil has its own case management
+    Mature case management platform. NeuroShield AI has its own case management
     but TheHive could serve as an alternative backend via MCP.
 
 # --- Threat Intelligence ---
@@ -212,7 +212,7 @@
     - Many SIEM/SOAR platforms
   notes: >
     De facto standard for threat intelligence sharing.
-    Vigil already integrates via MCP server.
+    NeuroShield AI already integrates via MCP server.
 
 - name: OpenCTI
   repo: https://github.com/OpenCTI-Platform/opencti
@@ -233,7 +233,7 @@
     - Splunk
   notes: >
     Knowledge-graph approach to threat intel. Stronger on actor/campaign
-    tracking than MISP. Could complement Vigil's Threat Intel agent.
+    tracking than MISP. Could complement NeuroShield AI's Threat Intel agent.
 
 # --- Detection Engineering ---
 
@@ -255,7 +255,7 @@
     - QRadar
     - Many others
   notes: >
-    Standard for portable detection rules. Vigil's Detection Engineering
+    Standard for portable detection rules. NeuroShield AI's Detection Engineering
     module includes Sigma rules in its 7,200+ rule library.
 
 # --- SOAR / Automation ---
@@ -277,7 +277,7 @@
     - Splunk
     - Many via OpenAPI
   notes: >
-    Open-source SOAR. Vigil's Skills system serves a similar role
+    Open-source SOAR. NeuroShield AI's Skills system serves a similar role
     but is AI-native rather than playbook-based. Could be complementary
     for deterministic workflows.
 
@@ -297,7 +297,7 @@
   integrations: []
   notes: >
     Fast, template-based vulnerability scanner. Could feed findings
-    into Vigil for triage. Not autonomous — runs specific checks.
+    into NeuroShield AI for triage. Not autonomous — runs specific checks.
 
 # --- Network Analysis ---
 
@@ -319,4 +319,4 @@
     - Wazuh
   notes: >
     Industry-standard network monitor. Could serve as a data source
-    for Vigil's Network Analyst agent.
+    for NeuroShield AI's Network Analyst agent.

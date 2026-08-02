@@ -91,7 +91,7 @@ class AgentAIGenerator:
 
     def _build_system_prompt(self) -> str:
         return (
-            "You are a SOC agent designer for the Vigil SOC platform. "
+            "You are a SOC agent designer for the NeuroShield AI SOC platform. "
             "Given a plain-English description of an agent's purpose, design a "
             "specialized SOC agent by writing its role, extra principles, "
             "methodology, and a list of recommended MCP tools drawn only from "
@@ -160,15 +160,15 @@ class AgentAIGenerator:
                 (
                     "## Base Prompt Shape\n"
                     "Your `role`, `extra_principles`, and `methodology` fields are "
-                    "rendered into this template (Vigil preserves the "
+                    "rendered into this template (NeuroShield AI preserves the "
                     "entity-recognition and memory-palace directives):\n\n"
                     f"{base_prompt_shape}"
                 ),
                 (
                     "## Requirements\n"
                     "- `role` is a short noun phrase. It renders as "
-                    "\"You are a SOC {role} in the Vigil SOC platform.\"\n"
-                    "- `extra_principles` is added AFTER Vigil's baseline "
+                    "\"You are a SOC {role} in the NeuroShield AI SOC platform.\"\n"
+                    "- `extra_principles` is added AFTER NeuroShield AI's baseline "
                     "principles. Use '- ' bullets, one per line.\n"
                     "- `methodology` is a numbered step list (1., 2., 3., ...) "
                     "describing how the agent should operate end-to-end.\n"
@@ -241,11 +241,11 @@ class AgentAIGenerator:
 
     def _base_prompt_shape(self) -> str:
         return (
-            "You are a SOC {role} in the Vigil SOC platform.\n"
+            "You are a SOC {role} in the NeuroShield AI SOC platform.\n"
             "\n"
-            "<entity_recognition> ... </entity_recognition>  (preserved by Vigil)\n"
-            "<available_tools> ... </available_tools>       (preserved by Vigil)\n"
-            "<memory_operations> ... </memory_operations>   (preserved by Vigil)\n"
+            "<entity_recognition> ... </entity_recognition>  (preserved by NeuroShield AI)\n"
+            "<available_tools> ... </available_tools>       (preserved by NeuroShield AI)\n"
+            "<memory_operations> ... </memory_operations>   (preserved by NeuroShield AI)\n"
             "\n"
             "<principles>\n"
             "- Always fetch data via tools before analyzing\n"

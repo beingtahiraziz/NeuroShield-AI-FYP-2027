@@ -1,10 +1,10 @@
-# Releasing Vigil
+# Releasing NeuroShield AI
 
-How Vigil is versioned and released.
+How NeuroShield AI is versioned and released.
 
 ## Versioning Policy
 
-Vigil follows [Semantic Versioning](https://semver.org/).
+NeuroShield AI follows [Semantic Versioning](https://semver.org/).
 
 - **`0.x.y` (current)** — Pre-stable. `feat:` commits bump the minor
   (`0.1.0` → `0.2.0`) and may include breaking changes to agent prompts,
@@ -12,7 +12,7 @@ Vigil follows [Semantic Versioning](https://semver.org/).
   API shapes. `fix:` commits bump the patch (`0.1.0` → `0.1.1`) and are
   always backward-compatible.
 - **`1.0.0` and later** — Stable. Breaking changes require a major bump.
-  Vigil ships `1.0.0` once the agent and workflow schemas are considered
+  NeuroShield AI ships `1.0.0` once the agent and workflow schemas are considered
   stable enough to commit to.
 
 ## What Gets Versioned
@@ -20,8 +20,8 @@ Vigil follows [Semantic Versioning](https://semver.org/).
 | File                          | Field                              | Managed by release-please     |
 |-------------------------------|------------------------------------|-------------------------------|
 | `VERSION`                     | (whole file)                       | yes                           |
-| `helm/vigil/Chart.yaml`       | `appVersion`                       | yes                           |
-| `helm/vigil/Chart.yaml`       | `version`                          | yes (lockstep with appVersion)|
+| `helm/neuroshield/Chart.yaml`       | `appVersion`                       | yes                           |
+| `helm/neuroshield/Chart.yaml`       | `version`                          | yes (lockstep with appVersion)|
 | `frontend/package.json`       | `version`                          | yes                           |
 | `frontend/package-lock.json`  | `version` (root + `packages['']`)  | yes                           |
 
@@ -106,9 +106,9 @@ similar commits you don't want appearing in any release's changelog.
 
 The Helm chart has two version fields:
 
-- **`appVersion`** — the Vigil release the chart deploys.
+- **`appVersion`** — the NeuroShield AI release the chart deploys.
 - **`version`** — the chart packaging version. Helm clients, `helm package`
-  tarball names (`vigil-X.Y.Z.tgz`), Helm's local cache, and ArtifactHub all
+  tarball names (`neuroshield-X.Y.Z.tgz`), Helm's local cache, and ArtifactHub all
   key off this field, not `appVersion`. If chart contents change without a
   `version` bump, consumers see "no new chart" even though the bytes
   differ — silent breakage.
@@ -125,7 +125,7 @@ can produce semantically-equivalent but byte-different output).
 | Any release-please release          | bumps        | bumps           |
 
 If you ever need a chart-only fix between app releases (e.g. a Helm
-template hotfix with no app code change), edit `helm/vigil/Chart.yaml`'s
+template hotfix with no app code change), edit `helm/neuroshield/Chart.yaml`'s
 `version` manually in a separate PR outside the release-please flow. This
 is the escape hatch, not the default path.
 
@@ -155,8 +155,8 @@ that overwrites it.
 1. Open a PR bumping the version to the new release (e.g. `0.2.0`) in
    all of the following:
    - `VERSION`
-   - `helm/vigil/Chart.yaml` `appVersion`
-   - `helm/vigil/Chart.yaml` `version` (lockstep with `appVersion`)
+   - `helm/neuroshield/Chart.yaml` `appVersion`
+   - `helm/neuroshield/Chart.yaml` `version` (lockstep with `appVersion`)
    - `frontend/package.json` `version`
    - `frontend/package-lock.json` — both `$.version` and
      `$.packages[''].version`
@@ -173,7 +173,7 @@ that overwrites it.
    ```
 4. The tag push triggers `release.yml` (build, scan, deploy).
 5. **Manually create the GitHub Release** at
-   [github.com/Vigil-SOC/vigil/releases/new](https://github.com/Vigil-SOC/vigil/releases/new),
+   [github.com/NeuroShield-AI/neuroshield/releases/new](https://github.com/NeuroShield-AI/neuroshield/releases/new),
    selecting the tag you just pushed. release-please normally creates
    this; in manual mode nothing else will. Use the `CHANGELOG.md`
    section you wrote as the Release body.

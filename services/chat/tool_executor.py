@@ -1,7 +1,7 @@
 """Tool execution for the agentic chat loop.
 
 Handles three dispatch paths:
-- ``process_backend_tool_use``: calls Vigil's own DB/service tools (async)
+- ``process_backend_tool_use``: calls NeuroShield AI's own DB/service tools (async)
 - ``process_mcp_tool_use``: calls external MCP server tools (async)
 - ``process_mixed_tool_use``: routes each tool call to the correct path
 
@@ -471,7 +471,7 @@ def _dispatch_attack_tool(tool_name: str, arguments: Dict, data_service) -> Any:
         return {
             "success": True,
             "layer": {
-                "name": "DeepTempo Findings",
+                "name": "NeuroShield Findings",
                 "version": "4.5",
                 "domain": "enterprise-attack",
                 "description": "ATT&CK techniques from findings",

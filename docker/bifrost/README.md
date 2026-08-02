@@ -1,8 +1,8 @@
 # Bifrost Gateway (Required)
 
-[Bifrost](https://github.com/maximhq/bifrost) is a compiled Go binary that exposes a unified LLM gateway — OpenAI-format requests on `/v1` plus provider-native passthroughs (e.g. `/anthropic`). Vigil routes **all** LLM traffic through Bifrost so caching, cost tracking, and budget enforcement live in one place.
+[Bifrost](https://github.com/maximhq/bifrost) is a compiled Go binary that exposes a unified LLM gateway — OpenAI-format requests on `/v1` plus provider-native passthroughs (e.g. `/anthropic`). NeuroShield AI routes **all** LLM traffic through Bifrost so caching, cost tracking, and budget enforcement live in one place.
 
-## How Vigil uses Bifrost
+## How NeuroShield AI uses Bifrost
 
 As of GH #84 PR-B, there is a single routing path:
 
@@ -15,7 +15,7 @@ The routing decision lives in `services/llm_router.py`. There is no direct-SDK b
 
 ## Pre-flight capability probe (merge blocker)
 
-Before shipping any change that modifies how Vigil talks to Bifrost, run:
+Before shipping any change that modifies how NeuroShield AI talks to Bifrost, run:
 
 ```bash
 BIFROST_URL=http://localhost:8080 \
@@ -44,7 +44,7 @@ Health check: `curl http://localhost:8080/health`.
 
 ## Configuration
 
-`docker/bifrost/config.json` declares the providers, the models Bifrost will expose, and the cache backend. API keys are **not** written into the config file — they are injected as environment variables at container start time (`env.ANTHROPIC_API_KEY`, `env.OPENAI_API_KEY`, `env.OLLAMA_URL`). Vigil's backend reads per-provider keys from its own `secrets_manager`; what's in Bifrost's env are the fallback/default keys used when a provider row in `llm_provider_configs` doesn't override them.
+`docker/bifrost/config.json` declares the providers, the models Bifrost will expose, and the cache backend. API keys are **not** written into the config file — they are injected as environment variables at container start time (`env.ANTHROPIC_API_KEY`, `env.OPENAI_API_KEY`, `env.OLLAMA_URL`). NeuroShield AI's backend reads per-provider keys from its own `secrets_manager`; what's in Bifrost's env are the fallback/default keys used when a provider row in `llm_provider_configs` doesn't override them.
 
 ### Model allow-list: runtime sync, not the config file
 
@@ -78,15 +78,15 @@ The defaults live in [services/model_registry.py](../../services/model_registry.
 
 Bifrost's logging plugin is the source of truth for per-call cost. The
 config at `docker/bifrost/config.json` enables it explicitly with a
-local SQLite store (`./logs.db` inside the Bifrost container). Vigil's
+local SQLite store (`./logs.db` inside the Bifrost container). NeuroShield AI's
 `/api/analytics/cost` time-series proxies Bifrost's
 `/api/logs/histogram/cost` endpoint; on a provider repricing, an admin
 hits `POST /api/analytics/recalculate-cost` (admin-only) which calls
 Bifrost's `POST /api/logs/recalculate-cost` to re-cost historical rows
 without a redeploy.
 
-**Per-call correlation:** Vigil attaches a custom header
-`x-bf-lh-vigil-interaction-id: <uuid>` to every upstream call (the
+**Per-call correlation:** NeuroShield AI attaches a custom header
+`x-bf-lh-neuroshield-interaction-id: <uuid>` to every upstream call (the
 `x-bf-lh-*` prefix is Bifrost's logging-headers convention). The UUID
 lands in Bifrost's `LogEntry.metadata` field for manual audit. We do
 **not** wire automated per-call cost reconcile from Bifrost back into
@@ -124,7 +124,7 @@ your secrets manager — same pattern as the provider API keys above.
 
 ### Caching — two layers
 
-Vigil benefits from two independent caching layers. They're **complementary**, not redundant:
+NeuroShield AI benefits from two independent caching layers. They're **complementary**, not redundant:
 
 | Layer | What it caches | Hit rate in practice | Savings | Run by |
 |---|---|---|---|---|
@@ -139,7 +139,7 @@ Vigil benefits from two independent caching layers. They're **complementary**, n
 2. An embedding provider (OpenAI `text-embedding-3-small` or a local Ollama model)
 3. Enabling the `semantic_cache` plugin in the UI
 
-Run `python scripts/bifrost_cache_status.py` to check whether it's live. Vigil's unified routing does **not** depend on this layer — it's optional cost gravy on top of Anthropic's native prefix caching.
+Run `python scripts/bifrost_cache_status.py` to check whether it's live. NeuroShield AI's unified routing does **not** depend on this layer — it's optional cost gravy on top of Anthropic's native prefix caching.
 
 ## Production deployment: keep API keys out of `.env`
 
@@ -176,8 +176,8 @@ task-definition JSON:
   {
     "name": "bifrost",
     "secrets": [
-      {"name": "ANTHROPIC_API_KEY", "valueFrom": "arn:aws:secretsmanager:...:vigil/anthropic-api-key"},
-      {"name": "OPENAI_API_KEY",    "valueFrom": "arn:aws:secretsmanager:...:vigil/openai-api-key"}
+      {"name": "ANTHROPIC_API_KEY", "valueFrom": "arn:aws:secretsmanager:...:neuroshield/anthropic-api-key"},
+      {"name": "OPENAI_API_KEY",    "valueFrom": "arn:aws:secretsmanager:...:neuroshield/openai-api-key"}
     ]
   }
 ]
@@ -188,7 +188,7 @@ task-definition JSON:
 ```yaml
 envFrom:
   - secretRef:
-      name: vigil-llm-provider-keys
+      name: neuroshield-llm-provider-keys
 ```
 
 With the `Secret` populated via Sealed Secrets, External Secrets

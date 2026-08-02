@@ -43,13 +43,13 @@ Or use these queries:
 
 ```spl
 # View findings only
-index=main sourcetype="deeptempo:finding"
+index=main sourcetype="neuroshield:finding"
 
 # View cases only  
-index=main sourcetype="deeptempo:case"
+index=main sourcetype="neuroshield:case"
 
 # High severity findings
-index=main sourcetype="deeptempo:finding" severity IN (high, critical)
+index=main sourcetype="neuroshield:finding" severity IN (high, critical)
 
 # Count by type
 index=main source="postgresql_export" | stats count by event_type
@@ -83,7 +83,7 @@ python scripts/export_postgres_to_splunk.py \
 |---------|----------|
 | "Authentication failed" | Check your HEC token is correct |
 | "Connection refused" | Ensure Splunk HEC is enabled and port 8088 is open |
-| "No findings to export" | Check you have data: `psql -d deeptempo_soc -c "SELECT COUNT(*) FROM findings;"` |
+| "No findings to export" | Check you have data: `psql -d neuroshield_soc -c "SELECT COUNT(*) FROM findings;"` |
 | SSL certificate errors | Use `--no-verify-ssl` flag (if self-signed cert) |
 
 ## What Gets Exported?
@@ -115,17 +115,17 @@ For detailed information, see:
 
 **Findings by Severity (Pie Chart)**
 ```spl
-index=main sourcetype="deeptempo:finding" | stats count by severity
+index=main sourcetype="neuroshield:finding" | stats count by severity
 ```
 
 **Case Status Timeline (Area Chart)**
 ```spl
-index=main sourcetype="deeptempo:case" | timechart count by status
+index=main sourcetype="neuroshield:case" | timechart count by status
 ```
 
 **Top MITRE Techniques (Table)**
 ```spl
-index=main sourcetype="deeptempo:finding" 
+index=main sourcetype="neuroshield:finding"
 | spath mitre_predictions{} 
 | stats count by mitre_predictions{} 
 | sort -count | head 10

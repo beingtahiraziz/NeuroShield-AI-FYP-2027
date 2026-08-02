@@ -152,8 +152,8 @@ Sections are now tagged **✅ DONE**, **🟡 PARTIAL**, or **🔴 OPEN**.
 - **Route:** `/redesign` — full-screen, standalone (outside `MainLayout` /
   `ProtectedRoute`), lazy-loaded. Open `http://localhost:6988/redesign`.
 - **Shell** (`SocConsole.tsx`): 60px icon nav rail, slim topbar (title/subtitle),
-  main view, right-docked **Vigil chat** that pushes content, floating
-  **"Ask Vigil"** FAB, and an **ErrorBoundary** around the active screen. Theme
+  main view, right-docked **NeuroShield AI chat** that pushes content, floating
+  **"Ask NeuroShield AI"** FAB, and an **ErrorBoundary** around the active screen. Theme
   state (light/dark + accent) is provided by `shell/theme.tsx`
   (`RedesignThemeProvider`) wrapping the shell and read for `data-theme` + accent
   CSS vars on `.soc-console`.
@@ -314,7 +314,7 @@ remaining inert spot.
   duplicate the row click now that the row opens detail.
 - 🔴 **Entity Graph stub "Preview the graph" CTA** — no `onClick` (see §7 VStrike).
 
-### 5. Vigil chat — 🟢 DONE (bar image upload)
+### 5. NeuroShield AI chat — 🟢 DONE (bar image upload)
 **Update (2026-06-22, pass 2):** the deeper-parity items are now wired — live USD
 cost band + exact `count_tokens` context bar (debounced `analyticsApi.estimateCost`
 feeding the composer strip + the Status panel), the **reasoning-trace modal**
@@ -615,7 +615,7 @@ frontend/src/redesign/
   styles.css           Tailwind directives + scoped .soc-console root (base tokens in :root) + design system in @layer components; IBM Plex @import at line 1
 
   shell/               app-shell-only pieces
-    Chat.tsx           Vigil chat dock (real SSE via streamFetch; see §5 for open items)
+    Chat.tsx           NeuroShield AI chat dock (real SSE via streamFetch; see §5 for open items)
     UserMenu.tsx       rail account menu (name/email/role, Settings, Logout) — useAuth
     theme.tsx          RedesignThemeProvider (light/dark + accent → data-theme/CSS vars)
     toast.tsx          global snackbar (useToast, scoped under .soc-console; §10)
@@ -626,7 +626,7 @@ frontend/src/redesign/
 
   shared/              cross-screen primitives
     ui.tsx             shared UI primitives (select, Rating, Slider, etc.)
-    VigilLogo.tsx      inline-SVG brand lockup + mark (recolor via currentColor)
+    NeuroShieldLogo.tsx      inline-SVG brand lockup + mark (recolor via currentColor)
     icons.tsx          Icon component + ICON path map
     charts.tsx         Donut / Spark / Trend / Hbars / Heatmap (inline-SVG, accent-aware)
     Markdown.tsx       markdown renderer (chat + case/workflow text)

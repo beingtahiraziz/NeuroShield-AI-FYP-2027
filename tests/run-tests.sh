@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# tests/run-tests.sh — run the full Vigil test suite (pytest + vitest).
+# tests/run-tests.sh — run the full NeuroShield AI test suite (pytest + vitest).
 #
 # Usable locally and in CI. Runs every suite to completion and reports all
 # failures at the end rather than aborting on the first one.
@@ -42,7 +42,7 @@ print_section() {
 }
 
 echo "=================================================="
-echo "Running Vigil-SOC Test Suite"
+echo "Running NeuroShield-AI Test Suite"
 echo "=================================================="
 
 # Backend Tests

@@ -39,7 +39,7 @@ if [ -z "${SPLUNK_HEC_URL}" ] || [ -z "${SPLUNK_HEC_TOKEN}" ]; then
     echo "  1. Add to .env file:"
     echo "     SPLUNK_HEC_URL=https://your-splunk:8088/services/collector"
     echo "     SPLUNK_HEC_TOKEN=your-hec-token"
-    echo "     SPLUNK_HEC_INDEX=deeptempo"
+    echo "     SPLUNK_HEC_INDEX=neuroshield"
     echo ""
     echo "  2. Or pass them as command-line arguments"
     echo ""

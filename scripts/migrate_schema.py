@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Schema migration script for Vigil SOC.
+Schema migration script for NeuroShield AI SOC.
 
 Brings an existing database up to date with the current SQLAlchemy models
 defined in database/models.py. Safe to run multiple times (idempotent).
@@ -29,16 +29,16 @@ def get_connection_url():
     url = os.environ.get('DATABASE_URL')
     if url:
         return url
-    env_file = Path.home() / '.deeptempo' / '.env'
+    env_file = Path.home() / '.neuroshield' / '.env'
     if env_file.exists():
         for line in env_file.read_text().splitlines():
             if line.startswith('DATABASE_URL='):
                 return line.split('=', 1)[1].strip().strip('"').strip("'")
     host = os.environ.get('POSTGRES_HOST', 'localhost')
     port = os.environ.get('POSTGRES_PORT', '5432')
-    user = os.environ.get('POSTGRES_USER', 'deeptempo')
+    user = os.environ.get('POSTGRES_USER', 'neuroshield')
     pw = os.environ.get('POSTGRES_PASSWORD', 'deeptempo_secure_password_change_me')
-    db = os.environ.get('POSTGRES_DB', 'deeptempo_soc')
+    db = os.environ.get('POSTGRES_DB', 'neuroshield_soc')
     return (
         f'postgresql://{quote(user, safe="")}:{quote(pw, safe="")}'
         f'@{host}:{port}/{db}'
@@ -207,7 +207,7 @@ def seed_default_admin(conn):
     conn.execute(text("""
         INSERT INTO users (user_id, username, email, password_hash, full_name, role_id,
                            is_active, is_verified, mfa_enabled, login_count, created_at, updated_at)
-        VALUES ('user-admin', 'admin', 'admin@deeptempo.local', :pw, 'Administrator', 'admin',
+        VALUES ('user-admin', 'admin', 'admin@neuroshield.local', :pw, 'Administrator', 'admin',
                 true, true, false, 0, now(), now())
         ON CONFLICT (user_id) DO NOTHING
     """), {"pw": pw_hash})

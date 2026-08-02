@@ -1,8 +1,8 @@
 """
-Secrets Manager for Vigil SOC
+Secrets Manager for NeuroShield AI SOC
 
 Provides pluggable secrets storage backends with priority fallback:
-1. Encrypted local file at ``~/.vigil/secrets.enc`` (preferred; at-rest encrypted)
+1. Encrypted local file at ``~/.neuroshield/secrets.enc`` (preferred; at-rest encrypted)
 2. Environment variables
 3. .env file (legacy / interoperability)
 4. Keyring (only when explicitly enabled)
@@ -24,7 +24,7 @@ from abc import ABC, abstractmethod
 logger = logging.getLogger(__name__)
 
 # Service name for keyring storage
-SERVICE_NAME = "deeptempo-ai-soc"
+SERVICE_NAME = "neuroshield-ai-soc"
 
 # Eagerly probe `cryptography` availability at module import so the answer
 # is stable for the rest of the process's lifetime. The encrypted backend
@@ -114,7 +114,7 @@ class DotEnvBackend(SecretsBackend):
 
     def __init__(self, env_file: Optional[Path] = None):
         """Initialize with path to .env file."""
-        self.env_file = env_file or Path.home() / ".deeptempo" / ".env"
+        self.env_file = env_file or Path.home() / ".neuroshield" / ".env"
         self._cache: Dict[str, str] = {}
         self._load_env_file()
 
@@ -152,7 +152,7 @@ class DotEnvBackend(SecretsBackend):
 
             # Write all secrets to file
             with open(self.env_file, "w") as f:
-                f.write("# Vigil SOC Secrets\n")
+                f.write("# NeuroShield AI SOC Secrets\n")
                 f.write(
                     "# This file contains sensitive credentials - keep it secure!\n\n"
                 )
@@ -178,7 +178,7 @@ class DotEnvBackend(SecretsBackend):
 
                 # Rewrite file without this secret
                 with open(self.env_file, "w") as f:
-                    f.write("# Vigil SOC Secrets\n\n")
+                    f.write("# NeuroShield AI SOC Secrets\n\n")
                     for k, v in self._cache.items():
                         escaped_value = v.replace('"', '\\"')
                         f.write(f'{k}="{escaped_value}"\n')
@@ -311,8 +311,8 @@ class KeyringBackend(SecretsBackend):
 class EncryptedFileBackend(SecretsBackend):
     """Project-local, at-rest encrypted secret store.
 
-    Secrets live in a Fernet-encrypted JSON blob at ``~/.vigil/secrets.enc``.
-    The symmetric key lives alongside it in ``~/.vigil/master.key`` (chmod
+    Secrets live in a Fernet-encrypted JSON blob at ``~/.neuroshield/secrets.enc``.
+    The symmetric key lives alongside it in ``~/.neuroshield/master.key`` (chmod
     600, auto-generated on first write). Both files sit outside the repo
     so ``.env`` rewrites, ``setup_dev.sh``, or resetting the project dir
     never nuke stored credentials.
@@ -321,7 +321,7 @@ class EncryptedFileBackend(SecretsBackend):
     are never written to ``.env`` and are not exposed to other processes.
     """
 
-    DEFAULT_DIR = Path.home() / ".vigil"
+    DEFAULT_DIR = Path.home() / ".neuroshield"
     SECRETS_FILENAME = "secrets.enc"
     MASTER_KEY_FILENAME = "master.key"
 
@@ -360,7 +360,7 @@ class EncryptedFileBackend(SecretsBackend):
         tmp.write_bytes(key)
         os.chmod(tmp, 0o600)
         os.replace(tmp, self.master_key_path)
-        logger.info(f"Generated new Vigil master key at {self.master_key_path}")
+        logger.info(f"Generated new NeuroShield AI master key at {self.master_key_path}")
         return key
 
     def _get_fernet(self):
@@ -413,7 +413,7 @@ class EncryptedFileBackend(SecretsBackend):
             logger.error(
                 f"Could not decrypt {self.secrets_path} ({e}); "
                 f"treating as empty. If the master key changed, restore "
-                f"~/.vigil/master.key from a backup."
+                f"~/.neuroshield/master.key from a backup."
             )
             self._cache = {}
             self._cache_mtime = current_mtime
@@ -474,7 +474,7 @@ class SecretsManager:
     Unified secrets manager that tries multiple backends in priority order.
 
     Priority for reading:
-    1. Encrypted local file (``~/.vigil/secrets.enc``; preferred)
+    1. Encrypted local file (``~/.neuroshield/secrets.enc``; preferred)
     2. Environment variables
     3. .env file (legacy / interoperability)
     4. Keyring (only when explicitly enabled)
@@ -638,7 +638,7 @@ class SecretsManager:
     ) -> Dict[str, Any]:
         """Move secrets from the dotenv backend to the encrypted backend.
 
-        For each key currently stored in ``~/.deeptempo/.env`` (the dotenv
+        For each key currently stored in ``~/.neuroshield/.env`` (the dotenv
         backend's file):
 
         - If the encrypted store doesn't have the key, copy it across, then
@@ -682,7 +682,7 @@ class SecretsManager:
                     "key": "<all>",
                     "error": (
                         "Encrypted backend unavailable; refusing to migrate. "
-                        "Install `cryptography` and ensure ~/.vigil/master.key "
+                        "Install `cryptography` and ensure ~/.neuroshield/master.key "
                         "exists, then retry."
                     ),
                 }
@@ -779,7 +779,7 @@ def get_secrets_manager(
                     from pathlib import Path
                     import json
 
-                    config_file = Path.home() / ".deeptempo" / "general_config.json"
+                    config_file = Path.home() / ".neuroshield" / "general_config.json"
                     if config_file.exists():
                         with open(config_file, "r") as f:
                             config = json.load(f)

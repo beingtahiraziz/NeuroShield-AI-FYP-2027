@@ -60,7 +60,7 @@ def test_wrap_messages_rewrites_text_tool_result():
     msgs = _msgs_with_tool_result("raw splunk output")
     out = _wrap_tool_results_in_messages(msgs)
     inner = out[1]["content"][0]["content"][0]["text"]
-    assert "<vigil:tool_result" in inner and "raw splunk output" in inner
+    assert "<neuroshield:tool_result" in inner and "raw splunk output" in inner
 
 
 def test_wrap_messages_handles_string_inner_content():
@@ -78,7 +78,7 @@ def test_wrap_messages_handles_string_inner_content():
     ]
     out = _wrap_tool_results_in_messages(msgs)
     wrapped = out[0]["content"][0]["content"]
-    assert isinstance(wrapped, str) and wrapped.startswith("<vigil:tool_result")
+    assert isinstance(wrapped, str) and wrapped.startswith("<neuroshield:tool_result")
 
 
 def test_wrap_messages_idempotent():
@@ -185,9 +185,9 @@ async def test_dispatch_invokes_sanitize_hook(monkeypatch):
 
     sent_msgs = captured["messages"]
     inner = sent_msgs[1]["content"][0]["content"][0]["text"]
-    assert "<vigil:tool_result" in inner
-    # Attacker close tag must have been escaped — the only </vigil:tool_result>
+    assert "<neuroshield:tool_result" in inner
+    # Attacker close tag must have been escaped — the only </neuroshield:tool_result>
     # is the wrapper's own.
-    assert inner.count("</vigil:tool_result>") == 1
+    assert inner.count("</neuroshield:tool_result>") == 1
     # The dangerous </system> opener still appears in the wrapped, escaped form.
     assert "&lt;/system&gt;" in inner or "&lt;/system>" in inner

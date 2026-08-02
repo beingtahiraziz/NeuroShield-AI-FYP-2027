@@ -1,2 +1,2 @@
-"""Database package for Vigil SOC."""
+"""Database package for NeuroShield AI SOC."""
 

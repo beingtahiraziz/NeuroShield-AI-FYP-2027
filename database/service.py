@@ -1,5 +1,5 @@
 """
-Database service layer for Vigil SOC.
+Database service layer for NeuroShield AI SOC.
 
 Provides high-level database operations for cases, findings, and related entities.
 """

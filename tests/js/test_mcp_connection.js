@@ -20,7 +20,7 @@ const { chromium } = require('playwright');
   await page.screenshot({ path: 'test-mcp-1-initial.png', fullPage: true });
   
   console.log('Step 3: Looking for chat button...');
-  const chatButton = await page.$('button[aria-label="Vigil Chat"]');
+  const chatButton = await page.$('button[aria-label="NeuroShield AI Chat"]');
   if (chatButton) {
     console.log('Found chat button, clicking...');
     await chatButton.evaluate(el => el.click());
@@ -96,7 +96,7 @@ const { chromium } = require('playwright');
     mcpServers: fullPageText.toLowerCase().includes('servers') ||
                 fullPageText.toLowerCase().includes('connected'),
     serverNames: {
-      'deeptempo-findings': fullPageText.includes('deeptempo-findings'),
+      'neuroshield-findings': fullPageText.includes('neuroshield-findings'),
       'tempo-flow': fullPageText.includes('tempo-flow'),
       'approval': fullPageText.includes('approval'),
       'attack-layer': fullPageText.includes('attack-layer'),

@@ -1,5 +1,5 @@
 """
-FastAPI Backend for Vigil SOC Web Application
+FastAPI Backend for NeuroShield AI SOC Web Application
 
 Main application entry point for the REST API server.
 """
@@ -138,7 +138,7 @@ if PROMETHEUS_AVAILABLE:
 try:
     from core.telemetry import init_telemetry
 
-    init_telemetry("vigil-backend")
+    init_telemetry("neuroshield-backend")
 except Exception as _tel_err:
     logging.basicConfig(level=logging.INFO)
     logging.getLogger(__name__).warning(
@@ -152,17 +152,17 @@ init_sentry()
 
 # Create FastAPI app
 app = FastAPI(
-    title="Vigil SOC API",
-    description="REST API for Vigil SOC Application",
+    title="NeuroShield AI SOC API",
+    description="REST API for NeuroShield AI SOC Application",
     version=__version__,
 )
 
 # Optional context path (sub-path) the whole app is served under, e.g. when
-# Vigil sits behind a reverse proxy at https://host/vigil. Empty by default
+# NeuroShield AI sits behind a reverse proxy at https://host/neuroshield. Empty by default
 # (served at root). All API routers, the health endpoint, the static/assets
 # mounts and the SPA catch-all are prefixed with this; the frontend learns it
-# at runtime via the <meta name="vigil-base-path"> injected into index.html below.
-_CONTEXT_PATH = os.getenv("VIGIL_CONTEXT_PATH", "").rstrip("/")
+# at runtime via the <meta name="neuroshield-base-path"> injected into index.html below.
+_CONTEXT_PATH = os.getenv("NEUROSHIELD_CONTEXT_PATH", "").rstrip("/")
 
 # Wire the shared slowapi Limiter used by auth endpoints. The decorator-based
 # limits (@limiter.limit) read state from app.state.limiter, so both must be set.
@@ -180,7 +180,7 @@ try:
 except Exception as _inst_err:
     logger.debug("FastAPI OTEL instrumentation skipped: %s", _inst_err)
 
-# Configure CORS — origins come from VIGIL_CORS_ORIGINS (comma-separated).
+# Configure CORS — origins come from NEUROSHIELD_CORS_ORIGINS (comma-separated).
 # Default keeps the existing dev hosts; production deployments must override.
 _DEFAULT_CORS_ORIGINS = [
     "http://localhost:6988",
@@ -188,7 +188,7 @@ _DEFAULT_CORS_ORIGINS = [
     "http://localhost:3000",
     "http://localhost:5173",
 ]
-_cors_origins_raw = os.getenv("VIGIL_CORS_ORIGINS")
+_cors_origins_raw = os.getenv("NEUROSHIELD_CORS_ORIGINS")
 if _cors_origins_raw:
     _cors_origins = [o.strip() for o in _cors_origins_raw.split(",") if o.strip()]
 else:
@@ -209,7 +209,7 @@ app.add_middleware(
     expose_headers=["X-MFA-Required"],
 )
 
-# CSRF middleware. No-op by default (VIGIL_CSRF_ENABLED=false); PR 4 flips
+# CSRF middleware. No-op by default (NEUROSHIELD_CSRF_ENABLED=false); PR 4 flips
 # it on once the frontend uses HttpOnly cookies and echoes X-CSRF-Token.
 # Registered between CORS and SecurityHeaders so:
 #   - SecurityHeaders (outermost) applies to any 403 CSRF rejection.
@@ -589,7 +589,7 @@ async def _connect_external_services():
 async def startup_event():
     """Initialize database, MCP tools and check integration compatibility on startup."""
     logger.info("=" * 60)
-    logger.info("Starting Vigil SOC Backend")
+    logger.info("Starting NeuroShield AI SOC Backend")
     logger.info("=" * 60)
 
     import os
@@ -646,7 +646,7 @@ async def startup_event():
             logger.debug("Loaded PostgreSQL connection string from secrets")
         else:
             # Set default connection string if not configured
-            default_conn = "postgresql://deeptempo:deeptempo_secure_password_change_me@localhost:5432/deeptempo_soc"
+            default_conn = "postgresql://neuroshield:deeptempo_secure_password_change_me@localhost:5432/neuroshield_soc"
             os.environ["POSTGRESQL_CONNECTION_STRING"] = default_conn
             logger.debug("Using default PostgreSQL connection string")
 
@@ -893,7 +893,7 @@ if frontend_build_dir.exists() and (frontend_build_dir / "index.html").exists():
     from fastapi.responses import HTMLResponse
 
     # index.html is served with the active context path injected as a
-    # <meta name="vigil-base-path"> tag so the SPA (see frontend
+    # <meta name="neuroshield-base-path"> tag so the SPA (see frontend
     # src/config/basePath.ts) can prefix its router basename and API calls at
     # runtime — no rebuild needed per deployment path. A meta tag (not an inline
     # <script>) is used because the CSP is script-src 'self', which blocks inline
@@ -904,7 +904,7 @@ if frontend_build_dir.exists() and (frontend_build_dir / "index.html").exists():
         global _index_html_cache
         if _index_html_cache is None:
             raw = (frontend_build_dir / "index.html").read_text()
-            config_tag = f'<meta name="vigil-base-path" content="{_CONTEXT_PATH}">'
+            config_tag = f'<meta name="neuroshield-base-path" content="{_CONTEXT_PATH}">'
             _index_html_cache = raw.replace("<head>", f"<head>\n    {config_tag}", 1)
         return _index_html_cache
 
@@ -929,7 +929,7 @@ if frontend_build_dir.exists() and (frontend_build_dir / "index.html").exists():
 if __name__ == "__main__":
     import uvicorn
 
-    logger.info("Starting Vigil SOC API server...")
+    logger.info("Starting NeuroShield AI SOC API server...")
     uvicorn.run(
         "backend.main:app", host="0.0.0.0", port=6987, reload=True, log_level="info"
     )

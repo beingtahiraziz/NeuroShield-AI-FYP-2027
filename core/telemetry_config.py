@@ -12,11 +12,11 @@ import os
 
 def _should_record_llm_content() -> bool:
     """Return True only when the operator has explicitly opted in."""
-    val = os.environ.get("VIGIL_OTEL_RECORD_LLM_CONTENT", "").lower()
+    val = os.environ.get("NEUROSHIELD_OTEL_RECORD_LLM_CONTENT", "").lower()
     return val in ("true", "1", "yes")
 
 
 def _should_record_ioc_values() -> bool:
     """Return True only when the operator has explicitly opted in."""
-    val = os.environ.get("VIGIL_OTEL_RECORD_IOC_VALUES", "").lower()
+    val = os.environ.get("NEUROSHIELD_OTEL_RECORD_IOC_VALUES", "").lower()
     return val in ("true", "1", "yes")

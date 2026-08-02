@@ -1,6 +1,6 @@
 """Read-side client for Bifrost's logging API (#185).
 
-Bifrost is the authoritative cost source for every LLM call Vigil makes —
+Bifrost is the authoritative cost source for every LLM call NeuroShield AI makes —
 its logging plugin records exact cost against current pricing for every
 upstream request, with built-in batch-recompute for retroactive repricing.
 This module is the one place the backend talks to that read-side API,
@@ -211,8 +211,8 @@ def search_logs(
     """Raw log-search for ad-hoc inspection.
 
     Custom metadata filtering (e.g. matching the
-    ``x-bf-lh-vigil-interaction-id`` header) is not currently exposed
-    as a query param — callers that need correlation by Vigil's
+    ``x-bf-lh-neuroshield-interaction-id`` header) is not currently exposed
+    as a query param — callers that need correlation by NeuroShield AI's
     interaction_id must filter the response client-side. Watch the
     Bifrost docs for a future ``metadata_*`` query parameter.
     """
@@ -293,7 +293,7 @@ def get_vk_quota(vk: str) -> Optional[Dict[str, Any]]:
         }
 
     The Settings → LLM Providers → Budgets sub-panel uses this directly
-    to render "$X of $Y consumed" without round-tripping through Vigil's
+    to render "$X of $Y consumed" without round-tripping through NeuroShield AI's
     aggregations.
     """
     if not vk:

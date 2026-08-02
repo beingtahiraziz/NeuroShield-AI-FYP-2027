@@ -2038,7 +2038,7 @@ export const INTEGRATIONS: IntegrationMetadata[] = [
     name: 'Cloudflare',
     category: 'Network Security',
     description:
-      'Cloudflare WAF, Zero Trust Gateway, and Access response actions, plus read-only IP/domain threat lookups. Lets Vigil propose and (with approval) execute WAF blocks, Gateway DNS/HTTP block policies, and Zero Trust session revocations.',
+      'Cloudflare WAF, Zero Trust Gateway, and Access response actions, plus read-only IP/domain threat lookups. Lets NeuroShield AI propose and (with approval) execute WAF blocks, Gateway DNS/HTTP block policies, and Zero Trust session revocations.',
     functionality_type: 'Network Protection',
     fields: [
       {
@@ -2072,7 +2072,7 @@ export const INTEGRATIONS: IntegrationMetadata[] = [
     name: 'Cloudflare Cloudforce One',
     category: 'Threat Intelligence',
     description:
-      'Cloudforce One STIX/TAXII 2.1 threat-intel feeds. Vigil polls configured collections, normalizes indicators, and enriches findings whose IOCs match. Operates independently of the Cloudflare WAF/Zero Trust integration so customers can subscribe to either or both.',
+      'Cloudforce One STIX/TAXII 2.1 threat-intel feeds. NeuroShield AI polls configured collections, normalizes indicators, and enriches findings whose IOCs match. Operates independently of the Cloudflare WAF/Zero Trust integration so customers can subscribe to either or both.',
     functionality_type: 'Data Enrichment',
     fields: [
       {
@@ -2108,7 +2108,7 @@ export const INTEGRATIONS: IntegrationMetadata[] = [
         type: 'number',
         required: false,
         default: 900,
-        helpText: 'How often Vigil pulls the latest indicators. Default 900 (15 min); minimum enforced server-side is 60.',
+        helpText: 'How often NeuroShield AI pulls the latest indicators. Default 900 (15 min); minimum enforced server-side is 60.',
       },
     ],
     docs_url: 'https://developers.cloudflare.com/security-center/cloudforce-one/',
@@ -3075,7 +3075,7 @@ export const INTEGRATIONS: IntegrationMetadata[] = [
     name: 'CloudCurrent VStrike',
     category: 'Network Security',
     description:
-      "Embed VStrike's network topology UI inside Vigil case investigations. Vigil drives which network and what kill-chain to play; VStrike streams the visualization back via WebSocket. Provides segment, criticality, mission-system, blast-radius, and attack-path enrichment to every Vigil agent.",
+      "Embed VStrike's network topology UI inside NeuroShield AI case investigations. NeuroShield AI drives which network and what kill-chain to play; VStrike streams the visualization back via WebSocket. Provides segment, criticality, mission-system, blast-radius, and attack-path enrichment to every NeuroShield AI agent.",
     functionality_type: 'Data Enrichment',
     fields: [
       {
@@ -3093,7 +3093,7 @@ export const INTEGRATIONS: IntegrationMetadata[] = [
         required: true,
         placeholder: 'deeptempo_manager',
         helpText:
-          'VStrike account username. Vigil exchanges username + password for a JWT via /mcp-login and refreshes it automatically — no API key paste needed.',
+          'VStrike account username. NeuroShield AI exchanges username + password for a JWT via /mcp-login and refreshes it automatically — no API key paste needed.',
       },
       {
         name: 'password',
@@ -3102,7 +3102,7 @@ export const INTEGRATIONS: IntegrationMetadata[] = [
         required: true,
         placeholder: 'Password for the VStrike account',
         helpText:
-          'VStrike account password. Stored encrypted at ~/.vigil/secrets.enc — never written to disk in plaintext.',
+          'VStrike account password. Stored encrypted at ~/.neuroshield/secrets.enc — never written to disk in plaintext.',
       },
       {
         name: 'verify_ssl',

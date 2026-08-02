@@ -6,7 +6,7 @@ from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
-CONFIG_DIR = Path.home() / '.deeptempo'
+CONFIG_DIR = Path.home() / '.neuroshield'
 INTEGRATIONS_FILE = CONFIG_DIR / 'integrations_config.json'
 GENERAL_CONFIG_FILE = CONFIG_DIR / 'general_config.json'
 
@@ -71,5 +71,5 @@ def get_database_url() -> str:
         return url
     return os.getenv(
         "DATABASE_URL",
-        "postgresql://deeptempo:deeptempo@localhost:5432/deeptempo_soc"
+        "postgresql://neuroshield:neuroshield@localhost:5432/neuroshield_soc"
     )

@@ -1161,7 +1161,7 @@ For each phase:
             else "multi-phase workflow"
         )
         header = (
-            f"You are the Vigil SOC Workflow Engine executing the "
+            f"You are the NeuroShield AI SOC Workflow Engine executing the "
             f'"{workflow.name}" {scope}.'
         )
         return f"""{header}

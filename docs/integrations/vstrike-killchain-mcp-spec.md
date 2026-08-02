@@ -1,24 +1,24 @@
 # VStrike MCP — `ui-killchain-replay` tool spec
 
 This is the request to the CloudCurrent / VStrike engineering team for a new
-MCP tool that lets Vigil drive kill-chain replays through the VStrike UI.
+MCP tool that lets NeuroShield AI drive kill-chain replays through the VStrike UI.
 
-The Vigil side of the wire is already shipped. Once VStrike's MCP server
-exposes `ui-killchain-replay`, Vigil's "Play" button (visible in the iframe
-toolbar inside every Vigil case dialog) starts working with no further code
-changes on Vigil's side. Until then, the button surfaces a friendly
+The NeuroShield AI side of the wire is already shipped. Once VStrike's MCP server
+exposes `ui-killchain-replay`, NeuroShield AI's "Play" button (visible in the iframe
+toolbar inside every NeuroShield AI case dialog) starts working with no further code
+changes on NeuroShield AI's side. Until then, the button surfaces a friendly
 "VStrike server doesn't yet implement kill-chain replay" notice.
 
 ## Why we need this
 
-When a Vigil analyst opens a case enriched by VStrike, every finding's
+When a NeuroShield AI analyst opens a case enriched by VStrike, every finding's
 `entity_context.vstrike` carries an `attack_path` (an ordered list of
 asset IDs from initial access to the target) plus `adjacent_assets` (the
 MITRE technique on each edge). Today, the user can see the topology in
 the embedded VStrike iframe, but they can't replay the kill-chain across
 those nodes without manually clicking through.
 
-Vigil walks the case's findings, dedupes by asset, and ships VStrike a
+NeuroShield AI walks the case's findings, dedupes by asset, and ships VStrike a
 clean step list. VStrike then animates that sequence — highlighting each
 node, drawing edges as transitions, surfacing the MITRE technique labels.
 One MCP tool, one WebSocket push to the active session, no iframe reload.
@@ -74,7 +74,7 @@ session-state assumption (the iframe is already open and authenticated).
   caller's JWT.
 - **Returns a `content` text confirmation.** Same shape as the existing
   `ui-network-load` response — JSON-RPC `result.content[].text`, with
-  `isError` as the failure signal so Vigil's existing extractor works
+  `isError` as the failure signal so NeuroShield AI's existing extractor works
   unchanged.
 
 ## Open questions
@@ -84,25 +84,25 @@ These don't block shipping the tool, but they affect what the user sees:
 1. **Edge animations.** Does the VStrike UI already render edge animations
    between sequential nodes? If not, the kill-chain replay would step one
    node at a time without showing the link visualization the analyst
-   wants. Vigil's UX assumption is that VStrike draws the edge into each
+   wants. NeuroShield AI's UX assumption is that VStrike draws the edge into each
    highlighted node. If that doesn't exist today, can it ship alongside
    the MCP tool?
 
 2. **Playback-finished event.** Can the iframe send a "playback finished"
-   message back over its existing WebSocket so Vigil can sync its
+   message back over its existing WebSocket so NeuroShield AI can sync its
    EventTimeline scrubber? Bidirectional channel — nice-to-have, not a
-   blocker. If you can emit this, Vigil will hook it up; if not, we'll
-   add a dwell-sum estimate on Vigil's side.
+   blocker. If you can emit this, NeuroShield AI will hook it up; if not, we'll
+   add a dwell-sum estimate on NeuroShield AI's side.
 
-3. **`node_id` format.** Vigil's findings carry asset identifiers that
+3. **`node_id` format.** NeuroShield AI's findings carry asset identifiers that
    we believe match VStrike's `node-list` output (the `id` / `network_id`
    / `uuid` field, in that priority order). Please confirm. If `node_id`
-   needs to be the same shape `node-list` returns per network, Vigil
+   needs to be the same shape `node-list` returns per network, NeuroShield AI
    already produces that shape.
 
-## Curl example — what Vigil sends
+## Curl example — what NeuroShield AI sends
 
-This is what a real call looks like once the tool ships. Vigil already
+This is what a real call looks like once the tool ships. NeuroShield AI already
 emits exactly this payload via `POST /api/integrations/vstrike/ui/killchain-replay`,
 which translates to a `tools/call` JSON-RPC request against VStrike's
 `/mcp` endpoint:
@@ -141,8 +141,8 @@ data: {"jsonrpc":"2.0","id":1730000000000,"result":{"content":[{"type":"text","t
 
 ## Contact
 
-Direct questions about the Vigil-side implementation to:
-- Vigil repo: <https://github.com/Vigil-SOC/vigil>
+Direct questions about the NeuroShield AI-side implementation to:
+- NeuroShield AI repo: <https://github.com/NeuroShield-AI/neuroshield>
 - Tool client lives in [`services/vstrike_service.py`](../../services/vstrike_service.py) (see
   `killchain_replay_in_ui`)
 - API surface: [`backend/api/vstrike.py`](../../backend/api/vstrike.py) (`POST /ui/killchain-replay`)

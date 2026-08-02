@@ -584,8 +584,8 @@ boto3==1.29.7
 
 ### Logging
 - **Frontend**: Console logging (production: error only)
-- **Backend**: File logging (`~/.deeptempo/api.log`)
-- **Daemon**: File logging (`~/.deeptempo/daemon.log`)
+- **Backend**: File logging (`~/.neuroshield/api.log`)
+- **Daemon**: File logging (`~/.neuroshield/daemon.log`)
 
 ### Monitoring
 - Performance metrics in Analytics dashboard

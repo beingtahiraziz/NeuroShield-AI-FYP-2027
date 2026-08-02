@@ -3,7 +3,7 @@ Auth cookie helpers.
 
 Centralizes the HttpOnly / Secure / SameSite flags so every endpoint that
 sets or clears auth cookies agrees on the attributes. Reading attributes
-from env at call time means flipping `VIGIL_COOKIE_SECURE=false` in local
+from env at call time means flipping `NEUROSHIELD_COOKIE_SECURE=false` in local
 dev doesn't require a restart cycle through the router.
 """
 
@@ -35,15 +35,15 @@ def _env_bool(name: str, default: bool) -> bool:
 
 def _cookie_secure() -> bool:
     # Default true so a misconfiguration in prod fails safe. Local HTTP dev
-    # must explicitly set VIGIL_COOKIE_SECURE=false.
-    return _env_bool("VIGIL_COOKIE_SECURE", True)
+    # must explicitly set NEUROSHIELD_COOKIE_SECURE=false.
+    return _env_bool("NEUROSHIELD_COOKIE_SECURE", True)
 
 
 def _cookie_samesite() -> str:
-    raw = (os.getenv("VIGIL_COOKIE_SAMESITE") or "strict").strip().lower()
+    raw = (os.getenv("NEUROSHIELD_COOKIE_SAMESITE") or "strict").strip().lower()
     if raw not in ("strict", "lax", "none"):
         logger.warning(
-            "Invalid VIGIL_COOKIE_SAMESITE=%r, falling back to 'strict'", raw
+            "Invalid NEUROSHIELD_COOKIE_SAMESITE=%r, falling back to 'strict'", raw
         )
         return "strict"
     return raw

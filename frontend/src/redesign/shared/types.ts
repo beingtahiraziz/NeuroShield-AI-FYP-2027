@@ -19,8 +19,8 @@ export interface ScreenGoOptions {
 }
 
 export interface ScreenProps {
-  /** open the Vigil chat dock; pass a prompt to auto-send it (used by
-      "investigate with Vigil" affordances) */
+  /** open the NeuroShield AI chat dock; pass a prompt to auto-send it (used by
+      "investigate with NeuroShield AI" affordances) */
   openChat: (prompt?: string) => void
   /** navigate within the redesign shell */
   go: (screen: ScreenKey, options?: ScreenGoOptions) => void
